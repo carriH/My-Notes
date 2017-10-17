@@ -1,0 +1,358 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="Options.css" />
+    <link href="../Fonts/materialIcons.css" rel="stylesheet">
+</head>
+
+<body>
+    <form id="formOptions" class="i18n">
+        <div id="usernameDiv">
+            <label for="username" id="lblUsername" reqired="true">__MSG_Username__</label>
+            <input type="text" id="username" maxlength="10" />
+        </div>
+        <br />
+        <fieldset class="grid">
+            <legend>__MSG_StickyConfigTitle__</legend>
+            <div>
+                <label for="stickyBackgroundColor">__MSG_BackgroundColor__</label>
+            </div>
+            <div>
+                <input type="color" id="stickyBackgroundColor" />
+            </div>
+            <div>
+                <input type="text" id="stickyBackgroundColorText" style="width:100%;" />
+            </div>
+            <div class="ejemplo">
+                <div id="sticky" class="textBox sticky">
+                    <textarea id="stickyText" class="textBoxText">__MSG_FullExampleText__</textarea>
+                </div>
+            </div>
+            <div>
+                <label for="stickyColor">__MSG_TextColor__</label></div>
+            <div>
+                <input type="color" id="stickyColor" />
+            </div>
+            <div>
+                <input type="text" id="stickyColorText" style="width:100%;" />
+            </div>
+            <div>
+                <label for="stickyOpacity">__MSG_Opacity__</label></div>
+            <div>
+                <input type="number" id="stickyOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="stickyOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+            <div>
+                <label for="stickyHoverOpacity">__MSG_HoverOpacity__</label></div>
+            <div>
+                <input type="number" id="stickyHoverOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="stickyHoverOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+        </fieldset>
+        <br />
+        <fieldset class="grid">
+            <legend>__MSG_UnderlineConfigTitle__</legend>
+            <div>
+                <label for="underlineBackgroundColor">__MSG_BackgroundColor__</label>
+            </div>
+            <div>
+                <input type="color" id="underlineBackgroundColor" />
+            </div>
+            <div>
+                <input type="text" id="underlineBackgroundColorText" style="width:100%;" />
+            </div>
+            <div class="ejemplo">__MSG_ExampleTextSplitted1__
+                <div id="underline" class="selection underline">__MSG_ExampleTextUnderline__</div>__MSG_ExampleTextSplitted2__
+            </div>
+            <div>
+                <label for="underlineColor">__MSG_TextColor__</label></div>
+            <div>
+                <input type="color" id="underlineColor" />
+            </div>
+            <div>
+                <input type="text" id="underlineColorText" style="width:100%;" />
+            </div>
+            <div>
+                <label for="underlineOpacity">__MSG_Opacity__</label></div>
+            <div>
+                <input type="number" id="underlineOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="underlineOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+            <div>
+                <label for="underlineHoverOpacity">__MSG_HoverOpacity__</label></div>
+            <div>
+                <input type="number" id="underlineHoverOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="underlineHoverOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+        </fieldset>
+
+        <br />
+        <fieldset class="grid">
+            <legend>__MSG_CrossoutConfigTitle__</legend>
+            <div>
+                <label for="crossoutBackgroundColor">__MSG_BackgroundColor__</label>
+            </div>
+            <div>
+                <input type="color" id="crossoutBackgroundColor" />
+            </div>
+            <div>
+                <input type="text" id="crossoutBackgroundColorText" style="width:100%;" />
+            </div>
+            <div class="ejemplo">__MSG_ExampleTextSplitted1__
+                <div id="crossout" class="selection crossout">__MSG_ExampleTextCrossout__</div>__MSG_ExampleTextSplitted2__
+            </div>
+            <div>
+                <label for="crossoutColor">__MSG_TextColor__</label></div>
+            <div>
+                <input type="color" id="crossoutColor" />
+            </div>
+            <div>
+                <input type="text" id="crossoutColorText" style="width:100%;" />
+            </div>
+            <div>
+                <label for="crossoutOpacity">__MSG_Opacity__</label></div>
+            <div>
+                <input type="number" id="crossoutOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="crossoutOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+            <div>
+                <label for="crossoutHoverOpacity">__MSG_HoverOpacity__</label></div>
+            <div>
+                <input type="number" id="crossoutHoverOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="crossoutHoverOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+        </fieldset>
+
+        <br />
+        <fieldset class="grid">
+            <legend>__MSG_HighlightConfigTitle__</legend>
+            <div>
+                <label for="highlightBackgroundColor">__MSG_BackgroundColor__</label>
+            </div>
+            <div>
+                <input type="color" id="highlightBackgroundColor" />
+            </div>
+            <div>
+                <input type="text" id="highlightBackgroundColorText" style="width:100%;" />
+            </div>
+            <div class="ejemplo">__MSG_ExampleTextSplitted1__
+                <div id="highlight" class="selection highlight">__MSG_ExampleTextHighlight__</div>__MSG_ExampleTextSplitted2__
+            </div>
+            <div>
+                <label for="highlightColor">__MSG_TextColor__</label></div>
+            <div>
+                <input type="color" id="highlightColor" />
+            </div>
+            <div>
+                <input type="text" id="highlightColorText" style="width:100%;" />
+            </div>
+            <div>
+                <label for="highlightOpacity">__MSG_Opacity__</label></div>
+            <div>
+                <input type="number" id="highlightOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="highlightOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+            <div>
+                <label for="highlightHoverOpacity">__MSG_HoverOpacity__</label></div>
+            <div>
+                <input type="number" id="highlightHoverOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="highlightHoverOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+        </fieldset>
+
+        <br />
+        <fieldset class="grid">
+            <legend>__MSG_ChangetextConfigTitle__</legend>
+            <div>
+                <label for="changeTextBackgroundColor">__MSG_SquareBackgroundColor__</label>
+            </div>
+            <div>
+                <input type="color" id="changeTextBackgroundColor" />
+            </div>
+            <div>
+                <input type="text" id="changeTextBackgroundColorText" style="width:100%;" />
+            </div>
+            <div class="ejemplo" style="grid-row-start: span 8;">__MSG_ExampleTextSplitted1__
+                <div id="changeTextSelection" class="selection changeTextSelection">__MSG_ExampleTextChangeText__</div>__MSG_ExampleTextSplitted2__
+                <span id="arrow" class="changetextArrow" style="position:relative; top: 1em;left: -100px;">▲</span>
+                <div id="changeText" class="changeText" style="background-color: rgb(192, 192, 192); width: 200px; height: 100px;position: relative;top: 1em;">
+                    <textarea id="changeTextText" class="textBoxText" style="color: rgb(0, 0, 0);">__MSG_FullExampleText__</textarea>
+                </div>
+            </div>
+            <div>
+                <label for="changeTextColor">__MSG_SquareTextColor__</label></div>
+            <div>
+                <input type="color" id="changeTextColor" />
+            </div>
+            <div>
+                <input type="text" id="changeTextColorText" style="width:100%;" />
+            </div>
+            <div>
+                <label for="changeTextBackgroundColor">__MSG_SelectionBackgroundColor__</label>
+            </div>
+            <div>
+                <input type="color" id="changeTextSelectionBackgroundColor" />
+            </div>
+            <div>
+                <input type="text" id="changeTextSelectionBackgroundColorText" style="width:100%;" />
+            </div>
+            <div>
+                <label for="changeTextColor">__MSG_SelectionTextColor__</label></div>
+            <div>
+                <input type="color" id="changeTextSelectionColor" />
+            </div>
+            <div>
+                <input type="text" id="changeTextSelectionColorText" style="width:100%;" />
+            </div>
+            <div>
+                <label for="changeTextOpacity">__MSG_SquareOpacity__</label></div>
+            <div>
+                <input type="number" id="changeTextOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="changeTextOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+            <div>
+                <label for="changeTextHoverOpacity">__MSG_SquareHoverOpacity__</label></div>
+            <div>
+                <input type="number" id="changeTextHoverOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="changeTextHoverOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+            <div>
+                <label for="changeTextSelectionOpacity">__MSG_SelectionOpacity__</label></div>
+            <div>
+                <input type="number" id="changeTextSelectionOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="changeTextSelectionOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+            <div>
+                <label for="changeTextHoverSelectionOpacity">__MSG_SelectionHoverOpacity__</label></div>
+            <div>
+                <input type="number" id="changeTextSelectionHoverOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="changeTextSelectionHoverOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+        </fieldset>
+        <br />
+        <fieldset class="grid">
+            <legend>__MSG_UrlConfigTitle__</legend>
+            <div>
+                <label for="urlBackgroundColor">__MSG_BackgroundColor__</label>
+            </div>
+            <div>
+                <input type="color" id="urlBackgroundColor" />
+            </div>
+            <div>
+                <input type="text" id="urlBackgroundColorText" style="width:100%;" />
+            </div>
+            <div class="ejemplo">__MSG_ExampleTextSplitted1__
+                <div id="url" class="selection url">__MSG_ExampleTextUrl__</div>__MSG_ExampleTextSplitted2__
+            </div>
+            <div>
+                <label for="urlColor">__MSG_TextColor__</label></div>
+            <div>
+                <input type="color" id="urlColor" />
+            </div>
+            <div>
+                <input type="text" id="urlColorText" style="width:100%;" />
+            </div>
+            <div>
+                <label for="urlOpacity">__MSG_Opacity__</label></div>
+            <div>
+                <input type="number" id="urlOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="urlOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+            <div>
+                <label for="urlHoverOpacity">__MSG_HoverOpacity__</label></div>
+            <div>
+                <input type="number" id="urlHoverOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="urlHoverOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+        </fieldset>
+        <br />
+
+        <fieldset class="grid">
+            <legend>__MSG_playerConfigTitle__</legend>
+            <div>
+                <label for="playerBackgroundColor">__MSG_BackgroundColor__</label>
+            </div>
+            <div>
+                <input type="color" id="playerBackgroundColor" />
+            </div>
+            <div>
+                <input type="text" id="playerBackgroundColorText" style="width:100%;" />
+            </div>
+            <div class="ejemplo">
+                <div id="player" class="player">
+                    <i id="hideBtn" style="background-color: rgba(72, 69, 92, 0.2); color: rgb(255, 255, 255);" title="hide" class="mediaButton hideBtn material-icons">keyboard_arrow_up</i>
+                    <progress id="progressBar" class="progressBar" max="100" value="50"></progress>
+                    <div id="controls" class="controlBar">
+                        <i id="btnPlay" class="mediaButton material-icons" title="play">play_arrow</i>
+                        <i id="btnStop" class="mediaButton material-icons" title="stop">stop</i>
+                        <i id="fullScreenBtn" title="full screen" class="mediaButton leftMediaButton material-icons">fullscreen</i>
+                        <input id="volumen" class="volume" title="Volume" style="color: rgb(255, 255, 255);" type="range">
+                        <i id="btnMute" class="mediaButton material-icons leftMediaButton" title="mute on">volume_up</i>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label for="playerColor">__MSG_TextColor__</label></div>
+            <div>
+                <input type="color" id="playerColor" />
+            </div>
+            <div>
+                <input type="text" id="playerColorText" style="width:100%;" />
+            </div>
+            <div>
+                <label for="playerOpacity">__MSG_Opacity__</label></div>
+            <div>
+                <input type="number" id="playerOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="playerOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+            <div>
+                <label for="playerHoverOpacity">__MSG_HoverOpacity__</label></div>
+            <div>
+                <input type="number" id="playerHoverOpacityText" min="0" max="100" step="1" style="width:100%;margin-left: 0;" />
+            </div>
+            <div>
+                <input type="range" id="playerHoverOpacity" min="0" max="100" step="1" style="width:100%" />
+            </div>
+        </fieldset>
+        <br />
+        <input type="button" class="mozButtons" id="save" value="__MSG_BtnSave__" />
+        <input type="button" class="mozButtons" id="cancel" value="__MSG_BtnCancel__" />
+        <input type="button" class="mozButtons" id="reset" value="__MSG_BtnDefault__" />
+        <br />
+        <div id="outputMessage" style="margin:10px;"></div>
+    </form>
+
+    <script type="text/javascript" src="Options.js"></script>
+
+</html>
