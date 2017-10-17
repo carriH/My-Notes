@@ -1,0 +1,72 @@
+﻿{
+
+    "manifest_version": 2,
+    "name": "__MSG_extensionName__",
+    "description": "__MSG_extensionDescription__",
+    "version": "1.0.5",
+    "default_locale": "es",
+
+    "background": {
+        "scripts": [
+            "ContextMenu.js",
+            "MessageHandler.js",
+            "StorageHandler.js"
+        ]
+    },
+
+    "permissions": [
+        "webNavigation",
+        "storage",
+        "contextMenus",
+        "activeTab",
+        "<all_urls>",
+        "tabs"
+    ],
+
+    "icons": {
+        "16": "Icons/icono-16.png",
+        "32": "Icons/icono-32.png",
+        "48": "Icons/icono-48.png",
+        "64": "Icons/icono-64.png"
+    },
+
+    "web_accessible_resources": [
+        "ContentScript/PageModifier.js",
+        "ContentScript/Menu.js",
+        "ContentScript/Sticky.js",
+        "ContentScript/Highlight.js",
+        "ContentScript/Underline.js",
+        "ContentScript/Crossout.js",
+        "ContentScript/ChangeText.js",
+        "ContentScript/TextBox.js",
+        "ContentScript/Url.js",
+        "ContentScript/Audio.js",
+        "ContentScript/Video.js",
+        "ContentScript/Meida.js",
+        "ContentScript/TextSelection.js",
+        "ContentScript/PageModifier.css",
+        "Icons/Link.png",
+        "Icons/BrokenLink.png",
+        "Fonts/MaterialIcons.css",
+        "Fonts/MaterialIconsFont.woff2"
+    ],
+
+    "sidebar_action": {
+        "default_icon": "sidebar.svg",
+        "default_title": "__MSG_extensionName__",
+        "default_panel": "Sidebar/Sidebar.html"
+    },
+
+    "options_ui": {
+        "page": "Config/Options.html",
+        "browser_style": true
+    },
+
+    "applications": {
+        "gecko": {
+            "id": "{88a2b78a-8002-475f-bde8-c3116fe8060f}"
+
+        }
+    }
+
+}

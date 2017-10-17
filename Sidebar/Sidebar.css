@@ -1,0 +1,96 @@
+    #menuIcon {
+        position: relative;
+        height: 24px;
+        width: 32px;
+        font-size: 32px !important;
+        color: #a8a8a8;
+        cursor: pointer;
+    }
+    
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+    }
+    
+    #menu {
+        width: 150px;
+        display: none;
+        background: #F8F8F8;
+        border: 1px #ccc solid;
+        position: absolute;
+        margin-left: -10px;
+        font-size: 12px;
+        left: 90%;
+        top: 3px;
+        z-index: 1;
+        font-family: Arial, Helvetica, sans-serif;
+        padding-left: 0px;
+        text-align: left;
+    }
+    
+    #anotations {
+        margin-top: 10px;
+        background: #F6EBD9;
+        border-radius: 10px;
+        min-height: 500px;
+        height: 90vh;
+        overflow: auto;
+        padding-top: 10px;
+        margin-bottom: -10px;
+        position: relative;
+    }
+    
+    .anotationItem {
+        margin: 2px;
+        border: 1px solid black;
+    }
+    
+    .menu {
+        position: absolute;
+        background-color: white;
+        display: none;
+        font-size: 14px !important;
+        cursor: pointer;
+    }
+    
+    .menuBar {
+        width: 12px;
+        height: 2px;
+        background-color: black;
+        margin: 2px 2px;
+    }
+    
+    .menuItemList {
+        position: relative;
+        background-color: white;
+        display: none;
+        margin-bottom: 2px;
+        margin-top: 0px;
+        z-index: 1;
+        font-family: Arial, Helvetica, sans-serif;
+        list-style-type: none;
+        font-size: 12px;
+        padding-left: 0px;
+        text-align: left;
+    }
+    
+    .menuItem {
+        list-style: none;
+        position: relative;
+        margin-left: -30px;
+        padding-right: 3px;
+        cursor: pointer;
+        color: black;
+        margin-left: 0px;
+    }
+    
+    .menuItem:hover {
+        border: 1px #ccc solid;
+        margin-left: -1px;
+        background: #cccccc;
+        margin-top: -1px;
+    }
+    
+    .anotationItem {
+        padding-left: 20px;
+    }

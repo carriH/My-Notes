@@ -1,0 +1,352 @@
+﻿{
+    "extensionName": {
+        "message": "My notes",
+        "description": "Add different anotations to webpages."
+    },
+
+    "extensionDescription": {
+        "message": "Add anotations in a webpage, that will be available in your next visit. There are different kind of anotations, as sticky notes, multimedia recordings (audio/video) or text highlighting. Export and share your anotations.",
+        "description": "Description of the add-on."
+    },
+
+    "sidebarTitle": {
+        "message": "Note list",
+        "description": "sidebar title"
+    },
+
+    "ContextMenuItemAddStickyNote": {
+        "message": "Add sticky note",
+        "description": "Add a new sticky note."
+    },
+
+    "ContextMenuItemHighlight": {
+        "message": "Highlight text",
+        "description": "Highlight the selected text."
+    },
+
+    "ContextMenuItemUnderline": {
+        "message": "Underline text",
+        "description": "Underline the selected text."
+    },
+
+    "ContextMenuItemCrossout": {
+        "message": "Crossout text",
+        "description": "Crossout the selected text."
+    },
+
+    "ContextMenuItemChangeText": {
+        "message": "Change text",
+        "description": "Change the selected text."
+    },
+
+    "ContextMenuItemUrl": {
+        "message": "Add URL",
+        "description": "Add URL address to selected text."
+    },
+
+    "contextMenuItemAddAudioNote": {
+        "message": "Add audio note",
+        "description": "dd audio note."
+    },
+
+    "contextMenuItemAddVideoNote": {
+        "message": "Add video note",
+        "description": "Add video note."
+    },
+
+    "MenuOptDelete": {
+        "message": "Delete item",
+        "description": "delete current item."
+    },
+
+    "MenuOptChangeBackgroundColor": {
+        "message": "Change background color",
+        "description": "Change the background colour from selected item."
+    },
+
+    "MenuOptChangeColor": {
+        "message": "Change text color",
+        "description": "Change text colour from selected item."
+
+    },
+
+    "MenuOptChangeSelectionTextColor": {
+        "message": "Change text selection color",
+        "description": "Change text colour in text selection from selected item."
+    },
+
+    "MenuOptChangeSelectionBackgroundColor": {
+        "message": "Change background selection color",
+        "description": "Change background colour in text selection from selected item."
+    },
+
+    "MenuOptExportCurrent": {
+        "message": "Export page",
+        "description": "Create an XML with all of the itmes inserted in current page."
+    },
+
+    "MenuOptExportAll": {
+        "message": "Export all",
+        "description": "Create an XML with all of the itmes inserted in all pages."
+    },
+
+    "MenuOptImport": {
+        "message": "Import from XML",
+        "description": "load all items from an XML file."
+    },
+
+    "MenuOptDeleteCurrent": {
+        "message": "Delete current page items",
+        "description": "delete all items in current page."
+    },
+
+
+    "MenuOptDeleteAll": {
+        "message": "Delete all saved items",
+        "description": "delete all items in all saved pages."
+    },
+
+
+    "MenuOptUpdateLink": {
+        "message": "Edit URL",
+        "description": "Edit URL."
+    },
+
+    "MsgEnterURL": {
+        "message": "Please enter URL address",
+        "description": "Message shown when entering a URL address in URL annotation."
+    },
+
+    "MsgErrURL": {
+        "message": "Invalid URL address, try again or cancel.",
+        "description": "Mensaje de error mostrado cuando la dirección URL no es válida."
+    },
+
+    "Username": {
+        "message": "User name:",
+        "description": "User name"
+    },
+
+    "StickyConfigTitle": {
+        "message": "Sticky configuration:",
+        "description": "Sticky configuration"
+    },
+
+    "BackgroundColor": {
+        "message": "Background color:",
+        "description": "Background color"
+    },
+
+    "TextColor": {
+        "message": "Text color:",
+        "description": "Text color"
+    },
+
+    "Opacity": {
+        "message": "Opacity:",
+        "description": "Opacity"
+    },
+
+    "HoverOpacity": {
+        "message": "OnHover opacity:",
+        "description": "OnHover opacity"
+    },
+
+    "UnderlineConfigTitle": {
+        "message": "Underline configuration:",
+        "description": "Underline configuration"
+    },
+
+    "CrossoutConfigTitle": {
+        "message": "Crossline configuration:",
+        "description": "Crossline configuration"
+    },
+
+    "HighlightConfigTitle": {
+        "message": "Highlight configuration:",
+        "description": "Highlight configuration"
+    },
+
+    "ChangetextConfigTitle": {
+        "message": "Change text configuration:",
+        "description": "Change text configuration"
+    },
+
+    "UrlConfigTitle": {
+        "message": "URL configuration:",
+        "description": "URL configuration"
+    },
+
+    "playerConfigTitle": {
+        "message": "Multimedia player configuration:",
+        "description": "Multimedia player configuration"
+    },
+
+    "FullExampleText": {
+        "message": "Example text",
+        "description": "Example text"
+    },
+
+    "ExampleTextSplitted1": {
+        "message": "Example ",
+        "description": "Example"
+    },
+
+    "ExampleTextSplitted2": {
+        "message": " text",
+        "description": "text"
+    },
+
+    "ExampleTextUnderline": {
+        "message": "underline",
+        "description": "underline"
+    },
+
+    "ExampleTextCrossout": {
+        "message": "crossline",
+        "description": "crossline"
+    },
+
+    "ExampleTextHighlight": {
+        "message": "highlight",
+        "description": "highlight"
+    },
+
+    "ExampleTextChangeText": {
+        "message": "change text",
+        "description": "change text"
+    },
+
+    "SquareBackgroundColor": {
+        "message": "Backtround Color (box):",
+        "description": "Backtround Color (box)"
+    },
+
+    "SquareTextColor": {
+        "message": "Text color (box):",
+        "description": "Text color (box)"
+    },
+
+    "SelectionBackgroundColor": {
+        "message": "Background color (selection):",
+        "description": "Background color (selection)"
+    },
+
+    "SelectionTextColor": {
+        "message": "Text color (selection):",
+        "description": "Text color (selection)"
+    },
+
+    "SquareOpacity": {
+        "message": "Opacity (box):",
+        "description": "Opacity (box)"
+    },
+
+    "SquareHoverOpacity": {
+        "message": "OnHover opacity (box):",
+        "description": "OnHover opacity (box)"
+    },
+
+    "SelectionOpacity": {
+        "message": "Opacity (selection):",
+        "description": "Opacity (selection)"
+    },
+
+    "SelectionHoverOpacity": {
+        "message": "OnHover opacity (selection):",
+        "description": "OnHover opacity (selection)"
+    },
+
+    "ExampleTextUrl": {
+        "message": "URL",
+        "description": "URL"
+    },
+
+    "BtnSave": {
+        "message": "Save",
+        "description": "Save"
+    },
+
+    "BtnCancel": {
+        "message": "Cancel",
+        "description": "Cancel"
+    },
+
+    "BtnDefault": {
+        "message": "Default values",
+        "description": "Default values"
+    },
+
+    "DefautlValueMsg": {
+        "message": "Default values loaded. Press save button if you want to save the changes.",
+        "description": "Default values loaded. Press save button if you want to save the changes."
+    },
+
+    "OptionsValidationErrorMsg": {
+        "message": "There are invalid data. Please, fix the erroneous values before saving.",
+        "description": "There are invalid data. Please, fix the erroneous values before saving"
+    },
+    "OptionsSavedMsg": {
+        "message": "configuration saved.",
+        "description": "configuration saved."
+    },
+    "InvalidColorMsg": {
+        "message": "Invalid color value.",
+        "description": "Invalid color value."
+    },
+
+    "mediaRecBtnTitle": {
+        "message": "Rec",
+        "description": "Rec"
+    },
+
+    "mediaShowControlBtnTitle": {
+        "message": "Show controls",
+        "description": "Show controls"
+    },
+
+    "mediaHideBtnTitle": {
+        "message": "Hide controls",
+        "description": "Hide controls"
+    },
+
+    "mediaPlayBtnTitle": {
+        "message": "Play",
+        "description": "Play"
+    },
+
+    "mediaStopBtnTitle": {
+        "message": "Stop",
+        "description": "Stop"
+    },
+
+    "mediaFullScreenBtnTitle": {
+        "message": "Full screen",
+        "description": "Full screen"
+    },
+
+    "mediaVolumeBtnTitle": {
+        "message": "Volume",
+        "description": "Volume"
+    },
+
+    "mediaMuteModeOnTitle": {
+        "message": "Mute on",
+        "description": "Mute on"
+    },
+
+    "mediaMuteModeOffTitle": {
+        "message": "Mute off",
+        "description": "Mute off"
+    },
+
+    "mediaPauseBtnTitle": {
+        "message": "Pause",
+        "description": "Pause"
+    },
+
+    "Lang": {
+        "message": "en"
+    }
+
+}
