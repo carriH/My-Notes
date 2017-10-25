@@ -112,5 +112,10 @@ Video.prototype.highlightItem = function(state) {
     this.objMedia.highlightItem(state)
 }
 
+Video.prototype.getTextToCopy = function() {
+
+    return "";
+}
+
 var dummy = 0;
 dummy;

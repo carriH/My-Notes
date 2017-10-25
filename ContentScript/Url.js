@@ -48,6 +48,8 @@ Url.prototype.create = function(json) {
         this.update({ color: newValue });
     }.bind(this));
 
+    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this));
+
     this.menu.addMenuItem(this.id + "_updateLink", "MenuOptUpdateLink", this.updateLink.bind(this));
 
     var nodeList = this.objSelection.getNodelistReference();
@@ -131,6 +133,14 @@ Url.prototype.delete = function() {
 
 Url.prototype.highlightItem = function(state) {
     this.objSelection.highlightItem(state)
+}
+
+Url.prototype.getTextToCopy = function() {
+    var text = this.objSelection.getTextToCopy()
+    if (this.link && this.link != "") {
+        text += " <" + this.link + ">"
+    }
+    return text;
 }
 
 

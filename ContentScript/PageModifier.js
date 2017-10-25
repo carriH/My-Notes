@@ -169,6 +169,36 @@ var noteContainer = (function() {
                 noteContainer.loadItem(elem);
             }
             return;
+        },
+        copyText: function(elem) {
+
+            var onCopy = function(event) {
+                var text = ""
+                var addNewLine = false;
+                if (!elem) {
+                    for (var i in stickies) {
+                        if (addNewLine) {
+                            text += "\n";
+                            addNewLine = false;
+                        }
+                        if (stickies[i].getTextToCopy) {
+                            text += stickies[i].getTextToCopy();
+                            addNewLine = true;
+                        }
+                    }
+                } else if (stickies[elem].getTextToCopy) {
+                    text = stickies[elem].getTextToCopy();
+                }
+
+                event.clipboardData.setData("text/plain", text);
+                event.stopPropagation();
+                event.preventDefault();
+                document.removeEventListener("copy", onCopy)
+            }
+
+            document.addEventListener("copy", onCopy, true);
+            document.execCommand("copy");
+
         }
 
 
@@ -216,6 +246,9 @@ function messageHandler(request, sender, sendResponse) {
             break;
         case "checkElem":
             noteContainer.checkElem(request.id);
+            break;
+        case "copyText":
+            noteContainer.copyText(request ? request.id : null);
             break;
     }
     return;

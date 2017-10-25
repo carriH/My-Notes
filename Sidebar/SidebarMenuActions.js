@@ -169,3 +169,12 @@ function deleteItemsFromAllPages() {
         loadItemsToSidebar();
     });
 }
+
+function copyItems(page) {
+    backgroundScript.sendMessage({
+        currentWindow: true,
+        active: true
+    }, {
+        option: 'copyText'
+    });
+}
