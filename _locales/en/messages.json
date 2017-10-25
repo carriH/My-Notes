@@ -112,6 +112,16 @@
         "description": "Edit URL."
     },
 
+    "MenuOptCopyText": {
+        "message": "Copy text",
+        "description": "copy text menu option"
+    },
+
+    "MenuOptCopyAll": {
+        "message": "Copy all",
+        "description": "copy all text menu option"
+    },
+
     "MsgEnterURL": {
         "message": "Please enter URL address",
         "description": "Message shown when entering a URL address in URL annotation."

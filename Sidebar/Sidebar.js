@@ -86,6 +86,9 @@ document.addEventListener("click", (e) => {
                 case "deleteAll":
                     deleteItemsFromAllPages();
                     break;
+                case "copyAll":
+                    copyItems();
+                    break
             }
         } else if (e.target.id == "menuIcon" || (e.target.parentElement && e.target.parentElement.id == "menuIcon")) {
             if (menu.style.display != "block")

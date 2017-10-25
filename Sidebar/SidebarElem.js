@@ -112,6 +112,16 @@ SidebarElem.prototype.addMenu = function(parentElemPos) {
             color: newValue
         });
     }.bind(this));
+
+    this.menu.addMenuItem(this.node.id + '_copyText', 'MenuOptCopyText', function(e) {
+        backgroundScript.sendMessage({
+            currentWindow: true,
+            active: true
+        }, {
+            option: "copyText",
+            id: this.node.id
+        });
+    }.bind(this));
 }
 
 SidebarElem.prototype.reportError = function(message) {

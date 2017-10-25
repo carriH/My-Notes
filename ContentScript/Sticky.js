@@ -61,6 +61,7 @@ Sticky.prototype.create = function(json) {
     this.menu.addMenuItemWithInput(this.id + '_textColor', 'MenuOptChangeColor', 'color', this.color, function(newValue) {
         this.update({ color: newValue });
     }.bind(this));
+    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this));
 
     var node = this.objTextBox.getNodeReference();
     this.menu.addHoverEvent(node);
@@ -93,6 +94,10 @@ Sticky.prototype.delete = function() {
 
 Sticky.prototype.highlightItem = function(state) {
     this.objTextBox.highlightItem(state)
+}
+
+Sticky.prototype.getTextToCopy = function() {
+    return this.objTextBox.getTextToCopy();
 }
 
 var dummy = 0;

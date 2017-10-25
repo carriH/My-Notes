@@ -226,10 +226,6 @@ TextBox.prototype.activateMovingResizing = function(action, options) {
     this.box.addEventListener("mousedown", onMouseDown, true);
 }
 
-TextBox.prototype.getText = function() {
-    return this.textArea.value;
-}
-
 TextBox.prototype.getDescription = function() {
     return this.textArea.value;
 }
@@ -258,6 +254,10 @@ TextBox.prototype.highlightItem = function(state) {
     } else {
         this.box.classList.remove('highlightElem');
     }
+}
+
+TextBox.prototype.getTextToCopy = function() {
+    return this.textArea.value;
 }
 
 var dummy = 0;

@@ -198,5 +198,13 @@ TextSelection.prototype.highlightItem = function(state) {
     }
 }
 
+TextSelection.prototype.getTextToCopy = function() {
+    var textToCopy = "";
+    for (var i in this.selectionNodes) {
+        textToCopy += this.selectionNodes[i].textContent;
+    }
+    return textToCopy;
+}
+
 var dummy = 0;
 dummy;

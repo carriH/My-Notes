@@ -94,5 +94,9 @@ Crossout.prototype.highlightItem = function(state) {
     this.objSelection.highlightItem(state)
 }
 
+Crossout.prototype.getTextToCopy = function() {
+    return "";
+}
+
 var dummy = 0;
 dummy;

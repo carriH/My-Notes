@@ -112,6 +112,16 @@
         "description": "Editar URL."
     },
 
+    "MenuOptCopyText": {
+        "message": "Copiar texto",
+        "description": "Opción del menú Copiar texto"
+    },
+
+    "MenuOptCopyAll": {
+        "message": "Copiar todo",
+        "description": "Opción del menú copiar todo el texto"
+    },
+
     "MsgEnterURL": {
         "message": "Por favor, inserte una dirección URL",
         "description": "Mensaje mostrado cuando se va a introducir una dirección URL en la anotación URL."

@@ -44,6 +44,7 @@ Highlight.prototype.create = function(json) {
     this.menu.addMenuItemWithInput(this.id + '_color', 'MenuOptChangeColor', 'color', this.color, function(newValue) {
         this.update({ color: newValue });
     }.bind(this));
+    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this));
 
     var nodeList = this.objSelection.getNodelistReference();
     for (var node in nodeList) {
@@ -89,6 +90,10 @@ Highlight.prototype.delete = function() {
 
 Highlight.prototype.highlightItem = function(state) {
     this.objSelection.highlightItem(state)
+}
+
+Highlight.prototype.getTextToCopy = function() {
+    return this.objSelection.getTextToCopy();
 }
 
 var dummy = 0;

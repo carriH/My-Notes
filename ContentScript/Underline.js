@@ -46,6 +46,8 @@ Underline.prototype.create = function(json) {
         this.update({ color: newValue });
     }.bind(this));
 
+    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this));
+
     var nodeList = this.objSelection.getNodelistReference();
     for (var node in nodeList) {
         this.menu.addHoverEvent(nodeList[node]);
@@ -88,6 +90,10 @@ Underline.prototype.delete = function() {
 
 Underline.prototype.highlightItem = function(state) {
     this.objSelection.highlightItem(state)
+}
+
+Underline.prototype.getTextToCopy = function() {
+    return this.objSelection.getTextToCopy();
 }
 
 var dummy = 0;

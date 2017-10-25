@@ -104,6 +104,7 @@ ChangeText.prototype.create = function(json) {
     this.menu.addMenuItemWithInput(this.id + '_decoratorColor', 'MenuOptChangeSelectionTextColor', 'color', this.selectionColor, function(newValue) {
         this.update({ selectionColor: newValue });
     }.bind(this));
+    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this));
 
     this.menu.addHoverEvent(this.objTextBox.getNodeReference());
     var nodeList = this.objSelection.getNodelistReference();
@@ -173,6 +174,10 @@ ChangeText.prototype.delete = function() {
 ChangeText.prototype.highlightItem = function(state) {
     this.objSelection.highlightItem(state);
     this.objTextBox.highlightItem(state);
+}
+
+ChangeText.prototype.getTextToCopy = function() {
+    return this.objTextBox.getTextToCopy();
 }
 
 var dummy = 0;

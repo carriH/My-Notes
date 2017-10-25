@@ -20,7 +20,8 @@
         "contextMenus",
         "activeTab",
         "<all_urls>",
-        "tabs"
+        "tabs",
+        "clipboardWrite"
     ],
 
     "icons": {
