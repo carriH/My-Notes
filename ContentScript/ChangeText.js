@@ -56,8 +56,8 @@ ChangeText.prototype.create = function(json) {
         }
 
         jsonTextbox = {
-            top: window.content.pageYOffset + top + 10,
-            left: window.content.pageXOffset + left - 10
+            top: window.pageYOffset + top + 10,
+            left: window.pageXOffset + left - 10
         }
     }
 
