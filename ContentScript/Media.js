@@ -282,7 +282,7 @@ Media.prototype.toJSon = function() {
 Media.prototype.highlightItem = function(state) {
     if (state == 'hover') {
         this.media.classList.add('highlightElem');
-        var nodeTop = this.media.getBoundingClientRect().top + window.content.pageYOffset;
+        var nodeTop = this.media.getBoundingClientRect().top + window.pageYOffset;
         window.scrollTo(0, nodeTop - (window.innerHeight / 2));
     } else {
         this.media.classList.remove('highlightElem');
@@ -562,8 +562,8 @@ Media.prototype.activateMovingResizing = function(action) {
     var onRightEdge, onBottomEdge, onLeftEdge, onTopEdge;
 
     var onMouseMove = function(event) {
-        posX = event.clientX + window.content.pageXOffset - that.left;
-        posY = event.clientY + window.content.pageYOffset - that.top;
+        posX = event.clientX + window.pageXOffset - that.left;
+        posY = event.clientY + window.pageYOffset - that.top;
 
         if (that.player.style.display != 'none') {
             onLeftEdge = posX < MARGIN;
@@ -590,8 +590,8 @@ Media.prototype.activateMovingResizing = function(action) {
 
         var onResize = function(event) {
             var currMouse = {
-                x: event.clientX + window.content.pageXOffset,
-                y: event.clientY + window.content.pageYOffset
+                x: event.clientX + window.pageXOffset,
+                y: event.clientY + window.pageYOffset
             }
 
             if (onRightEdge) {
@@ -640,8 +640,8 @@ Media.prototype.activateMovingResizing = function(action) {
             event.preventDefault();
         };
         var onMove = function(event) {
-            that.media.style.left = event.clientX + window.content.pageXOffset - posX + "px";
-            that.media.style.top = event.clientY + window.content.pageYOffset - posY + "px";
+            that.media.style.left = event.clientX + window.pageXOffset - posX + "px";
+            that.media.style.top = event.clientY + window.pageYOffset - posY + "px";
             event.stopPropagation();
             event.preventDefault();
         };
@@ -656,13 +656,13 @@ Media.prototype.activateMovingResizing = function(action) {
                 width: that.player.style.display != 'none' ? playerValues.width : that.width
             }
             if (
-                (that.top != newValues.top + window.content.pageYOffset) ||
-                (that.left != newValues.left + window.content.pageXOffset) ||
+                (that.top != newValues.top + window.pageYOffset) ||
+                (that.left != newValues.left + window.pageXOffset) ||
                 (that.height != newValues.height) ||
                 (that.width != newValues.width)
             ) {
-                that.top = newValues.top + window.content.pageYOffset;
-                that.left = newValues.left + window.content.pageXOffset;
+                that.top = newValues.top + window.pageYOffset;
+                that.left = newValues.left + window.pageXOffset;
                 that.height = newValues.height;
                 that.width = newValues.width;
 

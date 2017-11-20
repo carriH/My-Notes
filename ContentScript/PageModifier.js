@@ -206,8 +206,8 @@ var noteContainer = (function() {
 })();
 
 var watchClickPosition = (function(event) {
-    mouseCoord.x = event.clientX + window.content.pageXOffset;
-    mouseCoord.y = event.clientY + window.content.pageYOffset;
+    mouseCoord.x = event.clientX + window.pageXOffset;
+    mouseCoord.y = event.clientY + window.pageYOffset;
 });
 
 document.removeEventListener('mousedown', watchClickPosition);

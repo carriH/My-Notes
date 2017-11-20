@@ -117,8 +117,8 @@ TextBox.prototype.activateMovingResizing = function(action, options) {
     options.move = options.move == null || options.move;
 
     var onMouseMove = function(event) {
-        posX = event.clientX + window.content.pageXOffset - that.left;
-        posY = event.clientY + window.content.pageYOffset - that.top;
+        posX = event.clientX + window.pageXOffset - that.left;
+        posY = event.clientY + window.pageYOffset - that.top;
 
         onLeftEdge = (posX < MARGIN && options.left);
         onRightEdge = (posX > that.width - MARGIN && options.right);
@@ -142,8 +142,8 @@ TextBox.prototype.activateMovingResizing = function(action, options) {
 
         var onResize = function(event) {
             var currMouse = {
-                x: event.clientX + window.content.pageXOffset,
-                y: event.clientY + window.content.pageYOffset
+                x: event.clientX + window.pageXOffset,
+                y: event.clientY + window.pageYOffset
             }
 
             if (onRightEdge) {
@@ -180,8 +180,8 @@ TextBox.prototype.activateMovingResizing = function(action, options) {
             event.preventDefault();
         };
         var onMove = function(event) {
-            that.box.style.left = event.clientX + window.content.pageXOffset - posX + "px";
-            that.box.style.top = event.clientY + window.content.pageYOffset - posY + "px";
+            that.box.style.left = event.clientX + window.pageXOffset - posX + "px";
+            that.box.style.top = event.clientY + window.pageYOffset - posY + "px";
             event.stopPropagation();
             event.preventDefault();
         };
@@ -189,13 +189,13 @@ TextBox.prototype.activateMovingResizing = function(action, options) {
         var onMouseUp = function(event) {
             var newValues = that.box.getBoundingClientRect();
             if (
-                (that.top != newValues.top + window.content.pageYOffset) ||
-                (that.left != newValues.left + window.content.pageXOffset) ||
+                (that.top != newValues.top + window.pageYOffset) ||
+                (that.left != newValues.left + window.pageXOffset) ||
                 (that.height != newValues.height) ||
                 (that.width != newValues.width)
             ) {
-                that.top = newValues.top + window.content.pageYOffset;
-                that.left = newValues.left + window.content.pageXOffset;
+                that.top = newValues.top + window.pageYOffset;
+                that.left = newValues.left + window.pageXOffset;
                 that.height = newValues.height;
                 that.width = newValues.width;
 
@@ -249,7 +249,7 @@ TextBox.prototype.delete = function() {
 TextBox.prototype.highlightItem = function(state) {
     if (state == 'hover') {
         this.box.classList.add('highlightElem');
-        var nodeTop = this.box.getBoundingClientRect().top + window.content.pageYOffset;;
+        var nodeTop = this.box.getBoundingClientRect().top + window.pageYOffset;;
         window.scrollTo(0, nodeTop - (window.innerHeight / 2));
     } else {
         this.box.classList.remove('highlightElem');

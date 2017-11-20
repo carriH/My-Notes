@@ -131,8 +131,8 @@ TextSelection.prototype.draw = function(id, className, backgroundColor, color, o
     for (var i = 0; i < rangeArr.length; i++) {
         splitRange(rangeArr[i]);
     }
-    this.menuPosX += window.content.pageXOffset - 20;
-    this.menuPosY += window.content.pageYOffset;
+    this.menuPosX += window.pageXOffset - 20;
+    this.menuPosY += window.pageYOffset;
     this.applySelectionOpacity(opacity);
 
 }
@@ -189,7 +189,7 @@ TextSelection.prototype.highlightItem = function(state) {
         for (var i in this.selectionNodes) {
             this.selectionNodes[i].classList.add('highlightElem');
         }
-        var nodeTop = this.selectionNodes[0].getBoundingClientRect().top + window.content.pageYOffset;
+        var nodeTop = this.selectionNodes[0].getBoundingClientRect().top + window.pageYOffset;
         window.scrollTo(0, nodeTop - (window.innerHeight / 2));
     } else {
         for (var i in this.selectionNodes) {
