@@ -99,18 +99,19 @@ var noteContainer = (function() {
             sendSaveMessage(item.toJSon());
             return;
         },
-        deleteItem: function(id) {
+        deleteItem: function(id, temporal) {
             try {
                 var item = stickies[id];
                 item.delete();
                 delete stickies[id];
             } catch (e) {}
-            browser.runtime.sendMessage({ id: id, action: "delete" });
+            if (!temporal)
+                browser.runtime.sendMessage({ id: id, action: "delete" });
             return;
         },
-        deleteAll: function() {
+        deleteAll: function(temporal) {
             for (var i in stickies) {
-                noteContainer.deleteItem(stickies[i].id);
+                noteContainer.deleteItem(stickies[i].id, temporal);
             }
             return;
         },
@@ -227,7 +228,7 @@ function messageHandler(request, sender, sendResponse) {
             break;
         case "deleteAll":
             //noteContainer.highlight(request.id);
-            noteContainer.deleteAll();
+            noteContainer.deleteAll(0);
             break;
         case "applyChanges":
             noteContainer.applyChanges(request);
@@ -249,6 +250,11 @@ function messageHandler(request, sender, sendResponse) {
             break;
         case "copyText":
             noteContainer.copyText(request ? request.id : null);
+            break;
+        case "ping":
+            noteContainer.deleteAll(1);
+            browser.runtime.sendMessage({ action: "syncLoad" });
+            return Promise.resolve("pong");
             break;
     }
     return;

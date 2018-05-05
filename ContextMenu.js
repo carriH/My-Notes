@@ -125,45 +125,75 @@ browser.contextMenus.onClicked.addListener(function(info, tab) {
 });
 
 
-function InjectCode() {
+function InjectCode(tab) {
     function onError(error) {
         console.log(`Error: ${error}`);
     }
 
 
-    browser.tabs.executeScript({
+    browser.tabs.executeScript(tab, {
         file: "ContentScript/TextSelection.js"
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/Menu.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/Menu.js" })
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/Sticky.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/Sticky.js" })
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/Highlight.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/Highlight.js" })
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/Underline.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/Underline.js" })
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/Crossout.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/Crossout.js" })
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/ChangeText.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/ChangeText.js" })
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/TextBox.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/TextBox.js" })
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/Url.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/Url.js" })
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/Audio.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/Audio.js" })
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/Video.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/Video.js" })
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/Media.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/Media.js" })
     }).then(() => {
-        browser.tabs.insertCSS({ file: "ContentScript/PageModifier.css" });
+        browser.tabs.insertCSS(tab, { file: "ContentScript/PageModifier.css" });
     }).then(() => {
-        browser.tabs.executeScript({ file: "ContentScript/PageModifier.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/PageModifier.js" })
     });
 }
+
+var currentURL = '';
 browser.webNavigation.onCompleted.addListener(details => {
     if (details.frameId !== 0) {
         return;
     }
-    InjectCode();
+    currentURL = browser.tabs.get(details.tabId).then(tab => { currentURL = tab.url; });
+
+    browser.tabs.sendMessage(details.tabId, { option: "ping" }).then((response) => {
+        if (response != "pong") {
+            InjectCode(details.tabId);
+        }
+    }).catch((e) => {
+        InjectCode(details.tabId);
+    });
+});
+
+browser.webRequest.onHeadersReceived.addListener(details => {
+    browser.tabs.get(details.tabId).then(tab => {
+        if (currentURL != tab.url) {
+            browser.tabs.sendMessage(details.tabId, { option: "ping" });
+        }
+    });
+}, {
+    urls: ["<all_urls>"],
+    types: ["xmlhttprequest"]
+});
+
+browser.webRequest.onSendHeaders.addListener(details => {
+    browser.tabs.get(details.tabId).then(tab => {
+        currentURL = tab.url;
+    });
+}, {
+    urls: ["<all_urls>"],
+    types: ["xmlhttprequest"]
 });

@@ -3,7 +3,7 @@
     "manifest_version": 2,
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "default_locale": "es",
 
     "background": {
@@ -16,6 +16,7 @@
 
     "permissions": [
         "webNavigation",
+        "webRequest",
         "storage",
         "contextMenus",
         "activeTab",
