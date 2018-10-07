@@ -111,36 +111,6 @@
     cursor: default;
 }
 
-.urlLinkMenu:after {
-    content: '';
-    display: block;
-    height: 16px;
-    /*height of icon */
-    width: 24px;
-    /*width of icon */
-    position: absolute;
-    /*where to replace the icon */
-    top: 0px;
-    left: -17px;
-    /*background */
-    background: url(../Icons/Link.png) no-repeat 0px 0px;
-}
-
-.urlBrokenLinkMenu:before {
-    content: '';
-    display: block;
-    height: 16px;
-    /*height of icon */
-    width: 24px;
-    /*width of icon */
-    position: absolute;
-    /*where to replace the icon */
-    top: 0px;
-    left: -17px;
-    /*background */
-    background: url(../Icons/BrokenLink.png) no-repeat 0px 0px;
-}
-
 .crossout {
     text-decoration: line-through;
 }
@@ -148,50 +118,6 @@
 .changeText_Selection {
     display: inline;
     text-decoration: line-through;
-}
-
-.menu {
-    position: absolute;
-    background-color: white;
-    display: none;
-    z-index: 10000002;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.menuBar {
-    width: 12px;
-    height: 2px;
-    background-color: black;
-    margin: 2px 2px;
-}
-
-.menuItemList {
-    position: relative;
-    background-color: white;
-    display: none;
-    margin-bottom: 2px;
-    font-family: Arial, Helvetica, sans-serif;
-    list-style-type: none;
-    font-size: 12px;
-    padding-left: 0px;
-    text-align: left;
-}
-
-.menuItem {
-    list-style: none;
-    position: relative;
-    padding-right: 3px;
-    cursor: pointer;
-    color: black;
-    margin-left: 0px;
-}
-
-.menuItem:hover {
-    border: 1px #ccc solid;
-    margin-left: -1px;
-    background: #cccccc;
-    margin-top: -1px;
 }
 
 .highlightElem {
