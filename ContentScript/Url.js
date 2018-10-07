@@ -1,66 +1,94 @@
-function Url(id) {
+function Url(id, params) {
+    params = params || {};
+
+    //Properties
     this.id = id;
-    this.selection = new Array(0);
     this.type = URL;
-    this.selectionNodes = new Array(0);
-    this.backgroundColor = defaultValues.url.backgroundColor;
-    this.color = defaultValues.url.color;
-    this.opacity = defaultValues.url.opacity;
-    this.hoverOpacity = defaultValues.url.hoverOpacity;
-    this.username = defaultValues.username;
-    this.datetime = (new Date()).toJSON();
-}
+    this.backgroundColor = params.backgroundColor || defaultValues.url.backgroundColor;
+    this.color = params.color || defaultValues.url.color;
+    this.opacity = params.opacity || defaultValues.url.opacity;
+    this.hoverOpacity = params.hoverOpacity || defaultValues.url.hoverOpacity;
+    this.username = params.username || defaultValues.username;
+    this.datetime = params.datetime || (new Date()).toJSON();
+    this.link = params.link || "";
 
-Url.prototype.create = function(json) {
-    var jsonSelection;
-
-    if (json) {
-        this.id = json.id || this.id;
-        this.backgroundColor = json.backgroundColor || this.backgroundColor;
-        this.color = json.color || this.color;
-        this.opacity = json.color || this.color;
-        this.hoverOpacity = json.hoverOpacity || this.hoverOpacity;
-        this.username = json.username || this.username;
-        this.datetime = json.datetime || this.datetime;
-        this.link = json.link || this.link;
-        jsonSelection = json.jsonSelection;
-    } else
-        this.updateLink();
-
-    this.objSelection = new TextSelection(jsonSelection);
-    this.objSelection.draw(this.id + '_Selection', this.type, this.backgroundColor, this.color, this.opacity, this.hoverOpacity);
-
-    var menuPos = this.objSelection.getMenuPos();
-    var menuConfig = {
-        menuId: this.id + '_menu',
-        menuClass: this.link ? 'urlLinkMenu' : 'urlBrokenLinkMenu',
-        top: menuPos.y,
-        left: menuPos.x
+    //HTML elements
+    var input = {
+        textNodes: params && params.jsonSelection ? params.jsonSelection.textNodes : null,
+        backgroundColor: this.backgroundColor,
+        color: this.color,
+        opacity: this.opacity,
+        hoverOpacity: this.hoverOpacity
     }
+    this.objSelection = new TextSelection(this.id + '_Selection', this.type, input);
 
-    this.menu = new Menu(menuConfig);
-    this.menu.addMenuItem(this.id + '_delete', 'MenuOptDelete', function(e) { noteContainer.deleteItem(this.id); }.bind(this));
-
+    this.menu = new ContextMenu(document.body, false);
+    this.menu.addMenuItem(this.id + '_delete', 'MenuOptDelete', function(e) { noteContainer.deleteItem(this.id); }.bind(this), false, true);
+    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this), false, true);
     this.menu.addMenuItemWithInput(this.id + '_backgroundColor', 'MenuOptChangeBackgroundColor', 'color', this.backgroundColor, function(newValue) {
         this.update({ backgroundColor: newValue });
-    }.bind(this));
-    this.menu.addMenuItemWithInput(this.id + '_decoratorColor', 'MenuOptChangeColor', 'color', this.color, function(newValue) {
+    }.bind(this), true, true);
+    this.menu.addMenuItemWithInput(this.id + '_color', 'MenuOptChangeColor', 'color', this.color, function(newValue) {
         this.update({ color: newValue });
-    }.bind(this));
+    }.bind(this), false, true);
+    this.menu.addMenuItem(this.id + "_updateLink", "MenuOptUpdateLink", this.updateLink.bind(this), true, true);
 
-    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this));
 
-    this.menu.addMenuItem(this.id + "_updateLink", "MenuOptUpdateLink", this.updateLink.bind(this));
-
+    //Events
+    this.menu.bindElemList(this.objSelection.getNodelistReference());
+    //this.objSelection.addEventListener('click', this.openLink.bind(this));
     var nodeList = this.objSelection.getNodelistReference();
     for (var i = 0; i < nodeList.length; i++) {
-        this.menu.addHoverEvent(nodeList[i]);
         nodeList[i].addEventListener('click', this.openLink.bind(this));
     }
 
+    if (Object.keys(params).length === 0 && params.constructor === Object && this.link == "") {
+        this.updateLink();
+    } else {
+        this.refreshLink(this.link);
+    }
+}
+
+Url.prototype.update = function(json) {
+    this.backgroundColor = json.backgroundColor || this.backgroundColor;
+    this.color = json.color || this.color;
+    this.opacity = json.opacity || this.opacity;
+    this.hoverOpacity = json.hoverOpacity || this.hoverOpacity;
+    this.username = json.username || this.username;
+    this.datetime = json.datetime || this.datetime;
+    if (json.link != null) {
+        this.refreshLink(json.link);
+    }
 
 
+    this.objSelection.update(json);
+
+    if (!json.readOnly) {
+        noteContainer.updateItem(this);
+    }
+}
+
+Url.prototype.delete = function() {
+    this.objSelection.delete();
+}
+
+Url.prototype.getNodeReference = function() {
     return this.menu.getNodeReference();
+}
+
+Url.prototype.refreshLink = function(newLink) {
+    if (newLink != '') {
+        this.link = newLink || this.link;
+    } else {
+        this.link = '';
+    }
+    if (this.objSelection) {
+        if (this.link == "") {
+            this.objSelection.addClass("BrokenLink");
+        } else {
+            this.objSelection.removeClass("BrokenLink");
+        }
+    }
 }
 
 Url.prototype.updateLink = function() {
@@ -76,15 +104,8 @@ Url.prototype.updateLink = function() {
         newLink = prompt(browser.i18n.getMessage("MsgErrURL"), newLink);
     }
 
-    if (newLink != '') {
-        this.link = newLink || this.link;
-    } else {
-        this.link = '';
-    }
-    if (this.menu) {
-        this.menu.removeClass(this.link ? "urlBrokenLinkMenu" : "urlLinkMenu");
-        this.menu.addClass(this.link ? "urlLinkMenu" : "urlBrokenLinkMenu");
-    }
+    this.refreshLink(newLink);
+
     if (this.objSelection)
         noteContainer.updateItem(this);
 }
@@ -93,20 +114,8 @@ Url.prototype.openLink = function() {
     if (this.link != "") {
         window.open(this.link);
     } else {
-        alert("Invalid link.");
+        this.updateLink();
     }
-}
-
-Url.prototype.update = function(json) {
-    this.backgroundColor = json.backgroundColor || this.backgroundColor;
-    this.color = json.color || this.color;
-    this.username = json.username || this.username;
-    this.datetime = json.datetime || this.datetime;
-    this.link = json.link || this.link;
-
-    this.objSelection.update(json);
-    noteContainer.updateItem(this);
-    this.objSelection.applySelectionOpacity(this.opacity);
 }
 
 Url.prototype.toJSon = function() {
@@ -124,11 +133,6 @@ Url.prototype.toJSon = function() {
         jsonSelection: this.objSelection.toJSon()
     };
 
-}
-
-Url.prototype.delete = function() {
-    this.menu.delete();
-    this.objSelection.delete();
 }
 
 Url.prototype.highlightItem = function(state) {

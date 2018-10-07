@@ -91,19 +91,31 @@
     },
 
     "MenuOptImport": {
-        "message": "Import from XML",
+        "message": "Import XML",
         "description": "load all items from an XML file."
     },
 
     "MenuOptDeleteCurrent": {
-        "message": "Delete current page items",
+        "message": "Delete current page",
         "description": "delete all items in current page."
     },
 
 
     "MenuOptDeleteAll": {
-        "message": "Delete all saved items",
+        "message": "Delete all pages",
         "description": "delete all items in all saved pages."
+    },
+
+
+    "MenuOptDeletePage": {
+        "message": "Delete page",
+        "description": "delete all items in the page."
+    },
+
+
+    "MenuOptOpenLink": {
+        "message": "Open URL",
+        "description": "Open URL."
     },
 
 
@@ -115,6 +127,11 @@
     "MenuOptCopyText": {
         "message": "Copy text",
         "description": "copy text menu option"
+    },
+
+    "MenuOptReloadPage": {
+        "message": "Reload annotations",
+        "description": "reload annotations into the sidebar"
     },
 
     "MenuOptCopyAll": {
@@ -304,6 +321,20 @@
         "message": "Invalid color value.",
         "description": "Invalid color value."
     },
+    "PageOpenedMsg": {
+        "message": "This option is available only for opened pages.",
+        "description": "Page must be opened."
+    },
+    "InvalidUrlMsg": {
+        "message": "Selected URL is not compatible with this action.",
+        "description": "Page must be opened."
+    },
+
+    "errElemMsg": {
+        "message": "Cannot perform this action with unloaded elements.",
+        "description": "Cannot perform this action with unloaded elements."
+    },
+
 
     "mediaRecBtnTitle": {
         "message": "Rec",

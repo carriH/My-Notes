@@ -9,99 +9,114 @@ const dateFormatOptions = {
 
 var backgroundScript
 
+
 browser.runtime.getBackgroundPage().then((background) => {
     backgroundScript = background;
 });
 
+//this.menu = new ContextMenu(document.getElementById("menuIcon"));
+//this.menu.addMenuItem('exportCurrent', 'MenuOptExportCurrent', exportItemsFromCurrentPages(), false, true);
+//this.menu.addMenuItem('exportAll', 'MenuOptExportAll', exportItemsFromAllPages(), false, true);
+//this.menu.addMenuItem('importFile', 'MenuOptImport', importXmlFile(), false, true);
+//this.menu.addMenuItem('copyAll', 'MenuOptCopyAll', copyItems(), true, true);
+//this.menu.addMenuItem('deleteCurrent', 'MenuOptDeleteCurrent', deleteItemsFromCurrentPage(), true, true);
+//this.menu.addMenuItem('deleteAll', 'MenuOptDeleteAll', deleteItemsFromAllPages(), false, true);
+var menu = null;
+document.getElementById("menuIcon").addEventListener("click", function(e) {
+        if (menu == null) {
+            menu = new ContextMenu(document.getElementById("menuIcon"), true);
+            menu.addMenuItem('exportCurrent', 'MenuOptExportCurrent', exportItemsFromCurrentPages, false, true);
+            menu.addMenuItem('exportAll', 'MenuOptExportAll', exportItemsFromAllPages, false, true);
+            menu.addMenuItem('importFile', 'MenuOptImport', importXmlFile, false, true);
+            menu.addMenuItem('copyAll', 'MenuOptCopyAll', copyItems, true, true);
+            menu.addMenuItem('deleteCurrent', 'MenuOptDeleteCurrent', deleteItemsFromCurrentPage, true, true);
+            menu.addMenuItem('deleteAll', 'MenuOptDeleteAll', deleteItemsFromAllPages, false, true);
+        }
+        menu.showMenu(e)
+    }
 
-function addToSidebar(item) {
-    if (!elemList[item.id]) {
-        elemList[item.id] = new SidebarElem(item);
-        elemListNode.appendChild(elemList[item.id].getNodeReference());
-        elemList[item.id].addEvents(backgroundScript);
-        elemList[item.id].addMenu(elemListPosition);
+);
+
+
+function addToSidebar(item, itemName) {
+    if (!elemList[itemName]) {
+        elemList[itemName] = new SidebarPage(item, itemName);
+        elemListNode.appendChild(elemList[itemName].getNodeReference());
+        elemList[itemName].addEvents();
+        changeActivePage();
+        //elemList[item.id].addEvents(backgroundScript);
+        //elemList[item.id].addMenu(elemListPosition);
+    } else if (item.stickies) {
+        elemList[itemName].update(item);
     } else {
-        elemList[item.id].update(item);
+        elemList[itemName].addItem(item);
     }
 }
 
-function removeFromSide(id) {
-    if (elemList[id]) {
-        elemListNode.removeChild(elemList[id].getNodeReference());
-        delete elemList[id];
+function removeFromSide(id, url) {
+    if (elemList[url]) {
+        var isEmpty;
+        if (id) {
+            isEmpty = elemList[url].removeItem(id);
+        } else {
+            isEmpty = elemList[url].removeAll();
+        }
+        if (isEmpty) {
+            elemListNode.removeChild(elemList[url].getNodeReference());
+            delete elemList[url];
+        }
     }
-
-    elemList.forEach(function(item) {
-        item.updateRelativePosition(elemListPosition);
-    });
 }
 
-function reportError(id, message) {
-    if (id && elemList[id]) {
-        elemList[id].reportError(message);
+function reportError(id, url, message) {
+    if (id && elemList[url]) {
+        elemList[url].reportError(id, message);
     }
 }
 
 function loadItemsToSidebar() {
-    elemList.forEach(function(elem) {
-        elemListNode.removeChild(elem.getNodeReference());
-    })
-    elemList = [];
-
-    var gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
-    gettingActiveTab.then((tabs) => {
-        var url = tabs[0].url;
-        backgroundScript.loadListFromStorage(url).then((listItems) => {
-            for (var i in listItems) {
-                addToSidebar(listItems[i]);
-                backgroundScript.executeTabAction("checkElem", listItems[i]);
+    backgroundScript.loadAllFromStorage().then((content) => {
+        for (var elem in content) {
+            if (content[elem].stickies) {
+                addToSidebar(content[elem], elem);
+                if (elem != prevUrl) {
+                    elemList[elem].collapse();
+                }
             }
+        }
+        changeActivePage();
+    });
+}
 
-        });
+function changeActivePage() {
+    browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+        var url = tabs[0].url;
+
+
+        if (url != prevUrl) {
+            if (elemList[prevUrl]) {
+                elemList[prevUrl].collapse();
+            }
+        }
+        if (elemList[url]) {
+            elemList[url].expand();
+            if (elemList[url].getNodeReference() != elemListNode.firstChild) {
+                elemListNode.insertBefore(elemList[url].getNodeReference(), elemListNode.firstChild);
+            }
+            prevUrl = url;
+        }
+
     });
 }
 
 var elemList = new Array(0);
-var elemListNode = document.getElementById("anotations")
+var elemListNode = document.getElementById("anotations");
 var elemListPosition = elemListNode.getBoundingClientRect();
-
-document.addEventListener("click", (e) => {
-        var openMenu = 0;
-        var menu = document.getElementById("menu");
-        if (e.target.classList.contains("menuItem")) {
-            var option = e.target.id;
-            switch (option) {
-                case "exportCurrent":
-                    exportItemsFromCurrentPages();
-                    break;
-                case "exportAll":
-                    exportItemsFromAllPages();
-                    break;
-                case "importFile":
-                    importXmlFile();
-                    break;
-                case "deleteCurrent":
-                    deleteItemsFromCurrentPage();
-                    break;
-                case "deleteAll":
-                    deleteItemsFromAllPages();
-                    break;
-                case "copyAll":
-                    copyItems();
-                    break
-            }
-        } else if (e.target.id == "menuIcon" || (e.target.parentElement && e.target.parentElement.id == "menuIcon")) {
-            if (menu.style.display != "block")
-                openMenu = 1;
-        }
-
-        menu.style.display = (openMenu == 1 ? "block" : "none");
-    }
-
-)
+var prevUrl = "";
 
 
 browser.tabs.onActivated.addListener(loadItemsToSidebar);
+
 
 function translateRec(node) {
     if (node.attributes) {

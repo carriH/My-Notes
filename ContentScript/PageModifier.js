@@ -24,40 +24,42 @@ var noteContainer = (function() {
 
     function sendSaveMessage(jsonObj) {
         jsonObj.action = "save";
+        jsonObj.url = window.location.href;
         browser.runtime.sendMessage(jsonObj);
     }
 
     function sendErrorMessage(jsonObj) {
         jsonObj.action = "error";
+        jsonObj.url = window.location.href;
         browser.runtime.sendMessage(jsonObj);
     }
 
-    function newElem(id, type) {
+    function newElem(id, type, params) {
         var newElem = null;
         switch (type) {
             case STICKY:
-                newElem = new Sticky(id);
+                newElem = new Sticky(id, params);
                 break;
             case HIGHLIGHT:
-                newElem = new Highlight(id);
+                newElem = new Highlight(id, params);
                 break;
             case UNDERLINE:
-                newElem = new Underline(id);
+                newElem = new Underline(id, params);
                 break;
             case CROSSOUT:
-                newElem = new Crossout(id);
+                newElem = new Crossout(id, params);
                 break;
             case CHANGETEXT:
-                newElem = new ChangeText(id);
+                newElem = new ChangeText(id, params);
                 break;
             case URL:
-                newElem = new Url(id);
+                newElem = new Url(id, params);
                 break;
             case AUDIO:
-                newElem = new Audio(id);
+                newElem = new Audio(id, params);
                 break;
             case VIDEO:
-                newElem = new Video(id);
+                newElem = new Video(id, params);
                 break;
         }
         return newElem;
@@ -67,7 +69,8 @@ var noteContainer = (function() {
         newItem: function(id, type) {
             var newItem = newElem(id, type);
 
-            var newNode = newItem.create();
+            //var newNode = newItem.create();
+            var newNode = newItem.getNodeReference();
             if (newNode) {
                 divContainer.appendChild(newNode);
             }
@@ -77,12 +80,17 @@ var noteContainer = (function() {
         },
         loadItem: function(item) {
             try {
-                var newItem = newElem(item.id, item.type);
-                var newNode = newItem.create(item);
-                if (newNode) {
-                    divContainer.appendChild(newNode);
+                if (stickies && stickies[item.id]) {
+                    stickies[item.id].update(item)
+                } else {
+                    var newItem = newElem(item.id, item.type, item);
+                    //var newNode = newItem.create(item);
+                    var newNode = newItem.getNodeReference();
+                    if (newNode) {
+                        divContainer.appendChild(newNode);
+                    }
+                    stickies[item.id] = newItem;
                 }
-                stickies[item.id] = newItem;
             } catch (e) {
                 if (!item) {
                     item = {};
@@ -99,18 +107,19 @@ var noteContainer = (function() {
             sendSaveMessage(item.toJSon());
             return;
         },
-        deleteItem: function(id) {
+        deleteItem: function(id, temporal) {
             try {
                 var item = stickies[id];
                 item.delete();
                 delete stickies[id];
             } catch (e) {}
-            browser.runtime.sendMessage({ id: id, action: "delete" });
+            if (!temporal)
+                browser.runtime.sendMessage({ id: id, action: "delete", url: window.location.href });
             return;
         },
-        deleteAll: function() {
+        deleteAll: function(temporal) {
             for (var i in stickies) {
-                noteContainer.deleteItem(stickies[i].id);
+                noteContainer.deleteItem(stickies[i].id, temporal);
             }
             return;
         },
@@ -198,10 +207,7 @@ var noteContainer = (function() {
 
             document.addEventListener("copy", onCopy, true);
             document.execCommand("copy");
-
         }
-
-
     }
 })();
 
@@ -225,9 +231,12 @@ function messageHandler(request, sender, sendResponse) {
         case "deleteItem":
             noteContainer.deleteItem(request.id);
             break;
+        case "cleanUpItem":
+            noteContainer.deleteItem(request.id, true);
+            break;
         case "deleteAll":
             //noteContainer.highlight(request.id);
-            noteContainer.deleteAll();
+            noteContainer.deleteAll(0);
             break;
         case "applyChanges":
             noteContainer.applyChanges(request);
@@ -249,6 +258,11 @@ function messageHandler(request, sender, sendResponse) {
             break;
         case "copyText":
             noteContainer.copyText(request ? request.id : null);
+            break;
+        case "ping":
+            noteContainer.deleteAll(1);
+            browser.runtime.sendMessage({ action: "syncLoad" });
+            return Promise.resolve("pong");
             break;
     }
     return;

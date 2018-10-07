@@ -5,7 +5,32 @@ const MIN_VIDEO_WIDTH = 350;
 const MIN_VIDEO_HEIGHT = 200;
 var styleSheet
 
-function Media(json) {
+function dataURItoBlob(dataURI) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    var byteString = atob(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byteString.length);
+
+    // create a view into the buffer
+    var ia = new Uint8Array(ab);
+
+    // set the bytes of the buffer to the correct values
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    // write the ArrayBuffer to a blob, and you're done
+    var blob = new Blob([ab], { type: mimeString });
+    return blob;
+
+}
+
+function Media(id, mediaParams, params, updateAction) {
     addCSSRule = function(selector, rules, index) {
         if (!styleSheet) {
             styleSheet = document.createElement('style');
@@ -28,26 +53,6 @@ function Media(json) {
         }
     }
 
-    this.menuPosX = 0;
-    this.menuPosY = 0;
-
-    var chuncks = [];
-
-    if (!json) {
-        json = {};
-    }
-    this.audio = JSON.parse(json.audio || false);
-    this.video = JSON.parse(json.video || false);
-    this.top = parseFloat(json.top || mouseCoord.y);
-    this.left = parseFloat(json.left || mouseCoord.x);
-    this.width = parseFloat(json.width || (this.video ? MIN_VIDEO_WIDTH : MIN_AUDIO_WIDTH));
-    this.height = parseFloat(json.height || (this.video ? MIN_VIDEO_HEIGHT : MIN_AUDIO_HEIGHT));
-    this.menuPosX = this.left - 20;
-    this.menuPosY = this.top + 15;
-
-    if (json.mediaFile)
-        this.mediaFile = JSON.parse(json.mediaFile);
-
     navigator.getUserMedia = (navigator.getUserMedia ||
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia ||
@@ -57,107 +62,34 @@ function Media(json) {
         throw "Navegador incompatible.";
     }
 
-}
+    params = params || {};
 
-Media.prototype.update = function(props) {
+    //Properties
+    this.audio = JSON.parse(mediaParams.audio || false);
+    this.video = JSON.parse(mediaParams.video || false);
+    this.top = parseFloat(mediaParams.top || mouseCoord.y);
+    this.left = parseFloat(mediaParams.left || mouseCoord.x);
+    this.width = parseFloat(mediaParams.width || (this.video ? MIN_VIDEO_WIDTH : MIN_AUDIO_WIDTH));
+    this.height = parseFloat(mediaParams.height || (this.video ? MIN_VIDEO_HEIGHT : MIN_AUDIO_HEIGHT));
+    this.backgroundColor = params.backgroundColor;
+    this.color = params.color;
+    this.opacity = params.opacity;
+    this.hoverOpacity = params.hoverOpacity;
+    this.onUpdate = updateAction;
 
-    this.left = parseFloat(props.left || this.left);
-    this.top = parseFloat(props.top || this.top);
-    this.width = parseFloat(props.width || this.width);
-    this.height = parseFloat(props.height || this.height);
-    this.menuPosX = this.left - 20;
-    this.menuPosY = this.top + 15;
-
-    this.player.style.top = this.top + "px";
-    this.player.style.left = this.left + "px";
-    this.player.style.width = this.width + "px";
-    this.player.style.height = this.height + "px";
-
-    if (props.backgroundColor) {
-        this.player.style.backgroundColor = props.backgroundColor;
-        this.hide.style.backgroundColor = props.backgroundColor;
-        this.rec.style.backgroundColor = props.backgroundColor;
-    }
-    if (props.color) {
-        this.player.style.color = props.color;
-        this.controlBar.style.color = props.color;
-        this.hide.style.color = props.color;
-        this.rec.style.color = props.color;
-        this.progressBar.color = props.color;
-        addCSSRule('#' + this.progressBar.id + '::-moz-progress-bar', 'background-color: ' + props.color);
-        addCSSRule('#' + this.volume.id + '::-moz-range-thumb', 'background-color: ' + props.color);
-        addCSSRule('#' + this.volume.id + '::-moz-range-track', 'background-color: ' + props.color);
-    }
-}
-
-Media.prototype.applyBackgroundOpacity = function(level) {
-    var color = window.getComputedStyle(this.player, null).getPropertyValue('background-color').match(/\d+(.\d+)?/g);
-    var newColor = "rgba(" + color[0] + ", " + color[1] + ", " + color[2] + ", " + level + ")";
-    this.player.style.backgroundColor = newColor;
-    this.hide.style.backgroundColor = newColor;
-    this.rec.style.backgroundColor = newColor;
-}
-
-Media.prototype.draw = function(id, className, backgroundColor, color, opacity, hoverOpacity, mediaUpdatedNotification) {
-
-    function hexToRgb(hex) {
-        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-            return r + r + g + g + b + b;
-        });
-
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
-    }
-
-    function dataURItoBlob(dataURI) {
-        // convert base64 to raw binary data held in a string
-        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-        var byteString = atob(dataURI.split(',')[1]);
-
-        // separate out the mime component
-        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-
-        // write the bytes of the string to an ArrayBuffer
-        var ab = new ArrayBuffer(byteString.length);
-
-        // create a view into the buffer
-        var ia = new Uint8Array(ab);
-
-        // set the bytes of the buffer to the correct values
-        for (var i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-
-        // write the ArrayBuffer to a blob, and you're done
-        var blob = new Blob([ab], { type: mimeString });
-        return blob;
-
-    }
-
-    var rgbColor = hexToRgb(backgroundColor);
-    var rgbaBackgroundColor = "rgba(" + rgbColor.r + ", " + rgbColor.g + ", " + rgbColor.b + ", " + opacity + ")";
-
+    //HTML elements
     this.media = document.createElement('div');
     this.media.id = 'media_' + id
     this.media.className = 'mediaPlayer';
     this.media.style.top = this.top + 'px';
     this.media.style.left = this.left + 'px';
-    this.media.addEventListener("mouseover", function() { this.applyBackgroundOpacity(hoverOpacity); }.bind(this), true);
-    this.media.addEventListener("mouseout", function() { this.applyBackgroundOpacity(opacity); }.bind(this), true);
 
     this.rec = document.createElement('i');
     this.rec.id = 'btnRec_' + id;
     this.rec.className = 'mediaButton material-icons';
     this.rec.textContent = (this.video ? 'videocam' : 'mic')
     this.rec.title = browser.i18n.getMessage("mediaRecBtnTitle");
-    this.rec.style.backgroundColor = rgbaBackgroundColor;
-    this.rec.style.color = color;
+
     this.media.appendChild(this.rec);
 
     this.player = document.createElement('div');
@@ -165,22 +97,15 @@ Media.prototype.draw = function(id, className, backgroundColor, color, opacity, 
     this.player.className = 'player';
     this.player.style.width = this.width + 'px';
     this.player.style.height = this.height + 'px';
-    this.player.style.backgroundColor = rgbaBackgroundColor;
-    this.player.style.color = color;
     this.player.style.display = 'none';
     this.media.appendChild(this.player);
 
-
     this.hide = document.createElement('i');
-    this.hide.id = 'hideBtn_' + id
-    this.hide.style.backgroundColor = rgbaBackgroundColor;
-    this.hide.style.color = color;
+    this.hide.id = 'hideBtn_' + id;
     this.hide.title = browser.i18n.getMessage("mediaHideBtnTitle");
     this.hide.className = 'mediaButton hideBtn material-icons'
     this.hide.textContent = 'keyboard_arrow_up';
     this.player.appendChild(this.hide);
-
-
 
     this.mediaContent = document.createElement(this.video ? 'video' : 'audio');
     this.mediaContent.style.width = this.width + 'px';
@@ -196,9 +121,6 @@ Media.prototype.draw = function(id, className, backgroundColor, color, opacity, 
     this.progressBar.min = 0;
     this.progressBar.max = 100;
     this.progressBar.value = 0;
-    addCSSRule('#' + this.progressBar.id + '::-moz-progress-bar', 'background-color: ' + color);
-    //this.progressBar.style.backgroundColor = this.backgroundColor;
-    //this.progressBar.style.color = this.color;
     this.player.appendChild(this.progressBar);
 
     this.controlBar = document.createElement('div');
@@ -216,7 +138,6 @@ Media.prototype.draw = function(id, className, backgroundColor, color, opacity, 
     this.stop = document.createElement('i');
     this.stop.id = 'btnStop_' + id;
     this.stop.className = 'mediaButton material-icons';
-    //this.stop.className = 'mediaButton fa fa-stop-circle';
     this.stop.textContent = 'stop';
     this.stop.title = browser.i18n.getMessage("mediaStopBtnTitle");
     this.controlBar.appendChild(this.stop);
@@ -235,10 +156,7 @@ Media.prototype.draw = function(id, className, backgroundColor, color, opacity, 
     this.volume.id = 'volumen_' + id;
     this.volume.className = 'volume';
     this.volume.title = browser.i18n.getMessage("mediaVolumeBtnTitle");
-    this.volume.style.color = color;
     this.controlBar.appendChild(this.volume);
-    addCSSRule('#' + this.volume.id + '::-moz-range-thumb', 'background-color: ' + color);
-    addCSSRule('#' + this.volume.id + '::-moz-range-track', 'background-color: ' + color);
 
     this.mute = document.createElement('i');
     this.mute.id = 'btnMute_' + id;
@@ -247,20 +165,103 @@ Media.prototype.draw = function(id, className, backgroundColor, color, opacity, 
     this.mute.title = browser.i18n.getMessage("mediaMuteModeOnTitle");
     this.controlBar.appendChild(this.mute);
 
+    //Events    
+    this.media.addEventListener("mouseover", this.applyBackgroundOpacity.bind(this), true);
+    this.media.addEventListener("mouseout", this.applyBackgroundOpacity.bind(this), true);
+
+
+    if (mediaParams.mediaFile)
+        this.mediaFile = JSON.parse(mediaParams.mediaFile);
+
     if (this.mediaFile) {
         this.mediaBlob = dataURItoBlob(this.mediaFile)
-        this.loadPlayer(backgroundColor, color, opacity, hoverOpacity);
+        this.loadPlayer();
     } else {
-        this.createMedia(mediaUpdatedNotification, backgroundColor, color, opacity, hoverOpacity);
+        this.onRecord = this.createMedia.bind(this);
+        this.rec.addEventListener("mouseup", this.onRecord);
     }
+    this.draw();
 
 }
 
-Media.prototype.getMenuPos = function() {
-    return {
-        x: this.menuPosX,
-        y: this.menuPosY
+Media.prototype.update = function(media, color) {
+
+    if (media) {
+        this.left = parseFloat(media.left || this.left);
+        this.top = parseFloat(media.top || this.top);
+        this.width = parseFloat(media.width || this.width);
+        this.height = parseFloat(media.height || this.height);
+
+        if (media.mediaFile) {
+            this.mediaFile = JSON.parse(media.mediaFile);
+            this.mediaBlob = dataURItoBlob(this.mediaFile);
+            this.loadPlayer(this.backgroundColor, this.color, this.opacity, this.hoverOpacity);
+        }
     }
+
+    if (color) {
+        this.backgroundColor = color.backgroundColor || this.backgroundColor;
+        this.color = color.color || this.color;
+        this.opacity = color.opacity || this.opacity;
+        this.hoverOpacity = color.hoverOpacity || this.hoverOpacity;
+    }
+    this.draw();
+}
+
+Media.prototype.applyBackgroundOpacity = function(e) {
+    function hexToRgb(hex) {
+        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+            return r + r + g + g + b + b;
+        });
+
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
+    var rgbColor = hexToRgb(this.backgroundColor);
+    var colorWithOpacity;
+    if (e && e.type == "mouseover") {
+        colorWithOpacity = "rgba(" + rgbColor.r + ", " + rgbColor.g + ", " + rgbColor.b + ", " + this.hoverOpacity + ")";
+    } else {
+        colorWithOpacity = "rgba(" + rgbColor.r + ", " + rgbColor.g + ", " + rgbColor.b + ", " + this.opacity + ")";
+    }
+
+    this.player.style.backgroundColor = colorWithOpacity;
+    this.hide.style.backgroundColor = colorWithOpacity;
+    this.rec.style.backgroundColor = colorWithOpacity;
+}
+
+Media.prototype.draw = function() {
+    this.media.style.top = this.top + "px";
+    this.media.style.left = this.left + "px";
+
+    this.player.style.width = this.width + 'px';
+    if (this.video) {
+        this.mediaContent.style.width = this.width + 'px';
+    }
+    this.player.style.height = this.height + 'px';
+    if (this.video) {
+        this.mediaContent.style.height = (this.height - 60) + 'px';
+    }
+
+    if (this.player.style.color != this.color) {
+        this.player.style.color = this.color;
+        this.controlBar.style.color = this.color;
+        this.hide.style.color = this.color;
+        this.rec.style.color = this.color;
+        this.progressBar.color = this.color;
+        this.volume.style.color = this.color;
+        addCSSRule('#' + this.progressBar.id + '::-moz-progress-bar', 'background-color: ' + this.color);
+        addCSSRule('#' + this.volume.id + '::-moz-range-thumb', 'background-color: ' + this.color);
+        addCSSRule('#' + this.volume.id + '::-moz-range-track', 'background-color: ' + this.color);
+    }
+    this.applyBackgroundOpacity();
 }
 
 Media.prototype.getNodeReference = function() {
@@ -289,7 +290,7 @@ Media.prototype.highlightItem = function(state) {
     }
 }
 
-Media.prototype.createMedia = function(mediaUpdatedNotification, backgroundColor, color, opacity, hoverOpacity) {
+Media.prototype.createMedia = function(e) {
 
     var that = this;
 
@@ -297,50 +298,32 @@ Media.prototype.createMedia = function(mediaUpdatedNotification, backgroundColor
         console.log('The following gUM error occured: ' + err);
     }
 
-    function startRecording(e) {
-        if (e)
-            e.preventDefault();
-
-        that.rec.style.color = 'red';
-        that.mediaRecorder.start();
-        console.log(that.mediaRecorder.state);
-        console.log("recorder started");
-        that.rec.removeEventListener("mouseup", startRecording, false);
-        that.rec.addEventListener("mouseup", stopRecording, false);
-    }
-
     function stopRecording(e) {
         e.preventDefault();
 
         that.mediaRecorder.stop();
-        console.log(that.mediaRecorder.state);
-        console.log("recorder stopped");
         that.rec.removeEventListener("mouseup", stopRecording, false);
     }
 
-
-    function onMediaRecorderStop() {
-
-        if (!this.video) {
+    function onMediaRecorderStop(e) {
+        e.target.stream.stop();
+        if (!that.video) {
             stream = document.createElement('audio');
-            this.mediaBlob = new Blob(this.chunks, { 'type': 'audio/ogg; codecs=opus' });
+            that.mediaBlob = new Blob(that.chunks, { 'type': 'audio/ogg; codecs=opus' });
         } else {
             stream = document.createElement('video');
-            this.mediaBlob = new Blob(this.chunks, { 'type': 'video/mp4' });
+            that.mediaBlob = new Blob(that.chunks, { 'type': 'video/mp4' });
         }
 
-        this.chunks = [];
-
         var fileReader = new FileReader();
-        var that = this;
 
         fileReader.onload = function() {
             that.mediaFile = this.result;
-            mediaUpdatedNotification();
+            that.onUpdate();
         }
-        fileReader.readAsDataURL(this.mediaBlob);
+        fileReader.readAsDataURL(that.mediaBlob);
 
-        this.loadPlayer(backgroundColor, color, opacity, hoverOpacity);
+        that.loadPlayer();
     }
 
     function callback(stream) {
@@ -352,34 +335,41 @@ Media.prototype.createMedia = function(mediaUpdatedNotification, backgroundColor
             this.chunks.push(e.data);
         }.bind(this), true);
 
-        this.mediaRecorder.addEventListener("stop", onMediaRecorderStop.bind(this), true);
-        this.rec.addEventListener("mouseup", startRecording, false);
+        this.mediaRecorder.addEventListener("stop", onMediaRecorderStop, true);
+
+        that.rec.style.color = 'red';
+        that.mediaRecorder.start();
+
+        that.rec.addEventListener("mouseup", stopRecording, false);
     }
+    if (e && e.button == 0) {
+        e.preventDefault();
 
-    if (navigator.mediaDevices) {
-        navigator.mediaDevices.getUserMedia({
-            audio: this.audio,
-            video: this.video
-        }).then(callback.bind(this)).catch(onMediaRecorderError.bind(this));
-    } else {
-        navigator.getUserMedia = (navigator.getUserMedia ||
-            navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia ||
-            navigator.msGetUserMedia);
-
-        if (navigator.getUserMedia) {
-            var control
-            navigator.getUserMedia(
-                // constraints - only audio needed for this app
-                {
-                    audio: this.audio,
-                    video: this.video
-                },
-                callback.bind(this),
-                onMediaRecorderError.bind(this)
-            );
+        this.rec.removeEventListener("mouseup", this.onRecord, false);
+        if (navigator.mediaDevices) {
+            navigator.mediaDevices.getUserMedia({
+                audio: this.audio,
+                video: this.video
+            }).then(callback.bind(this)).catch(onMediaRecorderError.bind(this));
         } else {
-            trhow('Option not supported on your browser!');
+            navigator.getUserMedia = (navigator.getUserMedia ||
+                navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia ||
+                navigator.msGetUserMedia);
+
+            if (navigator.getUserMedia) {
+                navigator.getUserMedia(
+                    // constraints - only audio needed for this app
+                    {
+                        audio: this.audio,
+                        video: this.video
+                    },
+                    callback.bind(this),
+                    onMediaRecorderError.bind(this)
+                );
+            } else {
+                trhow('Option not supported on your browser!');
+            }
         }
     }
 
@@ -387,18 +377,22 @@ Media.prototype.createMedia = function(mediaUpdatedNotification, backgroundColor
 
 }
 
-Media.prototype.loadPlayer = function(backgroundColor, color, opacity, hoverOpacity) {
+Media.prototype.loadPlayer = function() {
     var that = this;
 
-    function showPlayer() {
-        that.rec.style.display = 'none';
-        that.player.style.display = 'block';
+    function showPlayer(e) {
+        if (e.button == 0) {
+            that.rec.style.display = 'none';
+            that.player.style.display = 'block';
+        }
     }
 
-    function hidePlayer() {
-        that.rec.style.display = 'block';
-        that.player.style.display = 'none';
+    function hidePlayer(e) {
+        if (e.button == 0) {
+            that.rec.style.display = 'block';
+            that.player.style.display = 'none';
 
+        }
     }
 
     function playPauseVideo() {
@@ -461,19 +455,6 @@ Media.prototype.loadPlayer = function(backgroundColor, color, opacity, hoverOpac
             btn.textContent = icon;
     }
 
-    function exitFullScreen() {
-        that.mediaContent.removeAttribute('controls');
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        }
-    }
-
     function toggleFullScreen() {
         //var player = document.getElementById("player");
 
@@ -511,7 +492,7 @@ Media.prototype.loadPlayer = function(backgroundColor, color, opacity, hoverOpac
 
     this.mediaContent.src = window.URL.createObjectURL(this.mediaBlob);
 
-    this.rec.style.color = color;
+    this.rec.style.color = this.color;
     this.rec.className = 'mediaButton mediaIcon material-icons';
     this.rec.textContent = (this.video ? 'local_movies' : 'music_note');
     this.rec.title = browser.i18n.getMessage("mediaShowControlBtnTitle");
@@ -678,15 +659,16 @@ Media.prototype.activateMovingResizing = function(action) {
             that.media.style.cursor = "";
 
         }
-
-        //calculate the position of the mouse inside the note
-        var prevMouse = mouseCoord;
-        if (that.player.style.display != 'none' &&
-            (onLeftEdge || onRightEdge || onTopEdge || onBottomEdge))
-            document.addEventListener('mousemove', onResize, true);
-        else
-            document.addEventListener('mousemove', onMove, true);
-        document.addEventListener('mouseup', onMouseUp, true);
+        if (event.button == 0) {
+            //calculate the position of the mouse inside the note
+            var prevMouse = mouseCoord;
+            if (that.player.style.display != 'none' &&
+                (onLeftEdge || onRightEdge || onTopEdge || onBottomEdge))
+                document.addEventListener('mousemove', onResize, true);
+            else
+                document.addEventListener('mousemove', onMove, true);
+            document.addEventListener('mouseup', onMouseUp, true);
+        }
     };
 
     var that = this;

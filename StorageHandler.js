@@ -6,8 +6,8 @@ function getNextId() {
     return latestItem;
 }
 
-function saveListToStorage(url, noteList) {
-    browser.storage.local.get([url]).then((currentStickies) => {
+async function saveListToStorage(url, noteList) {
+    await browser.storage.local.get([url]).then((currentStickies) => {
         var updatedStickies = {};
         if (!currentStickies[url]) {
             updatedStickies.stickies = {};
@@ -30,10 +30,16 @@ function deleteFromStorage(url, id) {
         } else {
             updatedStickies = currentStickies[url];
         }
-        delete updatedStickies.stickies[id];
-        browser.storage.local.set({
-            [url]: updatedStickies
-        });
+        if (id) {
+            delete updatedStickies.stickies[id];
+        }
+        if (!id || Object.keys(updatedStickies.stickies).length === 0) {
+            browser.storage.local.remove(url);
+        } else {
+            browser.storage.local.set({
+                [url]: updatedStickies
+            });
+        }
     });
 }
 
@@ -52,11 +58,36 @@ function saveToStorage(url, elem) {
     });
 }
 
+function saveTitleToStorage(url, title) {
+    browser.storage.local.get([url]).then((currentStickies) => {
+        currentStickies[url].title = title;
+        browser.storage.local.set({
+            [url]: currentStickies[url]
+        });
+    });
+}
+
 function loadListFromStorage(url) {
     var list = new Promise(function(resolve, reject) {
         browser.storage.local.get(url).then(results => {
             if (results[url]) {
                 resolve(results[url].stickies);
+            } else {
+                resolve(null);
+            }
+        }, e => {
+            reject("Error getting values from local storage. " + e);
+        });
+    });
+    return list;
+}
+
+function loadAllFromStorage() {
+    var list = new Promise(function(resolve, reject) {
+        browser.storage.local.get(null).then(results => {
+            if (results) {
+
+                resolve(results);
             } else {
                 resolve(null);
             }

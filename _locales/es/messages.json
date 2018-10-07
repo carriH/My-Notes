@@ -91,7 +91,7 @@
     },
 
     "MenuOptImport": {
-        "message": "Importar desde XML",
+        "message": "Importar XML",
         "description": "Carga las anotaciones de un fichero XML de entrada."
     },
 
@@ -104,6 +104,18 @@
     "MenuOptDeleteAll": {
         "message": "Borrar todo",
         "description": "Borra todas las anotaciones guardadas en memoria."
+    },
+
+
+    "MenuOptDeletePage": {
+        "message": "Borrar página",
+        "description": "delete all items in the page."
+    },
+
+
+    "MenuOptOpenLink": {
+        "message": "Abrir URL",
+        "description": "Open URL."
     },
 
 
@@ -120,6 +132,11 @@
     "MenuOptCopyAll": {
         "message": "Copiar todo",
         "description": "Opción del menú copiar todo el texto"
+    },
+
+    "MenuOptReloadPage": {
+        "message": "Recargar anotaciones",
+        "description": "recargar las anotaciones en la barra lateral"
     },
 
     "MsgEnterURL": {
@@ -185,6 +202,11 @@
     "UrlConfigTitle": {
         "message": "Configuración para URL:",
         "description": "Configuración para URL"
+    },
+
+    "errElemMsg": {
+        "message": "No se puede realizar esta acción en elementos no cargados.",
+        "description": "No se puede realizar esta acción en elementos no cargados."
     },
 
     "playerConfigTitle": {
@@ -305,6 +327,16 @@
     "InvalidColorMsg": {
         "message": "Código de color incorrecto.",
         "description": "Código de color incorrecto."
+    },
+
+    "PageOpenedMsg": {
+        "message": "Esta opción está disponible sólo para páginas abiertas.",
+        "description": "Page must be opened."
+    },
+
+    "InvalidUrlMsg": {
+        "message": "la URL seleccionada no es compatible con esta acción.",
+        "description": "Page must be opened."
     },
 
     "mediaRecBtnTitle": {

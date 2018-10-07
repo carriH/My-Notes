@@ -3,13 +3,14 @@
         height: 24px;
         width: 32px;
         font-size: 32px !important;
-        color: #a8a8a8;
+        color: #efeee9;
         cursor: pointer;
     }
     
     body {
         font-family: Arial, Helvetica, sans-serif;
         font-size: 12px;
+        background-color: #52707e;
     }
     
     #menu {
@@ -30,67 +31,158 @@
     
     #anotations {
         margin-top: 10px;
-        background: #F6EBD9;
-        border-radius: 10px;
+        background: #bbc1c3;
         min-height: 500px;
         height: 90vh;
         overflow: auto;
         padding-top: 10px;
         margin-bottom: -10px;
-        position: relative;
+        /*position: relative;*/
+        border: 1px solid #bbc1c3;
     }
     
     .anotationItem {
-        margin: 2px;
-        border: 1px solid black;
+        margin: 2px 2px 2px 20px;
+        padding-left: 5px;
     }
     
-    .menu {
+    summary {
+        width: 200px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        list-style-image: url("../Icons/ExpandList.png");
+    }
+    
+    details[open] summary {
+        list-style-image: url("../Icons/CollapseList.png");
+    }
+    
+    details {
+        margin: 2px 2px 0px 2px;
+    }
+    
+    details[open] {
+        background-color: #efefef;
+        padding-bottom: 2px;
+    }
+    
+    .pageTitle {
+        border: none;
+        background-color: transparent;
+        color: #002d53;
+    }
+    /********************************************************************/
+    
+    .contextMenu {
         position: absolute;
-        background-color: white;
-        display: none;
-        font-size: 14px !important;
-        cursor: pointer;
+        /*width: 150px;*/
+        padding: 2px;
+        margin: 0;
+        border: 1px solid #bbb;
+        background: #eee;
+        z-index: 100;
+        border-radius: 3px;
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, .2);
+        opacity: 0;
+        pointer-events: none;
     }
     
-    .menuBar {
-        width: 12px;
-        height: 2px;
-        background-color: black;
-        margin: 2px 2px;
-    }
-    
-    .menuItemList {
+    .contextMenu-item {
+        display: block;
         position: relative;
-        background-color: white;
-        display: none;
-        margin-bottom: 2px;
-        margin-top: 0px;
-        z-index: 1;
-        font-family: Arial, Helvetica, sans-serif;
-        list-style-type: none;
-        font-size: 12px;
-        padding-left: 0px;
+        margin: 0;
+        padding: 0;
+        white-space: nowrap;
+    }
+    
+    .contextMenu-btn {
+        display: block;
+        color: #444;
+        font-family: 'Roboto', sans-serif;
+        font-size: 11px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        padding: 1px 1px;
+        border-radius: 3px;
+        color: #4d4d4d;
+    }
+    
+    button.contextMenu-btn {
+        background: none;
+        line-height: normal;
+        overflow: visible;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        width: 100%;
         text-align: left;
     }
     
-    .menuItem {
-        list-style: none;
+    .contextMenu-text {
+        margin-left: 12px;
+    }
+    
+    .contextMenu-btn .fa {
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+    
+    .contextMenu-item:hover>.contextMenu-btn {
+        color: #f4f4f4;
+        outline: none;
+        background-color: #2E3940;
+        border: 1px solid #2E3940;
+    }
+    
+    .contextMenu-item-disabled {
+        opacity: .5;
+        display: block;
         position: relative;
-        margin-left: -30px;
-        padding-right: 3px;
-        cursor: pointer;
-        color: black;
-        margin-left: 0px;
+        margin: 0;
+        padding: 0;
+        white-space: nowrap;
     }
     
-    .menuItem:hover {
-        border: 1px #ccc solid;
-        margin-left: -1px;
-        background: #cccccc;
-        margin-top: -1px;
+    .contextMenu-item-disabled .contextMenu-btn {
+        cursor: default;
+        pointer-events: none;
     }
     
-    .anotationItem {
-        padding-left: 20px;
+    .contextMenu-separator {
+        display: block;
+        margin: 7px 5px;
+        height: 1px;
+        border-bottom: 1px solid #7c7c7c;
+        background-color: #aaa;
+    }
+    
+    .contextMenu-item.submenu::after {
+        content: "";
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        border: 5px solid transparent;
+        border-left-color: #808080;
+    }
+    
+    .contextMenu-item.submenu:hover::after {
+        border-left-color: #fff;
+    }
+    
+    .contextMenu .contextMenu {
+        top: 4px;
+        left: 99%;
+    }
+    
+    .show-contextMenu,
+    .contextMenu-item:hover>.contextMenu {
+        opacity: 1;
+        pointer-events: auto;
     }

@@ -1,56 +1,41 @@
-function Highlight(id) {
+function Highlight(id, params) {
+    params = params || {};
+
+    //Properties
     this.id = id;
     this.type = HIGHLIGHT;
-    this.backgroundColor = defaultValues.highlight.backgroundColor;
-    this.color = defaultValues.highlight.color;
-    this.opacity = defaultValues.highlight.opacity;
-    this.hoverOpacity = defaultValues.highlight.hoverOpacity;
-    this.username = defaultValues.username;
-    this.datetime = (new Date()).toJSON();
-}
+    this.backgroundColor = params.backgroundColor || defaultValues.highlight.backgroundColor;
+    this.color = params.color || defaultValues.highlight.color;
+    this.opacity = params.opacity || defaultValues.highlight.opacity;
+    this.hoverOpacity = params.hoverOpacity || defaultValues.highlight.hoverOpacity;
+    this.username = params.username || defaultValues.username;
+    this.datetime = params.datetime || (new Date()).toJSON();
 
-Highlight.prototype.create = function(json) {
-    var jsonSelection;
-
-    if (json) {
-        this.id = json.id || this.id;
-        this.backgroundColor = json.backgroundColor || this.backgroundColor;
-        this.opacity = json.opacity || this.opacity;
-        this.hoverOpacity = json.hoverOpacity || this.hoverOpacity;
-        this.username = json.username || this.username;
-        this.datetime = json.datetime || this.datetime;
-
-        jsonSelection = json.jsonSelection;
+    //HTML elements
+    var input = {
+        textNodes: params && params.jsonSelection ? params.jsonSelection.textNodes : null,
+        backgroundColor: this.backgroundColor,
+        color: this.color,
+        opacity: this.opacity,
+        hoverOpacity: this.hoverOpacity
     }
+    this.objSelection = new TextSelection(this.id + '_Selection', this.type, input);
 
-    this.objSelection = new TextSelection(jsonSelection);
-    console.log('panting highlight ' + this.id);
-    this.objSelection.draw(this.id + '_Selection', this.type, this.backgroundColor, this.color, this.opacity, this.hoverOpacity);
-
-    var menuPos = this.objSelection.getMenuPos();
-    var menuConfig = {
-        menuId: this.id + '_menu',
-        menuClass: 'highlightMenu',
-        top: menuPos.y,
-        left: menuPos.x
-    }
-
-    this.menu = new Menu(menuConfig);
-    this.menu.addMenuItem(this.id + '_delete', 'MenuOptDelete', function(e) { noteContainer.deleteItem(this.id); }.bind(this));
+    this.menu = new ContextMenu(document.body, false);
+    this.menu.addMenuItem(this.id + '_delete', 'MenuOptDelete', function(e) { noteContainer.deleteItem(this.id); }.bind(this), false, true);
+    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this), false, true);
     this.menu.addMenuItemWithInput(this.id + '_backgroundColor', 'MenuOptChangeBackgroundColor', 'color', this.backgroundColor, function(newValue) {
         this.update({ backgroundColor: newValue });
-    }.bind(this));
-
+    }.bind(this), true, true);
     this.menu.addMenuItemWithInput(this.id + '_color', 'MenuOptChangeColor', 'color', this.color, function(newValue) {
         this.update({ color: newValue });
-    }.bind(this));
-    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this));
+    }.bind(this), false, true);
 
-    var nodeList = this.objSelection.getNodelistReference();
-    for (var node in nodeList) {
-        this.menu.addHoverEvent(nodeList[node]);
-    }
+    //Events
+    this.menu.bindElemList(this.objSelection.getNodelistReference());
+}
 
+Highlight.prototype.getNodeReference = function() {
     return this.menu.getNodeReference();
 }
 
@@ -63,8 +48,18 @@ Highlight.prototype.update = function(json) {
     this.datetime = json.datetime || this.datetime;
 
     this.objSelection.update(json);
-    noteContainer.updateItem(this);
-    this.objSelection.applySelectionOpacity(this.opacity);
+
+    if (!json.readOnly) {
+        noteContainer.updateItem(this);
+    }
+}
+
+Highlight.prototype.delete = function() {
+    this.objSelection.delete();
+}
+
+Highlight.prototype.highlightItem = function(state) {
+    this.objSelection.highlightItem(state)
 }
 
 Highlight.prototype.toJSon = function() {
@@ -83,17 +78,8 @@ Highlight.prototype.toJSon = function() {
 
 }
 
-Highlight.prototype.delete = function() {
-    this.menu.delete();
-    this.objSelection.delete();
-}
-
-Highlight.prototype.highlightItem = function(state) {
-    this.objSelection.highlightItem(state)
-}
-
 Highlight.prototype.getTextToCopy = function() {
-    return this.objSelection.getTextToCopy();
+    return this.objSelection.getDescription();
 }
 
 var dummy = 0;
