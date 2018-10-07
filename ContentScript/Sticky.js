@@ -1,12 +1,40 @@
-function Sticky(id) {
+function Sticky(id, params) {
+    params = params || {};
+
+    //Properties
     this.id = id;
     this.type = STICKY;
-    this.backgroundColor = defaultValues.sticky.backgroundColor; //STICKY_COLOR;
-    this.color = defaultValues.sticky.color; //STICKY_TEXT_COLOR;
-    this.opacity = defaultValues.sticky.opacity;
-    this.hoverOpacity = defaultValues.sticky.hoverOpacity;
-    this.username = defaultValues.username;
-    this.datetime = (new Date()).toJSON();
+    this.backgroundColor = params.backgroundColor || defaultValues.sticky.backgroundColor; //STICKY_COLOR;
+    this.color = params.color || defaultValues.sticky.color; //STICKY_TEXT_COLOR;
+    this.opacity = params.opacity || defaultValues.sticky.opacity;
+    this.hoverOpacity = params.hoverOpacity || defaultValues.sticky.hoverOpacity;
+    this.username = params.username || defaultValues.username;
+    this.datetime = params.datetime || (new Date()).toJSON();
+
+    //HTML elements
+    this.stickyContainer = document.createElement('div');
+    var color = {
+        backgroundColor: this.backgroundColor,
+        color: this.color,
+        opacity: this.opacity,
+        hoverOpacity: this.hoverOpacity
+    }
+    this.objTextBox = new TextBox('Sticky_' + this.id, this.type, params.textBox, color);
+    this.stickyContainer.appendChild(this.objTextBox.getNodeReference());
+
+    this.menu = new ContextMenu(this.stickyContainer, true);
+    this.menu.addMenuItem(this.id + '_delete', 'MenuOptDelete', function(e) { noteContainer.deleteItem(this.id); }.bind(this), false, true);
+    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this), false, true);
+    this.menu.addMenuItemWithInput(this.id + '_backgroundColor', 'MenuOptChangeBackgroundColor', 'color', this.backgroundColor, function(newValue) {
+        this.update({ backgroundColor: newValue });
+    }.bind(this), true, true);
+    this.menu.addMenuItemWithInput(this.id + '_textColor', 'MenuOptChangeColor', 'color', this.color, function(newValue) {
+        this.update({ color: newValue });
+    }.bind(this), false, true);
+
+    //Events
+    this.objTextBox.activateMovingResizing(function() { noteContainer.updateItem(this) }.bind(this));
+    this.objTextBox.activateSavingText(function() { noteContainer.updateItem(this) }.bind(this));
 }
 
 Sticky.prototype.update = function(props) {
@@ -16,59 +44,19 @@ Sticky.prototype.update = function(props) {
     this.hoverOpacity = props.hoverOpacity || this.hoverOpacity;
     this.username = props.username || this.username;
     this.datetime = props.datetime || this.datetime;
-    this.objTextBox.update(props);
-    noteContainer.updateItem(this);
+    this.objTextBox.update(props.textBox, props);
 
-}
 
-Sticky.prototype.create = function(json) {
-
-    function saveChanges() {
-        this.menu.movePosition(this.objTextBox.getMenuPos())
+    if (!props.readOnly) {
         noteContainer.updateItem(this);
     }
-    var jsonTextbox;
-    this.stickyContainer = document.createElement('div');
+}
 
-    if (json) {
-        this.backgroundColor = json.backgroundColor || this.backgroundColor;
-        this.color = json.color || this.color;
-        this.opacity = json.opacity || this.opacity;
-        this.hoverOpacity = json.hoverOpacity || this.hoverOpacity;
-        this.username = json.username || this.username;
-        this.datetime = json.datetime || this.datetime;
-        jsonTextbox = json.textBox;
-    }
+Sticky.prototype.delete = function() {
+    this.stickyContainer.parentNode.removeChild(this.stickyContainer);
+}
 
-    this.objTextBox = new TextBox(jsonTextbox);
-    this.objTextBox.draw('Sticky_' + this.id, STICKY, this.backgroundColor, this.color, this.opacity, this.hoverOpacity);
-    this.objTextBox.activateMovingResizing(saveChanges.bind(this));
-    this.objTextBox.activateSavingText(saveChanges.bind(this));
-
-
-    var menuPos = this.objTextBox.getMenuPos();
-    var menuConfig = {
-        menuId: this.id + '_menu',
-        menuClass: 'stickyMenu',
-        top: menuPos.y,
-        left: menuPos.x
-    }
-    this.menu = new Menu(menuConfig);
-    this.menu.addMenuItem(this.id + '_delete', 'MenuOptDelete', function(e) { noteContainer.deleteItem(this.id); }.bind(this));
-    this.menu.addMenuItemWithInput(this.id + '_backgroundColor', 'MenuOptChangeBackgroundColor', 'color', this.backgroundColor, function(newValue) {
-        this.update({ backgroundColor: newValue });
-    }.bind(this));
-    this.menu.addMenuItemWithInput(this.id + '_textColor', 'MenuOptChangeColor', 'color', this.color, function(newValue) {
-        this.update({ color: newValue });
-    }.bind(this));
-    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this));
-
-    var node = this.objTextBox.getNodeReference();
-    this.menu.addHoverEvent(node);
-
-    this.stickyContainer.appendChild(node);
-    this.stickyContainer.appendChild(this.menu.getNodeReference());
-
+Sticky.prototype.getNodeReference = function() {
     return this.stickyContainer;
 }
 
@@ -85,11 +73,6 @@ Sticky.prototype.toJSon = function() {
         hoverOpacity: this.hoverOpacity,
         textBox: this.objTextBox.toJSon()
     };
-
-}
-
-Sticky.prototype.delete = function() {
-    this.stickyContainer.parentNode.removeChild(this.stickyContainer);
 }
 
 Sticky.prototype.highlightItem = function(state) {

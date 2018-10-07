@@ -134,7 +134,7 @@ function InjectCode(tab) {
     browser.tabs.executeScript(tab, {
         file: "ContentScript/TextSelection.js"
     }).then(() => {
-        browser.tabs.executeScript(tab, { file: "ContentScript/Menu.js" })
+        browser.tabs.executeScript(tab, { file: "ContentScript/ContextMenu.js" })
     }).then(() => {
         browser.tabs.executeScript(tab, { file: "ContentScript/Sticky.js" })
     }).then(() => {

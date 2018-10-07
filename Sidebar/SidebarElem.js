@@ -2,7 +2,7 @@ const ERROR_BACKGROUND_COLOR = '#ff0000';
 const ERROR_COLOR = "#ffffff";
 const ERROR_TEXT_DECORATION = "line-through";
 
-function SidebarElem(item) {
+function SidebarElem(item, URL) {
     this.nodeContainer = document.createElement("div");
     this.node = document.createElement("div");
     this.node.className = "anotationItem " + item.type;
@@ -15,44 +15,79 @@ function SidebarElem(item) {
     this.node.style.background = item.backgroundColor;
     this.node.style.color = item.color;
     this.nodeContainer.appendChild(this.node);
+    this.URL = URL;
+    this.enabled = true;
 }
 
 SidebarElem.prototype.update = function(item) {
     //this.node.textContent = "Id: " + item.id;
-    this.node.title = item.description;
-    this.node.style.background = item.backgroundColor;
-    this.node.style.color = item.color;
+    if (this.enabled) {
+        this.node.title = item.description || this.node.title;
+        this.node.style.background = item.backgroundColor || this.node.style.background;
+        this.node.style.color = item.color || this.node.style.color;
+        this.node.style.textDecoration = 'none';
+    }
 }
 
 SidebarElem.prototype.getNodeReference = function() {
     return this.nodeContainer;
 }
 
-SidebarElem.prototype.addEvents = function(backgroundScript) {
-    function onHover() {
-        backgroundScript.sendMessage({
-            active: true,
-            currentWindow: true
-        }, {
-            option: "highlight",
-            id: this.node.id,
-            state: 'hover'
-        });
-    }
+function onHover() {
+    var newPos = this.nodeContainer.getBoundingClientRect();
+    //newPos.y -= 34;
+    //this.menu.movePosition(newPos);
+    backgroundScript.sendMessage({
+        active: true,
+        currentWindow: true
+    }, {
+        option: "highlight",
+        id: this.node.id,
+        state: 'hover'
+    });
+}
 
-    function onOut() {
-        backgroundScript.sendMessage({
-            active: true,
-            currentWindow: true
-        }, {
-            option: "highlight",
-            id: this.node.id,
-            state: 'out'
-        });
-    }
+function onOut() {
+    backgroundScript.sendMessage({
+        active: true,
+        currentWindow: true
+    }, {
+        option: "highlight",
+        id: this.node.id,
+        state: 'out'
+    });
+}
+
+SidebarElem.prototype.addEvents = function() {
 
     this.node.addEventListener('mouseover', onHover.bind(this), true);
     this.node.addEventListener('mouseout', onOut.bind(this), true);
+}
+
+SidebarElem.prototype.removeEvents = function() {
+    this.node.removeEventListener('mouseover', onHover);
+    this.node.removeEventListener('mouseout', onOut);
+}
+
+SidebarElem.prototype.pageIsOpened = function() {
+    //var tabs = browser.tabs.query({ url: this.id });
+    if (!this.enabled)
+        return false;
+
+    var url = this.URL;
+    var check = new Promise(function(resolve, reject) {
+        browser.tabs.query({ url: url }).then((tabs) => {
+            if (tabs && tabs.length > 0) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        }, e => {
+            reject("Error getting values from local storage. " + e);
+        });
+    });
+    return check;
+
 }
 
 SidebarElem.prototype.addMenu = function(parentElemPos) {
@@ -64,64 +99,56 @@ SidebarElem.prototype.addMenu = function(parentElemPos) {
             ('0' + parseInt(color[2]).toString(16)).slice(-2);
     }
 
-    var bounding = this.node.getBoundingClientRect();
-    var menuConfig = {
-        menuId: this.node.id + '_menu',
-        menuClass: 'sidebarMenu' //,
-            //top: bounding.top - parentElemPos.top + 3,
-            //left: bounding.left - parentElemPos.left + 3
+    if (this.menu) {
+        if (!this.nodeContainer.contains(this.menu.getNodeReference())) {
+            this.nodeContainer.appendChild(this.menu.getNodeReference());
+        }
+        return;
     }
 
-    this.menu = new Menu(menuConfig);
-    this.updateRelativePosition(parentElemPos);
-    this.menu.addHoverEvent(this.node);
-    this.nodeContainer.appendChild(this.menu.getNodeReference());
+    this.menu = new ContextMenu(this.node, true);
+
     this.menu.addMenuItem(this.node.id + '_delete', 'MenuOptDelete', function(e) {
         backgroundScript.sendMessage({
-            currentWindow: true,
-            active: true
+            url: this.URL
         }, {
             option: "deleteItem",
             id: this.node.id
         });
-    }.bind(this));
+    }.bind(this), false, true);
 
-
-    var hexColor = rgbToHex(window.getComputedStyle(this.node, null).getPropertyValue('background-color'));
+    var hexColor = rgbToHex(window.getComputedStyle(this.node, null).getPropertyValue('background-color'))
     this.menu.addMenuItemWithInput(this.id + '_backgroundColor', 'MenuOptChangeBackgroundColor', 'color', hexColor, function(newValue) {
         backgroundScript.sendMessage({
-            currentWindow: true,
-            active: true
+            url: this.URL
         }, {
             option: "applyChanges",
             id: this.node.id,
             backgroundColor: newValue
         });
-    }.bind(this));
+    }.bind(this), false, this.pageIsOpened.bind(this), "PageOpenedMsg");
 
-
-    hexColor = rgbToHex(window.getComputedStyle(this.node, null).getPropertyValue('color'))
-
+    hexColor = rgbToHex(window.getComputedStyle(this.node, null).getPropertyValue('color'));
     this.menu.addMenuItemWithInput(this.id + '_textColor', 'MenuOptChangeColor', 'color', hexColor, function(newValue) {
         backgroundScript.sendMessage({
-            currentWindow: true,
-            active: true
+            url: this.URL
         }, {
             option: "applyChanges",
             id: this.node.id,
             color: newValue
         });
-    }.bind(this));
+    }.bind(this), false, this.pageIsOpened.bind(this), "PageOpenedMsg");
+
 
     this.menu.addMenuItem(this.node.id + '_copyText', 'MenuOptCopyText', function(e) {
         backgroundScript.sendMessage({
-            currentWindow: true,
-            active: true
+            url: this.URL
         }, {
             option: "copyText",
             id: this.node.id
         });
-    }.bind(this));
+    }.bind(this), false, this.pageIsOpened.bind(this), "PageOpenedMsg");
+
 }
 
 SidebarElem.prototype.reportError = function(message) {
@@ -129,24 +156,12 @@ SidebarElem.prototype.reportError = function(message) {
     this.node.style.color = ERROR_COLOR;
     this.node.style.textDecoration = ERROR_TEXT_DECORATION;
     this.node.title = message;
-
-    this.menu.clearMenuItem();
-    this.menu.addMenuItem(this.node.id + '_delete', 'MenuOptDelete', function(e) {
-        backgroundScript.sendMessage({
-            currentWindow: true,
-            active: true
-        }, {
-            option: "deleteItem",
-            id: this.node.id
-        });
-    }.bind(this));
+    this.enabled = false;
+    this.menu.updateActivationMenuItem('MenuOptChangeBackgroundColor', false, "errElemMsg");
+    this.menu.updateActivationMenuItem('MenuOptChangeColor', false, "errElemMsg");
+    this.menu.updateActivationMenuItem('MenuOptCopyText', false, "errElemMsg");
 }
 
-SidebarElem.prototype.updateRelativePosition = function(parentElemPos) {
-    var bounding = this.node.getBoundingClientRect();
-    var newPos = {
-        x: bounding.left - parentElemPos.left + 2,
-        y: bounding.top + (bounding.height / 2) - parentElemPos.top - 7
-    }
-    this.menu.movePosition(newPos);
+SidebarElem.prototype.isDisabled = function() {
+    return !this.enabled
 }

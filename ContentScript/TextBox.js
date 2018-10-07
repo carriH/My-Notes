@@ -2,83 +2,92 @@ const MARGIN = 4;
 const MIN_HEIGHT = 100;
 const MIN_WIDTH = 200;
 
-function TextBox(json) {
-    this.menuPosX = 0;
-    this.menuPosY = 0;
+function hexToRgb(hex) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+    });
 
-    if (!json) {
-        json = {};
-    }
-    this.text = json.text || "";
-    this.top = parseFloat(json.top || mouseCoord.y);
-    this.left = parseFloat(json.left || mouseCoord.x);
-    this.width = parseFloat(json.width || MIN_WIDTH);
-    this.height = parseFloat(json.height || MIN_HEIGHT);
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
 }
 
-TextBox.prototype.update = function(props) {
-    this.text = props.text || this.text;
-    this.left = parseFloat(props.left || this.left);
-    this.top = parseFloat(props.top || this.top);
-    this.width = parseFloat(props.width || this.width);
-    this.height = parseFloat(props.height || this.height);
+function TextBox(id, className, textParams, params) {
+    params = params || {};
+    textParams = textParams || {};
 
-    this.box.style.top = this.top + "px";
-    this.box.style.left = this.left + "px";
-    this.box.style.width = this.width + "px";
-    this.box.style.height = this.height + "px";
-    this.textArea.value = this.text;
+    //Properties
+    this.text = textParams.text || "";
+    this.top = textParams.top || parseFloat(mouseCoord.y);
+    this.left = textParams.left || parseFloat(mouseCoord.x);
+    this.width = textParams.width || parseFloat(MIN_WIDTH);
+    this.height = textParams.height || parseFloat(MIN_HEIGHT);
+    this.backgroundColor = params.backgroundColor || '#ffffff';
+    this.color = params.color || '#000000';
+    this.opacity = params.opacity || 1;
+    this.hoverOpacity = params.hoverOpacity || 1;
 
-    if (props.backgroundColor)
-        this.box.style.backgroundColor = props.backgroundColor;
-    if (props.color)
-        this.textArea.style.color = props.color;
-
-}
-
-TextBox.prototype.applyBoxOpacity = function(level) {
-    var color = window.getComputedStyle(this.box, null).getPropertyValue('background-color').match(/\d+(.\d+)?/g);
-    var newColor = "rgba(" + color[0] + ", " + color[1] + ", " + color[2] + ", " + level + ")";
-    this.box.style.backgroundColor = newColor;
-}
-
-TextBox.prototype.draw = function(id, className, backgroundColor, color, opacity, hoverOpacity) {
-    function hexToRgb(hex) {
-        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-            return r + r + g + g + b + b;
-        });
-
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
-    }
-
+    //HTML elements
     this.box = document.createElement('div');
     this.box.id = id;
     this.box.className = 'textBox ' + className;
-    var rgbColor = hexToRgb(backgroundColor);
-    this.box.style.backgroundColor = "rgba(" + rgbColor.r + ", " + rgbColor.g + ", " + rgbColor.b + ", " + opacity + ")";
+    this.textArea = document.createElement('textarea');
+    this.textArea.id = id + '_Text';
+    this.textArea.className = 'textBoxText';
+    this.box.appendChild(this.textArea);
+
+    //Events
+    this.box.addEventListener("mouseover", this.applyBoxOpacity.bind(this), true);
+    this.box.addEventListener("mouseout", this.applyBoxOpacity.bind(this), true);
+
+    this.draw();
+    //Initialize values if provided
+    //if (params) {
+    //    this.update(params.textBox, params)
+    //}
+}
+
+TextBox.prototype.update = function(textBox, color) {
+    if (color) {
+        this.backgroundColor = color.backgroundColor || this.backgroundColor;
+        this.color = color.color || this.color;
+        this.opacity = color.opacity || this.opacity;
+        this.hoverOpacity = color.hoverOpacity || this.hoverOpacity;
+    }
+
+    if (textBox) {
+        this.text = textBox.text || this.text;
+        this.left = parseFloat(textBox.left || this.left);
+        this.top = parseFloat(textBox.top || this.top);
+        this.width = parseFloat(textBox.width || this.width);
+        this.height = parseFloat(textBox.height || this.height);
+    }
+    this.draw();
+}
+
+TextBox.prototype.applyBoxOpacity = function(e) {
+    var rgbColor = hexToRgb(this.backgroundColor);
+    if (e && e.type == "mouseover") {
+        this.box.style.backgroundColor = "rgba(" + rgbColor.r + ", " + rgbColor.g + ", " + rgbColor.b + ", " + this.hoverOpacity + ")";
+    } else {
+        this.box.style.backgroundColor = "rgba(" + rgbColor.r + ", " + rgbColor.g + ", " + rgbColor.b + ", " + this.opacity + ")";
+    }
+}
+
+TextBox.prototype.draw = function() {
     this.box.style.top = this.top + "px";
     this.box.style.left = this.left + "px";
     this.box.style.width = this.width + "px";
     this.box.style.height = this.height + "px";
-    this.box.addEventListener("mouseover", function() { this.applyBoxOpacity(hoverOpacity); }.bind(this), true);
-    this.box.addEventListener("mouseout", function() { this.applyBoxOpacity(opacity); }.bind(this), true);
-
-    this.menuPosX = this.left - 20;
-    this.menuPosY = this.top;
-
-    this.textArea = document.createElement('textarea');
-    this.textArea.id = id + '_Text';
-    this.textArea.className = 'textBoxText';
     this.textArea.value = this.text;
-    this.textArea.style.color = color;
-    this.box.appendChild(this.textArea);
+    this.textArea.style.color = this.color;
+
+    this.applyBoxOpacity();
 }
 
 TextBox.prototype.getMenuPos = function() {
@@ -226,10 +235,6 @@ TextBox.prototype.activateMovingResizing = function(action, options) {
     this.box.addEventListener("mousedown", onMouseDown, true);
 }
 
-TextBox.prototype.getDescription = function() {
-    return this.textArea.value;
-}
-
 TextBox.prototype.activateSavingText = function(action) {
     var onBlur = function(event) {
         if (that.text != that.textArea.value) {
@@ -257,6 +262,10 @@ TextBox.prototype.highlightItem = function(state) {
 }
 
 TextBox.prototype.getTextToCopy = function() {
+    return this.textArea.value;
+}
+
+TextBox.prototype.getDescription = function() {
     return this.textArea.value;
 }
 

@@ -1,7 +1,11 @@
 function executeTabAction(action, params) {
-    var gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
+    var query = params && params.url ? { url: params.url } : { active: true, currentWindow: true };
+    var gettingActiveTab = browser.tabs.query(query);
     gettingActiveTab.then((tabs) => {
-        var url = tabs[0].url;
+        var url = params ? params.url : null;
+        if (!url) {
+            url = tabs[0].url;
+        }
 
         var sidebar;
         try {
@@ -15,19 +19,21 @@ function executeTabAction(action, params) {
             case "save":
                 saveToStorage(url, params);
                 if (sidebar && sidebar[0]) {
-                    sidebar[0].addToSidebar(params);
+                    sidebar[0].addToSidebar(params, url);
                 }
                 break;
             case "syncLoad":
                 loadContextMenu();
                 loadConfigOptions().then((opt) => {
-                    sendMessage({
-                        index: tabs[0].index
-                    }, {
-                        option: "defaultValues",
-                        value: opt
-                    });
-                    loadFromStorage(url, tabs[0].index);
+                    for (i in tabs) {
+                        sendMessage({
+                            index: tabs[i].index
+                        }, {
+                            option: "defaultValues",
+                            value: opt
+                        });
+                        loadFromStorage(url, tabs[i].index);
+                    }
                 });
                 if (sidebar && sidebar[0]) {
                     sidebar[0].loadItemsToSidebar();
@@ -36,21 +42,31 @@ function executeTabAction(action, params) {
             case "delete":
                 deleteFromStorage(url, params.id);
                 if (sidebar && sidebar[0]) {
-                    sidebar[0].removeFromSide(params.id);
+                    sidebar[0].removeFromSide(params.id, url);
                 }
                 break;
             case "checkElem":
-                sendMessage({
-                    index: tabs[0].index
-                }, {
-                    option: "checkElem",
-                    id: params
-                })
+                for (i in tabs) {
+                    sendMessage({
+                        index: tabs[i].index
+                    }, {
+                        option: "checkElem",
+                        id: params
+                    })
+                }
                 break;
             case "elemError":
                 if (sidebar && sidebar[0]) {
-                    sidebar[0].reportError(params.id, params.message);
+                    sidebar[0].reportError(params.id, params.url, params.message);
                 }
+                break;
+            case "elemRecovered":
+                if (sidebar && sidebar[0]) {
+                    sidebar[0].reportRecovered(params.id, params.url, params);
+                }
+            case "saveTitle":
+                saveTitleToStorage(params.url, params.title);
+                break;
         }
     });
 
@@ -110,7 +126,7 @@ function xmlToJson(xml) {
     return obj;
 }
 
-function loadFile(file) {
+async function loadFile(file) {
     xmlDoc = new DOMParser().parseFromString(file, 'text/xml');
     var pages = xmlDoc.getElementsByTagName("page");
     for (i = 0; i < pages.length; i++) {
@@ -124,7 +140,7 @@ function loadFile(file) {
             sendMessage({ url: url }, { option: 'loadItem', item: newItem });
         }
 
-        saveListToStorage(url, listItems);
+        await saveListToStorage(url, listItems);
     }
     try {
 
@@ -143,18 +159,25 @@ function messageHandler(request) {
             executeTabAction("syncLoad");
             break;
         case "delete":
+            executeTabAction(action, request);
+            sendMessage({ url: request.url, active: false }, { option: "cleanUpItem", id: request.id })
+            break;
         case "save":
             executeTabAction(action, request);
+            request.readOnly = "true";
+            sendMessage({ url: request.url, active: false }, { option: "loadItem", item: request })
             break;
         case "error":
             console.log(request.message);
             if (request.id) {
                 executeTabAction("elemError", request);
             }
-
             break;
         case "loadFile":
             loadFile(request);
+            break;
+        case "recover":
+            executeTabAction("elemRecovered", request);
             break;
     }
 }
@@ -169,10 +192,27 @@ function sendMessage(tabQuery, message) {
                 InjectCode();
                 sendMsg;
             });
-
-
         }
     });
+}
+
+function deletePage(url) {
+    sendMessage({
+        url: url
+    }, {
+        option: "deleteAll"
+    });
+    deleteFromStorage(url);
+    try {
+
+        sidebar = browser.extension.getViews({ type: "sidebar" });
+        if (sidebar && sidebar[0]) {
+            sidebar[0].removeFromSide(null, url);
+        }
+    } catch (ex) {
+        console.log("Error while accessing sidebar. " + ex);
+    }
+
 }
 
 

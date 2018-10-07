@@ -1,18 +1,92 @@
-function ChangeText(id) {
+function ChangeText(id, params) {
+    params = params || {};
+
+    //Properties
     this.id = id;
     this.type = CHANGETEXT;
-    this.selectionBackgroundColor = defaultValues.changeText.selectionBackgroundColor; // CHANGETEXT_SELECTION_COLOR;
-    this.selectionColor = defaultValues.changeText.selectionColor; //CHANGETEXT_SELECTION_DECORATOR_COLOR;
-    this.backgroundColor = defaultValues.changeText.backgroundColor; //CHANGETEXT_BACKGROUND_COLOR;
-    this.color = defaultValues.changeText.color; //CHANGETEXT_TEXT_COLOR;
-    this.selectionOpacity = defaultValues.changeText.selectionOpacity; //CHANGETEXT_OPACITY;
-    this.selectionHoverOpacity = defaultValues.changeText.selectionHoverOpacity; //CHANGETEXT_HOVER_OPACITY;
-    this.opacity = defaultValues.changeText.opacity;
-    this.hoverOpacity = defaultValues.changeText.hoverOpacity;
-    this.username = defaultValues.username;
-    this.datetime = (new Date()).toJSON();
-    //this.textChanged = new TextSelection(id + "_Selection", "changetextSelection");
-    //this.newText = new TextBox(id);
+    this.selectionBackgroundColor = params.selectionBackgroundColor || defaultValues.changeText.selectionBackgroundColor;
+    this.selectionColor = params.selectionColor || defaultValues.changeText.selectionColor;
+    this.backgroundColor = params.backgroundColor || defaultValues.changeText.backgroundColor;
+    this.color = params.color || defaultValues.changeText.color;
+    this.selectionOpacity = params.selectionOpacity || defaultValues.changeText.selectionOpacity;
+    this.selectionHoverOpacity = params.selectionHoverOpacity || defaultValues.changeText.selectionHoverOpacity;
+    this.opacity = params.opacity || defaultValues.changeText.opacity;
+    this.hoverOpacity = params.hoverOpacity || defaultValues.changeText.hoverOpacity;
+    this.username = params.username || defaultValues.username;
+    this.datetime = params.datetime || (new Date()).toJSON();
+
+    //HTML element
+    this.changeTextContainer = document.createElement("div");
+    this.changeTextContainer.id = "changeText_" + this.id;
+    this.changeTextContainer.className = CHANGETEXT;
+
+    var input = {
+        textNodes: params && params.textChanged ? params.textChanged.textNodes : null,
+        backgroundColor: this.selectionBackgroundColor,
+        color: this.selectionColor,
+        opacity: this.selectionOpacity,
+        hoverOpacity: this.selectionHoverOpacity
+    }
+    this.objSelection = new TextSelection(this.id + '_Selection', this.type, input);
+
+    if (!params.newText) {
+        var top = 0;
+        var left = 0;
+        var nodeList = this.objSelection.getNodelistReference()
+        for (var node in nodeList) {
+            var selBounding = nodeList[node].getBoundingClientRect();
+            if (selBounding.bottom > top) {
+                top = selBounding.bottom;
+                left = selBounding.right;
+            } else if (selBounding.bottom = top && selBounding.right > left) {
+                left = selBounding.right;
+            }
+        }
+
+        params.newText = {
+            top: window.pageYOffset + top + 10,
+            left: window.pageXOffset + left - 10
+        }
+    }
+    var color = {
+        backgroundColor: this.backgroundColor,
+        color: this.color,
+        opacity: this.opacity,
+        hoverOpacity: this.hoverOpacity
+    }
+    this.objTextBox = new TextBox(this.id + '_textBox', this.type + '_textBox', params.newText, color);
+    this.changeTextContainer.appendChild(this.objTextBox.getNodeReference());
+
+    this.arrow = document.createElement("span");
+    this.arrow.id = this.id + '_arrow';
+    this.arrow.className = 'changetextArrow'
+    this.arrow.style.top = (params.newText.top - 15) + 'px';
+    this.arrow.style.left = (params.newText.left + 5) + 'px';
+    this.arrow.style.position = 'absolute';
+    this.arrow.style.color = this.color;
+    this.arrow.innerText = '\u25B2';
+    this.changeTextContainer.appendChild(this.arrow);
+
+    this.menu = new ContextMenu(this.changeTextContainer, true);
+    this.menu.addMenuItem(this.id + '_delete', 'menuOptDelete', function(e) { noteContainer.deleteItem(this.id); }.bind(this), false, true);
+    this.menu.addMenuItem(this.id + '_copyText', 'MenuOptCopyText', function(e) { noteContainer.copyText(this.id); }.bind(this), false, true);
+    this.menu.addMenuItemWithInput(this.id + '_backgroundColor', 'MenuOptChangeBackgroundColor', 'color', this.backgroundColor, function(newValue) {
+        this.update({ backgroundColor: newValue });
+    }.bind(this), true, true);
+    this.menu.addMenuItemWithInput(this.id + '_textColor', 'MenuOptChangeColor', 'color', this.color, function(newValue) {
+        this.update({ color: newValue });
+    }.bind(this), false, true);
+    this.menu.addMenuItemWithInput(this.id + '_selectionColor', 'MenuOptChangeSelectionBackgroundColor', 'color', this.selectionBackgroundColor, function(newValue) {
+        this.update({ selectionBackgroundColor: newValue });
+    }.bind(this), false, true);
+    this.menu.addMenuItemWithInput(this.id + '_decoratorColor', 'MenuOptChangeSelectionTextColor', 'color', this.selectionColor, function(newValue) {
+        this.update({ selectionColor: newValue });
+    }.bind(this), false, true);
+
+    //Events
+    this.objTextBox.activateSavingText(function() { noteContainer.updateItem(this) }.bind(this));
+    this.objTextBox.activateMovingResizing(function() { noteContainer.updateItem(this) }.bind(this), { top: false, move: false });
+    this.menu.bindElemList(this.objSelection.getNodelistReference());
 }
 
 ChangeText.prototype.create = function(json) {
@@ -129,19 +203,24 @@ ChangeText.prototype.update = function(json) {
     this.username = json.username || this.username;
     this.datetime = json.datetime || this.datetime;
 
-    this.objTextBox.update(json);
+    this.objTextBox.update(json.TextBox, json);
     this.objSelection.update({
         backgroundColor: json.selectionBackgroundColor,
         color: json.selectionColor,
         opacity: json.selectionOpacity,
         hoverOpacity: json.selectionHoverOpacity
     });
-    this.objSelection.applySelectionOpacity(this.selectionOpacity);
     if (json.color) {
         this.arrow.style.color = json.color;
     }
 
-    noteContainer.updateItem(this);
+    if (!json.readOnly) {
+        noteContainer.updateItem(this);
+    }
+}
+
+ChangeText.prototype.getNodeReference = function() {
+    return this.changeTextContainer;
 }
 
 ChangeText.prototype.toJSon = function() {

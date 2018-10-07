@@ -3,7 +3,7 @@
     "manifest_version": 2,
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "1.0.7",
+    "version": "2.0.0",
     "default_locale": "es",
 
     "background": {
@@ -26,15 +26,15 @@
     ],
 
     "icons": {
-        "16": "Icons/icono-16.png",
-        "32": "Icons/icono-32.png",
-        "48": "Icons/icono-48.png",
-        "64": "Icons/icono-64.png"
+        "16": "Icons/icon-16.png",
+        "32": "Icons/icon-32.png",
+        "48": "Icons/icon-48.png",
+        "64": "Icons/icon-64.png"
     },
 
     "web_accessible_resources": [
         "ContentScript/PageModifier.js",
-        "ContentScript/Menu.js",
+        "ContentScript/ContextMenu.js",
         "ContentScript/Sticky.js",
         "ContentScript/Highlight.js",
         "ContentScript/Underline.js",
@@ -50,13 +50,15 @@
         "Icons/Link.png",
         "Icons/BrokenLink.png",
         "Fonts/MaterialIcons.css",
-        "Fonts/MaterialIconsFont.woff2"
+        "Fonts/MaterialIconsFont.woff2",
+        "/Icons/ExpandList.png",
+        "/Icons/CollapseList.png"
     ],
 
     "sidebar_action": {
-        "default_icon": "sidebar.svg",
         "default_title": "__MSG_extensionName__",
-        "default_panel": "Sidebar/Sidebar.html"
+        "default_panel": "Sidebar/Sidebar.html",
+        "default_icon": "Icons/sidebar.png"
     },
 
     "options_ui": {

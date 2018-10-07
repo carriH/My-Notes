@@ -94,26 +94,29 @@ function jSonToXml(json) {
     return xml;
 }
 
+function exportItemsFromPage(url) {
+    var xmlOutput = '<?xml version="1.0" encoding="utf-8"?><anotationsExport><page url="' + escapeXmlChars(url) + '">';
+    browser.storage.local.get([url]).then((currentStickies) => {
+
+        if (currentStickies[url]) {
+            //xmlOutput += stickiesToXml(currentStickies[url].stickies);
+            var items = currentStickies[url].stickies
+            for (i in items) {
+                delete items[i].id;
+                xmlOutput += "<item>" + jSonToXml(items[i]) + "</item>";
+            }
+        }
+        xmlOutput += '</page></anotationsExport>';
+
+        //Download the xml file
+        saveXmlFile(xmlOutput);
+    });
+}
+
 function exportItemsFromCurrentPages() {
     var gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
     gettingActiveTab.then((tabs) => {
-        var url = tabs[0].url;
-        var xmlOutput = '<?xml version="1.0" encoding="utf-8"?><anotationsExport><page url="' + escapeXmlChars(url) + '">';
-        browser.storage.local.get([url]).then((currentStickies) => {
-
-            if (currentStickies[url]) {
-                //xmlOutput += stickiesToXml(currentStickies[url].stickies);
-                var items = currentStickies[url].stickies
-                for (i in items) {
-                    delete items[i].id;
-                    xmlOutput += "<item>" + jSonToXml(items[i]) + "</item>";
-                }
-            }
-            xmlOutput += '</page></anotationsExport>';
-
-            //Download the xml file
-            saveXmlFile(xmlOutput);
-        });
+        exportItemsFromPage(tabs[0].url);
     });
 }
 
@@ -156,6 +159,7 @@ function deleteItemsFromPage(page) {
         option: 'deleteAll'
     });
     browser.storage.local.remove(page);
+    removeFromSide(null, page);
 }
 
 function deleteItemsFromAllPages() {
@@ -171,10 +175,9 @@ function deleteItemsFromAllPages() {
 }
 
 function copyItems(page) {
-    backgroundScript.sendMessage({
-        currentWindow: true,
-        active: true
-    }, {
+    var query = page ? { url: page } : { active: true, currentWindow: true };
+    backgroundScript.sendMessage(query, {
         option: 'copyText'
     });
+
 }
