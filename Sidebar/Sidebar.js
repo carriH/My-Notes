@@ -22,14 +22,30 @@ browser.runtime.getBackgroundPage().then((background) => {
 //this.menu.addMenuItem('deleteCurrent', 'MenuOptDeleteCurrent', deleteItemsFromCurrentPage(), true, true);
 //this.menu.addMenuItem('deleteAll', 'MenuOptDeleteAll', deleteItemsFromAllPages(), false, true);
 var menu = null;
+
+function currentPageHasNotes() {
+    var check = new Promise(function(resolve, reject) {
+        browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+            if (tabs[0] && elemList[tabs[0].url]) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        }, e => {
+            reject("Error getting current tab. " + e);
+        });
+    });
+    return check;
+}
+
 document.getElementById("menuIcon").addEventListener("click", function(e) {
         if (menu == null) {
             menu = new ContextMenu(document.getElementById("menuIcon"), true);
-            menu.addMenuItem('exportCurrent', 'MenuOptExportCurrent', exportItemsFromCurrentPages, false, true);
+            menu.addMenuItem('exportCurrent', 'MenuOptExportCurrent', exportItemsFromCurrentPages, false, currentPageHasNotes, 'PageWithoutNotesMsg');
             menu.addMenuItem('exportAll', 'MenuOptExportAll', exportItemsFromAllPages, false, true);
             menu.addMenuItem('importFile', 'MenuOptImport', importXmlFile, false, true);
             menu.addMenuItem('copyAll', 'MenuOptCopyAll', copyItems, true, true);
-            menu.addMenuItem('deleteCurrent', 'MenuOptDeleteCurrent', deleteItemsFromCurrentPage, true, true);
+            menu.addMenuItem('deleteCurrent', 'MenuOptDeleteCurrent', deleteItemsFromCurrentPage, true, currentPageHasNotes, 'PageWithoutNotesMsg');
             menu.addMenuItem('deleteAll', 'MenuOptDeleteAll', deleteItemsFromAllPages, false, true);
         }
         menu.showMenu(e)

@@ -21,11 +21,7 @@ function SidebarPage(page, pageName) {
     }
     this.noteList = [];
     for (var note in annotations) {
-        var newNote = new SidebarElem(annotations[note], this.URL);
-        this.nodeContainer.appendChild(newNote.getNodeReference());
-        this.noteList[annotations[note].id] = newNote;
-        newNote.addEvents(backgroundScript);
-        newNote.addMenu(this.nodeContainer.getBoundingClientRect());
+        this.addItem(annotations[note])
     }
 
     this.menu = new ContextMenu(this.title, true);
@@ -42,7 +38,9 @@ SidebarPage.prototype.openLink = function() {
 
 SidebarPage.prototype.reload = function() {
     this.removeAll();
-    backgroundScript.loadListFromStorage(this.URL).then(elemList => {
+    backgroundScript.loadListFromStorage(this.URL).then(page => {
+        this.titleText.value = page.title || this.URL;
+        var elemList = page.stickies;
         for (var id in elemList) {
             this.addItem(elemList[id]);
             backgroundScript.sendMessage({ url: this.URL }, { option: "loadItem", item: elemList[id] })
@@ -80,17 +78,9 @@ SidebarPage.prototype.pageIsOpened = function() {
 
 SidebarPage.prototype.update = function(page) {
     var annotations = page.stickies;
-    for (var note in annotations) {
-        var id = annotations[note].id;
-        if (this.noteList[id]) {
-            this.noteList[id].update(annotations[note]);
-        } else {
-            var newNote = new SidebarElem(annotations[note], this.URL);
-            this.nodeContainer.appendChild(newNote.getNodeReference());
-            this.noteList[id] = newNote;
-            //newNote.addEvents(backgroundScript);
-            //newNote.addMenu(this.nodeContainer.getBoundingClientRect());
-        }
+    this.titleText.value = page.title || this.URL;
+    for (var i in annotations) {
+        this.addItem(annotations[i]);
     }
 }
 

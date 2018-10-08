@@ -131,6 +131,7 @@ async function loadFile(file) {
     var pages = xmlDoc.getElementsByTagName("page");
     for (i = 0; i < pages.length; i++) {
         var url = pages[i].getAttribute("url");
+        var title = pages[i].getAttribute("title") || url;
         var items = pages[i].getElementsByTagName("item");
         var listItems = {};
         for (j = 0; j < items.length; j++) {
@@ -140,7 +141,7 @@ async function loadFile(file) {
             sendMessage({ url: url }, { option: 'loadItem', item: newItem });
         }
 
-        await saveListToStorage(url, listItems);
+        await saveListToStorage(url, title, listItems);
     }
     try {
 

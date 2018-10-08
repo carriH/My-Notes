@@ -81,7 +81,7 @@
     },
 
     "MenuOptExportCurrent": {
-        "message": "Exportar página",
+        "message": "Exportar página actual",
         "description": "Exporta a XML la página actual."
     },
 
@@ -91,7 +91,7 @@
     },
 
     "MenuOptImport": {
-        "message": "Importar XML",
+        "message": "Importar fichero XML",
         "description": "Carga las anotaciones de un fichero XML de entrada."
     },
 
@@ -130,7 +130,7 @@
     },
 
     "MenuOptCopyAll": {
-        "message": "Copiar todo",
+        "message": "Copiar todo (páginas abiertas)",
         "description": "Opción del menú copiar todo el texto"
     },
 
@@ -337,6 +337,11 @@
     "InvalidUrlMsg": {
         "message": "la URL seleccionada no es compatible con esta acción.",
         "description": "Page must be opened."
+    },
+
+    "PageWithoutNotesMsg": {
+        "message": "Esta opción está disponible solamente para páginas con anotaciones.",
+        "description": "Opción disponible sólo para páginas con anotaciones."
     },
 
     "mediaRecBtnTitle": {
