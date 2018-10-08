@@ -94,29 +94,27 @@ function jSonToXml(json) {
     return xml;
 }
 
-function exportItemsFromPage(url) {
-    var xmlOutput = '<?xml version="1.0" encoding="utf-8"?><anotationsExport><page url="' + escapeXmlChars(url) + '">';
-    browser.storage.local.get([url]).then((currentStickies) => {
+function exportItemsFromPage(item, url) {
+    var title = item.title || '';
+    var xml = '<page url="' + escapeXmlChars(url) + '" title="' + escapeXmlChars(title) + '">';
+    var items = item.stickies
+    for (i in items) {
+        delete items[i].id;
+        xml += "<item>" + jSonToXml(items[i]) + "</item>";
+    }
+    xml += '</page>';
 
-        if (currentStickies[url]) {
-            //xmlOutput += stickiesToXml(currentStickies[url].stickies);
-            var items = currentStickies[url].stickies
-            for (i in items) {
-                delete items[i].id;
-                xmlOutput += "<item>" + jSonToXml(items[i]) + "</item>";
-            }
-        }
-        xmlOutput += '</page></anotationsExport>';
-
-        //Download the xml file
-        saveXmlFile(xmlOutput);
-    });
+    return xml;
 }
 
 function exportItemsFromCurrentPages() {
     var gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
     gettingActiveTab.then((tabs) => {
-        exportItemsFromPage(tabs[0].url);
+        browser.storage.local.get([tabs[0].url]).then((page) => {
+            var url = tabs[0].url
+            var xmlOutput = '<?xml version="1.0" encoding="utf-8"?><stickiesExport>' + exportItemsFromPage(page[url], url) + '</stickiesExport>';
+            saveXmlFile(xmlOutput);
+        });
     });
 }
 
@@ -124,15 +122,9 @@ function exportItemsFromAllPages() {
     browser.storage.local.get().then((allStickies) => {
         var xmlOutput = '<?xml version="1.0" encoding="utf-8"?><stickiesExport>';
         for (page in allStickies) {
+            var title = allStickies[page].title || '';
             if (allStickies[page].stickies) {
-                xmlOutput += '<page url="' + escapeXmlChars(page) + '">';
-                //xmlOutput += stickiesToXml(allStickies[page].stickies);
-                var items = allStickies[page].stickies
-                for (i in items) {
-                    delete items[i].id;
-                    xmlOutput += "<item>" + jSonToXml(items[i]) + "</item>";
-                }
-                xmlOutput += '</page>';
+                xmlOutput += exportItemsFromPage(allStickies[page], page);
             }
         }
         xmlOutput += '</stickiesExport>';

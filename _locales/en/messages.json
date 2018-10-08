@@ -81,7 +81,7 @@
     },
 
     "MenuOptExportCurrent": {
-        "message": "Export page",
+        "message": "Export current page",
         "description": "Create an XML with all of the itmes inserted in current page."
     },
 
@@ -91,7 +91,7 @@
     },
 
     "MenuOptImport": {
-        "message": "Import XML",
+        "message": "Import XML file",
         "description": "load all items from an XML file."
     },
 
@@ -135,7 +135,7 @@
     },
 
     "MenuOptCopyAll": {
-        "message": "Copy all",
+        "message": "Copy all (opened pages)",
         "description": "copy all text menu option"
     },
 
@@ -335,6 +335,10 @@
         "description": "Cannot perform this action with unloaded elements."
     },
 
+    "PageWithoutNotesMsg": {
+        "message": "This option is available only for pages with annotations.",
+        "description": "Pages with annotations."
+    },
 
     "mediaRecBtnTitle": {
         "message": "Rec",

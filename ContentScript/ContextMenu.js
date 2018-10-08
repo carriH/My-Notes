@@ -132,12 +132,6 @@ ContextMenu.prototype.showMenu = async function(e) {
     e.stopPropagation();
     e.preventDefault();
     for (var i = 0; i < this.showMenuItem.length; i++) {
-        //if (this.showMenuItem[i].check().then) {
-        //    //this.menuItems[i].classList.remove('contextMenu-item');
-        //    this.showMenuItem[i].check().then((active) => { activateOption(active, i) })
-        //} else {
-        //    activateOption(this.showMenuItem[i].check(), i)
-        //}
         var result = typeof(this.showMenuItem[i].check) === "boolean" ? this.showMenuItem[i].check : this.showMenuItem[i].check();
         if (typeof result.then == 'function') {
             await result.then((active) => {
@@ -147,11 +141,11 @@ ContextMenu.prototype.showMenu = async function(e) {
             activateOption(result, i);
         }
     }
-    this.menuItemList.style.top = e.clientY + 'px';
-    if (e.clientX + this.menuItemList.clientWidth > document.body.offsetWidth) {
-        this.menuItemList.style.left = (e.clientX + document.body.offsetWidth - this.menuItemList.clientWidth - e.clientX) + 'px'
+    this.menuItemList.style.top = (e.clientY + window.pageYOffset) + 'px';
+    if (e.clientX + window.pageXOffset + this.menuItemList.clientWidth > document.body.offsetWidth) {
+        this.menuItemList.style.left = (e.clientX + window.pageXOffset + document.body.offsetWidth - this.menuItemList.clientWidth - e.clientX) + 'px'
     } else {
-        this.menuItemList.style.left = e.clientX + 'px';
+        this.menuItemList.style.left = (e.clientX + window.pageXOffset) + 'px';
     }
 
     this.menuItemList.classList.add("show-contextMenu");

@@ -6,13 +6,26 @@ function getNextId() {
     return latestItem;
 }
 
-async function saveListToStorage(url, noteList) {
+async function saveListToStorage(url, title, noteList) {
     await browser.storage.local.get([url]).then((currentStickies) => {
         var updatedStickies = {};
         if (!currentStickies[url]) {
             updatedStickies.stickies = {};
         } else {
             updatedStickies = currentStickies[url];
+        }
+        updatedStickies.title = title;
+        for (i in noteList) {
+            var found = false;
+            for (j in updatedStickies.stickies) {
+                if (updatedStickies.stickies[j].username == noteList[i].username && updatedStickies.stickies[j].datetime == noteList[i].datetime) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                delete noteList[i];
+            }
         }
         updatedStickies.stickies = Object.assign(updatedStickies.stickies, noteList);
         browser.storage.local.set({
@@ -71,7 +84,7 @@ function loadListFromStorage(url) {
     var list = new Promise(function(resolve, reject) {
         browser.storage.local.get(url).then(results => {
             if (results[url]) {
-                resolve(results[url].stickies);
+                resolve(results[url]);
             } else {
                 resolve(null);
             }
