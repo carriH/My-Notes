@@ -31,12 +31,12 @@ There are different types of notes that can be added, and each type has some par
 This extension provides a sidebar that shows all the pages with annotations. By default, the list of notes in each page will be shown collapsed, but it can be expanded by clicking the `+` icon. When the active page has annotations, it will be shown the first in the list in the sidebar, and will automatically be expanded showing all the notes. When a note cannot be loaded in a page, its format in the sidebar will change (background color will change to red, color will change to white and tooltip will change to the exception raised when trying to load the note). By default, the name of the page will be the URL of the page, but it can be changed by clicking on it with left button and writting the new name.
 
 On the top left side of the sidebar there are a menu with different actions:
-- **Export page:**
-- **Export all:**
-- **Import XML:**
-- **Copy all:**
-- **Delete current page:**
-- **Delete all pages:**
+- **Export current page:** Create an XML file with all the notes in current page. This option will be active only if current page has annotations.
+- **Export all:** Create an XML file with all the notes in all the pages.
+- **Import XML:** Import the notes from an XML file.
+- **Copy all (opened pages):** Copy all the text of all the annotations. It only affect to pages that are opened.
+- **Delete current page:** Delete all the annotations from current page. This option will be active only if current page has annotations.
+- **Delete all pages:** Delete all the annotations.
 
 ### Context menu:
 
@@ -82,4 +82,3 @@ Version 2.0.0:
 - All hamburguer menus have been changed by context menus (in sidebar and inside the page).
 - UI and icons have been redesigned. 
 - Fixed sidebar icon (it was not shown in previous version).
-
