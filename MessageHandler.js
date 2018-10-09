@@ -129,7 +129,7 @@ function xmlToJson(xml) {
 async function loadFile(file) {
     xmlDoc = new DOMParser().parseFromString(file, 'text/xml');
     var pages = xmlDoc.getElementsByTagName("page");
-    for (i = 0; i < pages.length; i++) {
+    for (var i = 0; i < pages.length; i++) {
         var url = pages[i].getAttribute("url");
         var title = pages[i].getAttribute("title") || url;
         var items = pages[i].getElementsByTagName("item");
