@@ -82,3 +82,8 @@ Version 2.0.0:
 - All hamburguer menus have been changed by context menus (in sidebar and inside the page).
 - UI and icons have been redesigned. 
 - Fixed sidebar icon (it was not shown in previous version).
+
+
+Version 2.0.1:
+
+- Fixed issue that causes the addon to fail when adding comments to a new page.
