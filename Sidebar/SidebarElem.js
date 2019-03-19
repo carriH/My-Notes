@@ -117,8 +117,18 @@ SidebarElem.prototype.addMenu = function(parentElemPos) {
         });
     }.bind(this), false, true);
 
-    var hexColor = rgbToHex(window.getComputedStyle(this.node, null).getPropertyValue('background-color'))
+    var color = this.node.style['background-color'];
+    console.log(color);
+    var hexColor = '#000000';
+    if (color) {
+        color = w3color(color);
+        if (color.valid) {
+            hexColor = color.toHexString();
+        }
+    }
+    //var hexColor = rgbToHex(window.getComputedStyle(this.node, null).getPropertyValue('background-color'))
     this.menu.addMenuItemWithInput(this.id + '_backgroundColor', 'MenuOptChangeBackgroundColor', 'color', hexColor, function(newValue) {
+        console.log(newValue);
         backgroundScript.sendMessage({
             url: this.URL
         }, {
@@ -128,8 +138,17 @@ SidebarElem.prototype.addMenu = function(parentElemPos) {
         });
     }.bind(this), false, this.pageIsOpened.bind(this), "PageOpenedMsg");
 
-    hexColor = rgbToHex(window.getComputedStyle(this.node, null).getPropertyValue('color'));
+    color = this.node.style['color'];
+    console.log(color);
+    if (color) {
+        color = w3color(color);
+        if (color.valid) {
+            hexColor = color.toHexString();
+        }
+    }
+    //hexColor = rgbToHex(window.getComputedStyle(this.node, null).getPropertyValue('color'));
     this.menu.addMenuItemWithInput(this.id + '_textColor', 'MenuOptChangeColor', 'color', hexColor, function(newValue) {
+        console.log(newValue);
         backgroundScript.sendMessage({
             url: this.URL
         }, {
