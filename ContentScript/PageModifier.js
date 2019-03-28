@@ -12,6 +12,7 @@ const CHANGETEXT = "changeText";
 const URL = "url";
 const AUDIO = "audio";
 const VIDEO = "video";
+const BASECLASS = "MyNotes"
 
 var defaultValues = null;
 

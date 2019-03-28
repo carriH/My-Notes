@@ -87,3 +87,8 @@ Version 2.0.0:
 Version 2.0.1:
 
 - Fixed issue that causes the addon to fail when adding comments to a new page.
+
+Version 2.1.0:
+
+- All styles changed to be more specific and not affect possible items with same name in pages.
+- Clean some obsolete code.

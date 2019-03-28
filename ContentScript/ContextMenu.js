@@ -2,12 +2,15 @@ function createNewMenuEntry(id, name) {
     var newMenuItem = document.createElement("li");
     newMenuItem.id = id;
 
-    newMenuItem.className = 'contextMenu-item';
+    newMenuItem.classList.add(BASECLASS);
+    newMenuItem.classList.add('contextMenu-item');
     var button = document.createElement("button");
     button.type = "button";
-    button.className = "contextMenu-btn";
+    button.classList.add(BASECLASS);
+    button.classList.add("contextMenu-btn");
     menuText = document.createElement("span");
-    menuText.className = "contextMenu-text";
+    menuText.classList.add(BASECLASS);
+    menuText.classList.add("contextMenu-text");
     menuText.appendChild(document.createTextNode(browser.i18n.getMessage(name) || name));
     button.appendChild(menuText);
     newMenuItem.appendChild(button);
@@ -16,7 +19,8 @@ function createNewMenuEntry(id, name) {
 
 function createNewSeparator() {
     var separator = document.createElement("li");
-    separator.className = "contextMenu-separator";
+    separator.classList.add(BASECLASS);
+    separator.classList.add("contextMenu-separator");
     return separator;
 }
 
@@ -29,7 +33,8 @@ function ContextMenu(owner, bind) {
     document.getElementsByTagName('body')[0].addEventListener("mousedown", this.hideMenu.bind(this), false);
     this.menuItemList = document.createElement("ul");
     this.menuItemList.id = /*config.menuId +*/ '_menuItemList';
-    this.menuItemList.className = 'contextMenu';
+    this.menuItemList.classList.add(BASECLASS);
+    this.menuItemList.classList.add('contextMenu');
     this.showMenuItem = [];
     this.menuItems = [];
     //this.parentNode.appendChild(this.menuItemList);

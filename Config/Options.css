@@ -58,7 +58,7 @@ body {
     text-decoration: line-through;
 }
 
-.changeTextSelection {
+.MyNotes.changeTextSelection {
     display: inline;
     text-decoration: line-through;
 }
