@@ -83,5 +83,9 @@ Sticky.prototype.getTextToCopy = function() {
     return this.objTextBox.getTextToCopy();
 }
 
+Sticky.check = function() {
+    return TextBox.check();
+}
+
 var dummy = 0;
 dummy;

@@ -82,5 +82,9 @@ Highlight.prototype.getTextToCopy = function() {
     return this.objSelection.getDescription();
 }
 
+Highlight.check = function() {
+    return TextSelection.check();
+}
+
 var dummy = 0;
 dummy;

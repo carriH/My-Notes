@@ -24,26 +24,24 @@ body {
     text-align: center;
 }
 
+.shortcutText {
+    margin: 10px;
+}
+
 .textBox {
     z-index: 9999;
     display: inline-block;
 }
 
-.sticky {
+.sticky,
+.changeText {
     width: 200px;
     height: 100px;
 }
 
-.textBoxText {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    border: none;
-    resize: none;
-    background: transparent;
-    margin: 4;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 15px;
+.changeText {
+    position: relative;
+    top: 1em;
 }
 
 .selection {
@@ -58,9 +56,11 @@ body {
     text-decoration: line-through;
 }
 
-.MyNotes.changeTextSelection {
-    display: inline;
-    text-decoration: line-through;
+.ejemplo span {
+    position: relative;
+    top: -20px;
+    left: 130px;
+    color: inherit;
 }
 
 .url {
@@ -79,10 +79,12 @@ body {
     float: left;
     margin-top: -30px;
     padding: 3px;
+    background-color: inherit;
 }
 
 .mediaIcon {
     padding: 3px;
+    background-color: inherit;
 }
 
 .controlBar {
@@ -104,6 +106,7 @@ body {
 
 .progressBar::-moz-progress-bar {
     height: 5px;
+    background-color: inherit;
 }
 
 .volume::-moz-range-thumb {
@@ -112,6 +115,11 @@ body {
     width: 10px;
     height: 20px;
     border-radius: 3px;
+    background-color: inherit;
+}
+
+.volume::-moz-range-track {
+    background-color: inherit;
 }
 
 .leftMediaButton {
@@ -124,6 +132,7 @@ body {
     width: 100px;
     float: right;
     margin-top: 5px;
+    background-color: transparent;
 }
 
 .mozButtons {
@@ -133,4 +142,71 @@ body {
     height: 28px;
     color: rgb(51, 51, 51);
     font-size: 15px;
+}
+
+.tab {
+    overflow: hidden;
+}
+
+
+/* Style the buttons inside the tab */
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    margin-right: -1px;
+    border-top: none;
+    border-bottom: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+
+/* Change background color of buttons on hover */
+
+.tab button:hover {
+    background-color: #bbc1c3;
+}
+
+
+/* Create an active/current tablink class */
+
+.tab button.active {
+    padding-bottom: 9px;
+    border-bottom: 5px solid #52707e;
+    ;
+}
+
+.tabcontent {
+    padding-top: 16px;
+    display: none;
+}
+
+.tabcontent.active {
+    display: block;
+}
+
+#formShortcuts div {
+    margin-top: 5px;
+}
+
+#formShortcuts label {
+    display: inline-block;
+    clear: left;
+    width: 150px;
+    text-align: right;
+    margin-right: 5px;
+}
+
+#formShortcuts input {
+    display: inline-block;
+}
+
+#formShortcuts .logText {
+    margin-left: 155px;
 }

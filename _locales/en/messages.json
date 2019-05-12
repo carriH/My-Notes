@@ -14,7 +14,7 @@
         "description": "sidebar title"
     },
 
-    "ContextMenuItemAddStickyNote": {
+    "ContextMenuItemSticky": {
         "message": "Add sticky note",
         "description": "Add a new sticky note."
     },
@@ -44,12 +44,12 @@
         "description": "Add URL address to selected text."
     },
 
-    "contextMenuItemAddAudioNote": {
+    "contextMenuItemAudio": {
         "message": "Add audio note",
         "description": "dd audio note."
     },
 
-    "contextMenuItemAddVideoNote": {
+    "contextMenuItemVideo": {
         "message": "Add video note",
         "description": "Add video note."
     },
@@ -164,7 +164,7 @@
         "description": "Background color"
     },
 
-    "TextColor": {
+    "Color": {
         "message": "Text color:",
         "description": "Text color"
     },
@@ -259,7 +259,7 @@
         "description": "Background color (selection)"
     },
 
-    "SelectionTextColor": {
+    "SelectionColor": {
         "message": "Text color (selection):",
         "description": "Text color (selection)"
     },
@@ -392,6 +392,49 @@
 
     "Lang": {
         "message": "en"
-    }
+    },
 
+    "ConfigColors": {
+        "message": "Colors"
+    },
+
+    "ConfigShortcuts": {
+        "message": "Shortcuts"
+    },
+
+    "ShortcutsTitle": {
+        "message": "Shortcuts customization"
+    },
+
+    "ShortcutsDescription": {
+        "message": "Select the shortcut you want to customize and press, one by one, the keys you want to assign. Shortcut format must be:"
+    },
+
+    "ShortcutsKeys1": {
+        "message": "[Ctrl, Alt, Command]"
+    },
+
+    "ShortcutsKeys2": {
+        "message": "[Ctrl, Alt, Command, Shift] (Optional)"
+    },
+
+    "ShortcutsKeys3": {
+        "message": "[letter, number, F keys,...]"
+    },
+
+    "msgInvalidKey": {
+        "message": "Invalid key"
+    },
+
+    "msgOneKeyAtOnce": {
+        "message": "Please, press only one key at once"
+    },
+
+    "ShortcutsSavedMsg": {
+        "message": "Shortcuts saved."
+    },
+
+    "ShortcutsValidationErrorMsg": {
+        "message": "There are invalid shortcuts. Please, fix them before saving."
+    }
 }

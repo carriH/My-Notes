@@ -5,7 +5,8 @@ const ERROR_TEXT_DECORATION = "line-through";
 function SidebarElem(item, URL) {
     this.nodeContainer = document.createElement("div");
     this.node = document.createElement("div");
-    this.node.className = "anotationItem " + item.type;
+    this.node.classList.add("anotationItem")
+    this.node.classList.add(item.type);
     this.node.id = item.id;
     this.type = item.type;
     var date = new Date(item.datetime);

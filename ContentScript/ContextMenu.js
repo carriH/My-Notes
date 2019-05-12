@@ -2,14 +2,14 @@ function createNewMenuEntry(id, name) {
     var newMenuItem = document.createElement("li");
     newMenuItem.id = id;
 
-    newMenuItem.classList.add(BASECLASS);
+    //newMenuItem.classList.add(BASECLASS);
     newMenuItem.classList.add('contextMenu-item');
     var button = document.createElement("button");
     button.type = "button";
-    button.classList.add(BASECLASS);
+    //button.classList.add(BASECLASS);
     button.classList.add("contextMenu-btn");
     menuText = document.createElement("span");
-    menuText.classList.add(BASECLASS);
+    //menuText.classList.add(BASECLASS);
     menuText.classList.add("contextMenu-text");
     menuText.appendChild(document.createTextNode(browser.i18n.getMessage(name) || name));
     button.appendChild(menuText);
@@ -19,7 +19,7 @@ function createNewMenuEntry(id, name) {
 
 function createNewSeparator() {
     var separator = document.createElement("li");
-    separator.classList.add(BASECLASS);
+    //separator.classList.add(BASECLASS);
     separator.classList.add("contextMenu-separator");
     return separator;
 }
@@ -200,6 +200,8 @@ ContextMenu.prototype.addClass = function(newClass) {
     if (!this.button.classList.contains(newClass))
         this.button.classList.add(newClass);
 }
+
+
 
 var dummy = 0;
 dummy;

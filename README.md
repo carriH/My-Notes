@@ -92,3 +92,4 @@ Version 2.1.0:
 
 - All styles changed to be more specific and not affect possible items with same name in pages.
 - Clean some obsolete code.
+- Shortcuts added to create faster annotations.

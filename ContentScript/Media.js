@@ -79,14 +79,17 @@ function Media(id, mediaParams, params, updateAction) {
 
     //HTML elements
     this.media = document.createElement('div');
-    this.media.id = 'media_' + id
-    this.media.className = 'mediaPlayer';
+    this.media.id = 'media_' + id;
+    //this.media.classList.add(BASECLASS);
+    this.media.classList.add('mediaPlayer');
     this.media.style.top = this.top + 'px';
     this.media.style.left = this.left + 'px';
 
     this.rec = document.createElement('i');
     this.rec.id = 'btnRec_' + id;
-    this.rec.className = 'mediaButton material-icons';
+    //this.rec.classList.add(BASECLASS);
+    this.rec.classList.add("mediaButton");
+    this.rec.classList.add("material-icons");
     this.rec.textContent = (this.video ? 'videocam' : 'mic')
     this.rec.title = browser.i18n.getMessage("mediaRecBtnTitle");
 
@@ -94,7 +97,8 @@ function Media(id, mediaParams, params, updateAction) {
 
     this.player = document.createElement('div');
     this.player.id = 'player_' + id;
-    this.player.className = 'player';
+    //this.player.classList.add(BASECLASS);
+    this.player.classList.add("player");
     this.player.style.width = this.width + 'px';
     this.player.style.height = this.height + 'px';
     this.player.style.display = 'none';
@@ -103,21 +107,26 @@ function Media(id, mediaParams, params, updateAction) {
     this.hide = document.createElement('i');
     this.hide.id = 'hideBtn_' + id;
     this.hide.title = browser.i18n.getMessage("mediaHideBtnTitle");
-    this.hide.className = 'mediaButton hideBtn material-icons'
+    //this.hide.classList.add(BASECLASS);
+    this.hide.classList.add("mediaButton");
+    this.hide.classList.add("hideBtn");
+    this.hide.classList.add("material-icons");
     this.hide.textContent = 'keyboard_arrow_up';
     this.player.appendChild(this.hide);
 
     this.mediaContent = document.createElement(this.video ? 'video' : 'audio');
     this.mediaContent.style.width = this.width + 'px';
     this.mediaContent.style.height = (this.height - 60) + 'px'
+        //this.mediaContent.classList.add(BASECLASS);
     if (this.video) {
-        this.mediaContent.className = 'videoAnotation';
+        this.mediaContent.classList.add("videoAnotation");
     }
     this.player.appendChild(this.mediaContent);
 
     this.progressBar = document.createElement('progress');
     this.progressBar.id = 'progressBar_' + id;
-    this.progressBar.className = 'progressBar';
+    //this.progressBar.classList.add(BASECLASS);
+    this.progressBar.classList.add("progressBar");
     this.progressBar.min = 0;
     this.progressBar.max = 100;
     this.progressBar.value = 0;
@@ -125,19 +134,24 @@ function Media(id, mediaParams, params, updateAction) {
 
     this.controlBar = document.createElement('div');
     this.controlBar.id = 'controls_' + id;
-    this.controlBar.className = 'controlBar';
+    //this.controlBar.classList.add(BASECLASS);
+    this.controlBar.classList.add("controlBar");
     this.player.appendChild(this.controlBar);
 
     this.playPause = document.createElement('i');
     this.playPause.id = 'btnPlay_' + id;
-    this.playPause.className = 'mediaButton material-icons';
+    //this.playPause.classList.add(BASECLASS);
+    this.playPause.classList.add("mediaButton");
+    this.playPause.classList.add("material-icons");
     this.playPause.textContent = 'play_arrow';
     this.playPause.title = browser.i18n.getMessage("mediaPlayBtnTitle");
     this.controlBar.appendChild(this.playPause);
 
     this.stop = document.createElement('i');
     this.stop.id = 'btnStop_' + id;
-    this.stop.className = 'mediaButton material-icons';
+    //this.stop.classList.add(BASECLASS);
+    this.stop.classList.add("mediaButton");
+    this.stop.classList.add("material-icons");
     this.stop.textContent = 'stop';
     this.stop.title = browser.i18n.getMessage("mediaStopBtnTitle");
     this.controlBar.appendChild(this.stop);
@@ -146,7 +160,10 @@ function Media(id, mediaParams, params, updateAction) {
         this.fullScreen = document.createElement('i');
         this.fullScreen.id = 'fullScreenBtn_' + id;
         this.fullScreen.title = browser.i18n.getMessage("mediaFullScreenBtnTitle");
-        this.fullScreen.className = 'mediaButton leftMediaButton material-icons'
+        //this.fullScreen.classList.add(BASECLASS);
+        this.fullScreen.classList.add("mediaButton");
+        this.fullScreen.classList.add("leftMediaButton");
+        this.fullScreen.classList.add("material-icons");
         this.fullScreen.textContent = 'fullscreen';
         this.controlBar.appendChild(this.fullScreen);
     }
@@ -154,13 +171,17 @@ function Media(id, mediaParams, params, updateAction) {
     this.volume = document.createElement('input');
     this.volume.type = 'range';
     this.volume.id = 'volumen_' + id;
-    this.volume.className = 'volume';
+    //this.volume.classList.add(BASECLASS);
+    this.volume.classList.add('volume');
     this.volume.title = browser.i18n.getMessage("mediaVolumeBtnTitle");
     this.controlBar.appendChild(this.volume);
 
     this.mute = document.createElement('i');
     this.mute.id = 'btnMute_' + id;
-    this.mute.className = 'mediaButton material-icons leftMediaButton';
+    //this.mute.classList.add(BASECLASS);
+    this.mute.classList.add("mediaButton");
+    this.mute.classList.add("material-icons");
+    this.mute.classList.add("leftMediaButton");
     this.mute.textContent = 'volume_up'
     this.mute.title = browser.i18n.getMessage("mediaMuteModeOnTitle");
     this.controlBar.appendChild(this.mute);
@@ -306,7 +327,7 @@ Media.prototype.createMedia = function(e) {
     }
 
     function onMediaRecorderStop(e) {
-        e.target.stream.stop();
+        e.target.stream.getTracks().forEach(track => track.stop());
         if (!that.video) {
             stream = document.createElement('audio');
             that.mediaBlob = new Blob(that.chunks, { 'type': 'audio/ogg; codecs=opus' });
@@ -493,7 +514,10 @@ Media.prototype.loadPlayer = function() {
     this.mediaContent.src = window.URL.createObjectURL(this.mediaBlob);
 
     this.rec.style.color = this.color;
-    this.rec.className = 'mediaButton mediaIcon material-icons';
+    //this.rec.classList.add(BASECLASS);
+    this.rec.classList.add("mediaButton");
+    this.rec.classList.add("mediaIcon");
+    this.rec.classList.add("material-icons");
     this.rec.textContent = (this.video ? 'local_movies' : 'music_note');
     this.rec.title = browser.i18n.getMessage("mediaShowControlBtnTitle");
     this.rec.addEventListener('mouseup', showPlayer, false);
@@ -676,12 +700,14 @@ Media.prototype.activateMovingResizing = function(action) {
     this.media.addEventListener("mousedown", onMouseDown, false);
 }
 
-
+Media.check = function() {
+    return { valid: mouseCoord.x != 0 || mouseCoord.y != 0 };
+}
 
 function changeControlsInFullScreen() {
     if (document.fullscreenElement || document.mozFullScreenElement) {
         elemInFullScreen = document.fullscreenElement || document.mozFullScreenElement;
-        if (elemInFullScreen.className == 'videoAnotation') {
+        if (elemInFullScreen.classList.contains('videoAnotation')) {
             elemInFullScreen.controls = "true";
         } else {
             elemInFullScreen = null;

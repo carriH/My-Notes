@@ -18,7 +18,7 @@ function ChangeText(id, params) {
     //HTML element
     this.changeTextContainer = document.createElement("div");
     this.changeTextContainer.id = "changeText_" + this.id;
-    this.changeTextContainer.classList.add(BASECLASS);
+    //this.changeTextContainer.classList.add(BASECLASS);
     this.changeTextContainer.classList.add(CHANGETEXT);
 
     var input = {
@@ -60,7 +60,7 @@ function ChangeText(id, params) {
 
     this.arrow = document.createElement("span");
     this.arrow.id = this.id + '_arrow';
-    this.arrow.classList.add(BASECLASS);
+    //this.arrow.classList.add(BASECLASS);
     this.arrow.classList.add('changetextArrow');
     this.arrow.style.top = (params.newText.top - 15) + 'px';
     this.arrow.style.left = (params.newText.left + 5) + 'px';
@@ -159,6 +159,10 @@ ChangeText.prototype.highlightItem = function(state) {
 
 ChangeText.prototype.getTextToCopy = function() {
     return this.objTextBox.getTextToCopy();
+}
+
+ChangeText.check = function() {
+    return TextSelection.check();
 }
 
 var dummy = 0;

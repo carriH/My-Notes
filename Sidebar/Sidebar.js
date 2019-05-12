@@ -7,6 +7,8 @@ const dateFormatOptions = {
     second: "2-digit"
 }
 
+const BASECLASS = "MyNotes";
+
 var backgroundScript
 
 

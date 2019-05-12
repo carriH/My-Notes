@@ -1,10 +1,10 @@
-.textBox {
+.MyNotes .textBox {
     position: absolute;
     z-index: 10000000;
     border: none;
 }
 
-.textBoxText {
+.MyNotes .textBoxText {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -16,46 +16,46 @@
     font-size: 12px;
 }
 
-.mediaPlayer {
+.MyNotes .mediaPlayer {
     position: absolute;
     z-index: 10000001;
     border: none;
 }
 
-.mediaButton {
+.MyNotes .mediaButton {
     font-size: 32px;
     vertical-align: top;
     cursor: pointer;
 }
 
-.mediaControl {
+.MyNotes .mediaControl {
     content: '';
     display: block;
     height: 32px;
     width: 32px;
 }
 
-.player {
+.MyNotes .player {
     margin-top: 25px;
     z-index: 10000001;
 }
 
-.hideBtn {
+.MyNotes .hideBtn {
     float: left;
     margin-top: -32px;
 }
 
-.mediaIcon {
+.MyNotes .mediaIcon {
     padding: 3px;
 }
 
-.controlBar {
+.MyNotes .controlBar {
     margin-top: -10px;
     margin-left: 5%;
     margin-right: 5%;
 }
 
-.progressBar {
+.MyNotes .progressBar {
     width: 90%;
     font-size: 12px;
     height: 5px;
@@ -67,18 +67,19 @@
     cursor: pointer;
 }
 
-.progressBar::-moz-progress-bar {
+.MyNotes .progressBar::-moz-progress-bar {
     height: 5px;
 }
 
-.volume {
+.MyNotes .volume {
     width: 100px;
     float: right;
     margin-top: 5px;
     cursor: pointer;
+    background: transparent;
 }
 
-.volume::-moz-range-thumb {
+.MyNotes .volume::-moz-range-thumb {
     border: none;
     cursor: pointer;
     width: 10px;
@@ -86,41 +87,42 @@
     border-radius: 3px;
 }
 
-.leftMediaButton {
+.MyNotes .leftMediaButton {
     float: right;
     font-size: 24px;
     margin-top: 3px;
 }
 
-.selection {
+.MyNotes.selection {
     display: inline;
     border: none;
 }
 
-.underline {
+.MyNotes.underline {
     text-decoration: underline;
 }
 
-.url {
+.MyNotes.url {
     text-decoration: underline;
     font-weight: bold;
     cursor: pointer;
 }
 
-.url.BrokenLink {
+.MyNotes.url.BrokenLink {
     cursor: default;
 }
 
-.crossout {
+.MyNotes.crossout {
     text-decoration: line-through;
 }
 
-.MyNotes.changeText_Selection {
+.MyNotes .changeText_Selection {
     display: inline;
     text-decoration: line-through;
 }
 
-.highlightElem {
+.MyNotes .highlightElem,
+.MyNotes.highlightElem {
     border: 2px solid red;
 }
 
@@ -141,7 +143,7 @@
     pointer-events: none;
 }
 
-.MyNotes.contextMenu-item {
+.MyNotes .contextMenu-item {
     display: block;
     position: relative;
     margin: 0;
@@ -149,7 +151,7 @@
     white-space: nowrap;
 }
 
-.MyNotes.contextMenu-btn {
+.MyNotes .contextMenu-btn {
     display: block;
     color: #444;
     font-family: 'Roboto', sans-serif;
@@ -162,7 +164,7 @@
     color: #4d4d4d;
 }
 
-button.MyNotes.contextMenu-btn {
+.MyNotes button.contextMenu-btn {
     background: none;
     line-height: normal;
     overflow: visible;
@@ -173,11 +175,11 @@ button.MyNotes.contextMenu-btn {
     text-align: left;
 }
 
-.MyNotes.contextMenu-text {
+.MyNotes .contextMenu-text {
     margin-left: 12px;
 }
 
-.MyNotes.contextMenu-btn .fa {
+.MyNotes .contextMenu-btn .fa {
     position: absolute;
     left: 8px;
     top: 50%;
@@ -185,14 +187,14 @@ button.MyNotes.contextMenu-btn {
     transform: translateY(-50%);
 }
 
-.MyNotes.contextMenu-item:hover>.MyNotes.contextMenu-btn {
+.MyNotes .contextMenu-item:hover>.contextMenu-btn {
     color: #f4f4f4;
     outline: none;
     background-color: #2E3940;
     border: 1px solid #2E3940;
 }
 
-.MyNotes.contextMenu-item-disabled {
+.MyNotes .contextMenu-item-disabled {
     opacity: .5;
     display: block;
     position: relative;
@@ -201,12 +203,12 @@ button.MyNotes.contextMenu-btn {
     white-space: nowrap;
 }
 
-.MyNotes.contextMenu-item-disabled .MyNotes.contextMenu-btn {
+.MyNotes .contextMenu-item-disabled .contextMenu-btn {
     cursor: default;
     pointer-events: none;
 }
 
-.MyNotes.contextMenu-separator {
+.MyNotes .contextMenu-separator {
     display: block;
     margin: 7px 5px;
     height: 1px;
@@ -214,7 +216,7 @@ button.MyNotes.contextMenu-btn {
     background-color: #aaa;
 }
 
-.MyNotes.contextMenu-item.submenu::after {
+.MyNotes .contextMenu-item.submenu::after {
     content: "";
     position: absolute;
     right: 6px;
@@ -225,7 +227,7 @@ button.MyNotes.contextMenu-btn {
     border-left-color: #808080;
 }
 
-.MyNotes.contextMenu-item.submenu:hover::after {
+.MyNotes .contextMenu-item.submenu:hover::after {
     border-left-color: #fff;
 }
 
@@ -235,7 +237,7 @@ button.MyNotes.contextMenu-btn {
 }
 
 .MyNotes.show-contextMenu,
-.contextMenu-item:hover>.contextMenu {
+.MyNotes .contextMenu-item:hover>.contextMenu {
     opacity: 1;
     pointer-events: auto;
 }
