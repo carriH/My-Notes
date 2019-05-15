@@ -85,5 +85,9 @@ Audio.prototype.getTextToCopy = function() {
     return "";
 }
 
+Audio.check = function() {
+    return Media.check();
+}
+
 var dummy = 0;
 dummy;

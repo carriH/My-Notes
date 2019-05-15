@@ -14,7 +14,7 @@
         "description": "título de la barra lateral"
     },
 
-    "ContextMenuItemAddStickyNote": {
+    "ContextMenuItemSticky": {
         "message": "Añadir post-it",
         "description": "Añade un post-it."
     },
@@ -44,12 +44,12 @@
         "description": "Añade una dirección URL al texto seleccionado."
     },
 
-    "contextMenuItemAddAudioNote": {
+    "contextMenuItemAudio": {
         "message": "Añadir nota de audio",
         "description": "Añade nota de audio."
     },
 
-    "contextMenuItemAddVideoNote": {
+    "contextMenuItemVideo": {
         "message": "Añadir nota de vídeo",
         "description": "Añade nota de vídeo."
     },
@@ -164,7 +164,7 @@
         "description": "Color de fondo"
     },
 
-    "TextColor": {
+    "Color": {
         "message": "Color de texto:",
         "description": "Color de texto"
     },
@@ -264,7 +264,7 @@
         "description": "Color de fondo (selección)"
     },
 
-    "SelectionTextColor": {
+    "SelectionColor": {
         "message": "Color de texto (selección):",
         "description": "Color de texto (selección)"
     },
@@ -396,6 +396,50 @@
 
     "Lang": {
         "message": "es"
+    },
+
+    "ConfigColors": {
+        "message": "Colores"
+    },
+
+    "ConfigShortcuts": {
+        "message": "Atajos de teclado"
+    },
+
+    "ShortcutsTitle": {
+        "message": "Personalización de atajos de teclado"
+    },
+
+    "ShortcutsDescription": {
+        "message": "Selecciona el atajo de teclado que quieres personalizar y pulsa, una a una, las teclas que quieres asignar. El formato del acceso directo debe ser:"
+    },
+
+    "ShortcutsKeys1": {
+        "message": "[Ctrl, Alt, Command]"
+    },
+
+    "ShortcutsKeys2": {
+        "message": "[Ctrl, Alt, Command, Shift] (Opcional)"
+    },
+
+    "ShortcutsKeys3": {
+        "message": "[letra, número, teclas F, ...]"
+    },
+
+    "msgInvalidKey": {
+        "message": "Tecla inválida"
+    },
+
+    "msgOneKeyAtOnce": {
+        "message": "Por favor, presiona una única tecla a la vez"
+    },
+
+    "ShortcutsSavedMsg": {
+        "message": "Atajos de teclado guardados."
+    },
+
+    "ShortcutsValidationErrorMsg": {
+        "message": "Hay atajos de teclado incorrectos. Por favor, corrígelos antes de guardar."
     }
 
 }

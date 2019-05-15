@@ -33,23 +33,23 @@ function loadContextMenu() {
     browser.contextMenus.create({
         type: "normal",
         id: "audio",
-        title: browser.i18n.getMessage("contextMenuItemAddAudioNote"),
+        title: browser.i18n.getMessage("contextMenuItemAudio"),
         contexts: ["all"]
-    }, onCreated(browser.i18n.getMessage("contextMenuItemAddAudioNote")));
+    }, onCreated(browser.i18n.getMessage("contextMenuItemAudio")));
 
     browser.contextMenus.create({
         type: "normal",
         id: "video",
-        title: browser.i18n.getMessage("contextMenuItemAddVideoNote"),
+        title: browser.i18n.getMessage("contextMenuItemVideo"),
         contexts: ["all"]
-    }, onCreated(browser.i18n.getMessage("contextMenuItemAddVideoNote")));
+    }, onCreated(browser.i18n.getMessage("contextMenuItemVideo")));
 
     browser.contextMenus.create({
         type: "normal",
         id: "sticky",
-        title: browser.i18n.getMessage("contextMenuItemAddStickyNote"),
+        title: browser.i18n.getMessage("contextMenuItemSticky"),
         contexts: ["all"]
-    }, onCreated(browser.i18n.getMessage("contextMenuItemAddStickyNote")));
+    }, onCreated(browser.i18n.getMessage("contextMenuItemSticky")));
 
     browser.contextMenus.create({
         type: "normal",
@@ -197,3 +197,27 @@ browser.webRequest.onSendHeaders.addListener(details => {
     urls: ["<all_urls>"],
     types: ["xmlhttprequest"]
 });
+
+function onCommand(command) {
+    var query = {
+        active: true,
+        currentWindow: true
+    };
+
+    sendMessageWithResponse(query, {
+        option: "checkItemCreation",
+        type: command
+    }).then(response => {
+        if (response && response.valid) {
+            sendMessage(query, {
+                option: "newItem",
+                type: command,
+                id: getNextId()
+            });
+        }
+    });
+
+
+}
+
+browser.commands.onCommand.addListener(onCommand);

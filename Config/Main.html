@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="Main.css" />
+    <link href="../Fonts/MaterialIcons.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="tab active">
+
+        <button id="tabColors" class="tablinks i18n active">__MSG_ConfigColors__</button>
+        <button id="tabShortcuts" class="tablinks i18n">__MSG_ConfigShortcuts__</button>
+    </div>
+    <div id="Colors" class="tabcontent active">
+        <form id="formOptions" class="i18n">
+            <label for="username" id="lblUsername" reqired="true">__MSG_Username__</label>
+            <input type="text" id="username" maxlength="10" />
+            <br />
+            <div id="ColorConfig"></div>
+            <br />
+            <div id="colorButtons" class="i18n">
+                <input type="button" class="mozButtons" id="save" value="__MSG_BtnSave__" />
+                <input type="button" class="mozButtons" id="cancel" value="__MSG_BtnCancel__" />
+                <input type="button" class="mozButtons" id="reset" value="__MSG_BtnDefault__" />
+            </div>
+        </form>
+    </div>
+    <div id="Shortcuts" class="tabcontent">
+        <h1 class="i18n">__MSG_ShortcutsTitle__</h1>
+        <p class="i18n">__MSG_ShortcutsDescription__
+            <ul>
+                <li class="i18n">__MSG_ShortcutsKeys1__</li>
+                <li class="i18n">__MSG_ShortcutsKeys2__</li>
+                <li class="i18n">__MSG_ShortcutsKeys3__</li>
+            </ul>
+        </p>
+        <br />
+        <form id="formShortcuts"></form>
+        <br />
+        <div id="shortcutrButtons" class="i18n">
+            <input type="button" class="mozButtons" id="saveShortcuts" value="__MSG_BtnSave__" />
+            <input type="button" class="mozButtons" id="cancelShortcuts" value="__MSG_BtnCancel__" />
+            <input type="button" class="mozButtons" id="resetShortcuts" value="__MSG_BtnDefault__" />
+        </div>
+
+    </div>
+    <br />
+    <div id="outputMessage" style="margin:10px;"></div>
+
+    <script type="text/javascript" src="Colors.js"></script>
+    <script type="text/javascript" src="Shortcuts.js"></script>
+    <script type="text/javascript" src="Main.js"></script>
+
+</html>

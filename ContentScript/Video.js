@@ -85,5 +85,9 @@ Video.prototype.getTextToCopy = function() {
     return "";
 }
 
+Video.check = function() {
+    return Media.check();
+}
+
 var dummy = 0;
 dummy;

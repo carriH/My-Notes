@@ -35,10 +35,13 @@ function TextBox(id, className, textParams, params) {
     //HTML elements
     this.box = document.createElement('div');
     this.box.id = id;
-    this.box.className = 'textBox ' + className;
+    this.box.classList.add(BASECLASS);
+    this.box.classList.add(TEXTBOXCLASS);
+    this.box.classList.add(className);
     this.textArea = document.createElement('textarea');
     this.textArea.id = id + '_Text';
-    this.textArea.className = 'textBoxText';
+    this.textArea.classList.add(BASECLASS);
+    this.textArea.classList.add(TEXTBOXTEXTCLASS);
     this.box.appendChild(this.textArea);
 
     //Events
@@ -267,6 +270,10 @@ TextBox.prototype.getTextToCopy = function() {
 
 TextBox.prototype.getDescription = function() {
     return this.textArea.value;
+}
+
+TextBox.check = function() {
+    return { valid: mouseCoord.x != 0 || mouseCoord.y != 0 };
 }
 
 var dummy = 0;

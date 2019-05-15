@@ -3,7 +3,7 @@
     "manifest_version": 2,
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "2.0.1",
+    "version": "2.1.1",
     "default_locale": "es",
 
     "background": {
@@ -62,7 +62,7 @@
     },
 
     "options_ui": {
-        "page": "Config/Options.html",
+        "page": "Config/Main.html",
         "browser_style": true
     },
 
@@ -71,6 +71,42 @@
             "id": "{88a2b78a-8002-475f-bde8-c3116fe8060f}"
 
         }
+    },
+
+    "commands": {
+        "audio": {
+            "suggested_key": { "default": "Ctrl+Shift+A" },
+            "description": "Creates an audio annotation"
+        },
+        "video": {
+            "suggested_key": { "default": "Ctrl+Shift+V" },
+            "description": "Creates a video annotation"
+        },
+        "sticky": {
+            "suggested_key": { "default": "Ctrl+Shift+S" },
+            "description": "Creates an sticky annotation"
+        },
+        "url": {
+            "suggested_key": { "default": "Ctrl+Shift+K" },
+            "description": "Creates a url annotation"
+        },
+        "highlight": {
+            "suggested_key": { "default": "Ctrl+Shift+H" },
+            "description": "Creates a highlight annotation"
+        },
+        "changeText": {
+            "suggested_key": { "default": "Ctrl+Shift+C" },
+            "description": "Creates a changeText annotation"
+        },
+        "underline": {
+            "suggested_key": { "default": "Ctrl+Shift+U" },
+            "description": "Creates a underline annotation"
+        },
+        "crossout": {
+            "suggested_key": { "default": "Ctrl+Shift+X" },
+            "description": "Creates a crossout annotation"
+        }
+
     }
 
 }

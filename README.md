@@ -13,6 +13,7 @@ In order to create a new note in a page, you only have to follow these steps:
 1- Wait till the page is completelly loaded (if not, the creation of the note may not work as expected).
 2- If you want to add an sticky note or a multimedia note, right click in the point you want to add it. If you want to add a text highlighting note, select the desired text and right click.
 3- In the context menu, go to the option "My notes" and select the annotation type you want to create.
+4- It is possible to use shortcuts too to manage the extension (go to config page in order to know/change them).
 
 ### Types of notes:
 
@@ -87,3 +88,16 @@ Version 2.0.0:
 Version 2.0.1:
 
 - Fixed issue that causes the addon to fail when adding comments to a new page.
+
+Version 2.1.0:
+
+- All styles changed to be more specific and not affect possible items with same name in pages.
+- Clean some obsolete code.
+- Shortcuts added to create faster annotations.
+
+Version 2.1.1:
+
+- Stylesheet refactored. Now it won´t affect the page.
+- Fixed an issue with the media notes.
+- Config page refactored.
+- Added shortcuts and the feature to customize them.

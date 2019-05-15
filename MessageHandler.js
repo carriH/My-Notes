@@ -197,6 +197,14 @@ function sendMessage(tabQuery, message) {
     });
 }
 
+
+
+async function sendMessageWithResponse(tabQuery, message) {
+    var tabs = await browser.tabs.query(tabQuery);
+    var response = await browser.tabs.sendMessage(tabs[0].id, message);
+    return response;
+}
+
 function deletePage(url) {
     sendMessage({
         url: url

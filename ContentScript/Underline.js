@@ -82,5 +82,9 @@ Underline.prototype.getTextToCopy = function() {
     return this.objSelection.getTextToCopy();
 }
 
+Underline.check = function() {
+    return TextSelection.check();
+}
+
 var dummy = 0;
 dummy;

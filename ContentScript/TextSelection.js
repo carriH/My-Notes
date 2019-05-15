@@ -50,7 +50,9 @@ TextSelection.prototype.initializeSelection = function(input) {
         //HTML elements
         var newNode = document.createElement("div");
         newNode.id = that.id;
-        newNode.className = 'selection ' + that.className;
+        newNode.classList.add(BASECLASS);
+        newNode.classList.add(SELECTIONCLASS);
+        newNode.classList.add(that.className);
         range.surroundContents(newNode);
 
         //Events
@@ -244,6 +246,11 @@ TextSelection.prototype.getDescription = function() {
         description += this.selectionNodes[i].innerText;
     }
     return description;
+}
+
+TextSelection.check = function() {
+    var sel = window.getSelection();
+    return { valid: sel.toString() != "" };
 }
 
 var dummy = 0;

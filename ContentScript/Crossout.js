@@ -82,5 +82,9 @@ Crossout.prototype.getTextToCopy = function() {
     return this.objSelection.getDescription();
 }
 
+Crossout.check = function() {
+    return TextSelection.check();
+}
+
 var dummy = 0;
 dummy;

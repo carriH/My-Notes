@@ -147,6 +147,10 @@ Url.prototype.getTextToCopy = function() {
     return text;
 }
 
+Url.check = function() {
+    return TextSelection.check();
+}
+
 
 var dummy = 0;
 dummy;

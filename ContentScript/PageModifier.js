@@ -1,6 +1,6 @@
 ﻿var mouseCoord = {
-    x: 0,
-    y: 0
+    x: 10,
+    y: 10
 }
 
 //ELEM TYPES
@@ -12,6 +12,10 @@ const CHANGETEXT = "changeText";
 const URL = "url";
 const AUDIO = "audio";
 const VIDEO = "video";
+const BASECLASS = "MyNotes";
+const TEXTBOXCLASS = "textBox";
+const TEXTBOXTEXTCLASS = "textBoxText";
+const SELECTIONCLASS = "selection";
 
 var defaultValues = null;
 
@@ -19,6 +23,7 @@ var defaultValues = null;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var noteContainer = (function() {
     var divContainer = document.createElement('div');
+    divContainer.classList.add(BASECLASS);
     document.getElementsByTagName("body")[0].appendChild(divContainer);
     var stickies = {};
 
@@ -33,6 +38,7 @@ var noteContainer = (function() {
         jsonObj.url = window.location.href;
         browser.runtime.sendMessage(jsonObj);
     }
+
 
     function newElem(id, type, params) {
         var newElem = null;
@@ -207,6 +213,27 @@ var noteContainer = (function() {
 
             document.addEventListener("copy", onCopy, true);
             document.execCommand("copy");
+        },
+
+        validateCreation: function(type) {
+            switch (type) {
+                case STICKY:
+                    return Sticky.check();
+                case HIGHLIGHT:
+                    return Highlight.check();
+                case UNDERLINE:
+                    return Underline.check();
+                case CROSSOUT:
+                    return Crossout.check();
+                case CHANGETEXT:
+                    return ChangeText.check();
+                case URL:
+                    return Url.check();
+                case AUDIO:
+                    return Audio.check();
+                case VIDEO:
+                    return Video.check();
+            }
         }
     }
 })();
@@ -221,6 +248,10 @@ document.addEventListener('mousedown', watchClickPosition, true);
 
 function messageHandler(request, sender, sendResponse) {
     switch (request.option) {
+        case "checkItemCreation":
+            var result = noteContainer.validateCreation(request.type);
+            return Promise.resolve(result);
+            break;
         case "newItem":
             //noteContainer.newNote(request.id);
             noteContainer.newItem(request.id, request.type);
@@ -265,7 +296,6 @@ function messageHandler(request, sender, sendResponse) {
             return Promise.resolve("pong");
             break;
     }
-    return;
 }
 
 browser.runtime.onMessage.addListener(messageHandler);
