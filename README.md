@@ -98,5 +98,6 @@ Version 2.1.0:
 Version 2.1.1:
 
 - Stylesheet refactored. Now it won´t affect the page.
+- Fixed an issue with the media notes.
 - Config page refactored.
 - Added shortcuts and the feature to customize them.
