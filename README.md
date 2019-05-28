@@ -101,3 +101,8 @@ Version 2.1.1:
 - Fixed an issue with the media notes.
 - Config page refactored.
 - Added shortcuts and the feature to customize them.
+
+Version 2.1.2:
+
+- Stop propagation of kay events in textbox.
+- Shortcuts have been updated as some of them were mapped to other actions.
