@@ -48,6 +48,10 @@ function TextBox(id, className, textParams, params) {
     this.box.addEventListener("mouseover", this.applyBoxOpacity.bind(this), true);
     this.box.addEventListener("mouseout", this.applyBoxOpacity.bind(this), true);
 
+    this.box.addEventListener("keypress", function(e) { e.stopPropagation(); });
+    this.box.addEventListener("keydown", function(e) { e.stopPropagation(); });
+    this.box.addEventListener("keyup", function(e) { e.stopPropagation(); });
+
     this.draw();
     //Initialize values if provided
     //if (params) {

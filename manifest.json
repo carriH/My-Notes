@@ -3,7 +3,7 @@
     "manifest_version": 2,
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "default_locale": "es",
 
     "background": {
@@ -83,27 +83,27 @@
             "description": "Creates a video annotation"
         },
         "sticky": {
-            "suggested_key": { "default": "Ctrl+Shift+S" },
+            "suggested_key": { "default": "Ctrl+Alt+S" },
             "description": "Creates an sticky annotation"
         },
         "url": {
-            "suggested_key": { "default": "Ctrl+Shift+K" },
+            "suggested_key": { "default": "Ctrl+Alt+K" },
             "description": "Creates a url annotation"
         },
         "highlight": {
-            "suggested_key": { "default": "Ctrl+Shift+H" },
+            "suggested_key": { "default": "Ctrl+Alt+H" },
             "description": "Creates a highlight annotation"
         },
         "changeText": {
-            "suggested_key": { "default": "Ctrl+Shift+C" },
+            "suggested_key": { "default": "Ctrl+Alt+C" },
             "description": "Creates a changeText annotation"
         },
         "underline": {
-            "suggested_key": { "default": "Ctrl+Shift+U" },
+            "suggested_key": { "default": "Ctrl+Alt+U" },
             "description": "Creates a underline annotation"
         },
         "crossout": {
-            "suggested_key": { "default": "Ctrl+Shift+X" },
+            "suggested_key": { "default": "Ctrl+Alt+X" },
             "description": "Creates a crossout annotation"
         }
 
