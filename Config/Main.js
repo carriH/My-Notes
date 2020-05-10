@@ -65,6 +65,7 @@ document.getElementById("cancel").addEventListener("click", loadColors, true);
 document.getElementById("reset").addEventListener("click", restoreDefault, true);
 document.getElementById("tabShortcuts").addEventListener("click", (event) => { showTab(event, "Shortcuts") }, true);
 document.getElementById("tabColors").addEventListener("click", (event) => { showTab(event, "Colors") }, true);
+document.getElementById("tabManual").addEventListener("click", (event) => { showTab(event, "Manual") }, true);
 document.getElementById("saveShortcuts").addEventListener("click", saveShortcuts, true);
 document.getElementById("cancelShortcuts").addEventListener("click", loadShortcuts, true);
 document.getElementById("resetShortcuts").addEventListener("click", restoreShortcuts, true);

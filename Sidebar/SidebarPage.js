@@ -117,7 +117,7 @@ SidebarPage.prototype.delete = function() {
 }
 
 SidebarPage.prototype.exportPage = function() {
-    exportItemsFromPage(this.id);
+    exportItemsFromSpecificPage(this.id);
 }
 
 SidebarPage.prototype.copyAllText = function() {

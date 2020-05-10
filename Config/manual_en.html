@@ -1,0 +1,460 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="Manual.css" />
+    <link rel="stylesheet" href="../Fonts/MaterialIcons.css" />
+</head>
+
+<body>
+    <div class="tab active">
+
+        <button id="tabIntroduction" class="tablinks i18n active">Introduction</button>
+        <button id="tabNoteCreation" class="tablinks i18n">Notes creation</button>
+        <button id="tabSidebar" class="tablinks i18n">Sidebar</button>
+        <button id="tabContextMenu" class="tablinks i18n">Context menus</button>
+        <button id="tabOptions" class="tablinks i18n">Options</button>
+    </div>
+    <div id="prevNext" style="width:100%">
+        <span id="prev" style="position:float-left;visibility: hidden" class="material-icons">navigate_before</span>
+        <span id="next" style="position:float-right" class="material-icons">navigate_next</span>
+    </div>
+    <div id="Introduction" class="tabcontent active">
+        <div class="section active">
+            <h2>Before starting</h2>
+            <p>For the correct operation of the extension, it is necessary to have it loaded and working before loading the page on which the notes are going to be added. For this reason, it is necessary to reload all the opened pages after installing the
+                application if you want to add annotations.
+            </p>
+        </div>
+        <div class="section">
+            <h2>Introduction</h2>
+            <p>
+                My notes is a Firefox extension that allows you to quickly add annotations inside a web page. Once they are added, they will be shown in te same position next time the page is loaded. This extension has different annotation types, that can be classified
+                in 3 main groups:
+                <ul>
+                    <li>Text notes</li>
+                    <li>Multimedia notes</li>
+                    <li>Highlight text notes</li>
+                </ul>
+            </p>
+        </div>
+        <div class="section">
+            <h3>Text notes</h3>
+            <p>
+                Creates a textbox note in the selected point of the page. That note can be moved around the page by dragging it with the mouse, or resized by dragging the edges or the corners of the note (there is a minimum width and height size in the note). In order
+                to write text, just click inside the box and start writing. Changes in each note are automatically saved when the note loses the focus (user clicks outside of the note), or when releasing the mouse (in case user is moving or resizing the
+                note).
+            </p>
+            <figure>
+                <img src="Images/textNote.png" />
+                <figcaption>Text note example.</figcaption>
+            </figure>
+        </div>
+        <div class="section">
+            <h3>Multimedia notes</h3>
+            <p>
+                Creates an audio or video note in the selected point of the page. When it is created, it is shown as an icon that identifies the type of note that has been added (a microphone in case of audio notes and a video camera in case of video notes). Pressing
+                the icon will start the recording and the color of the icon will change to red. Pressing it again will stop the recording and the icon will change again to denote that the content has been recorded (it will show a musical note in case
+                of an audio notes and a movie frame in case of video notes).
+            </p>
+            <p>
+                Clicking again into the icon will show a multimedia player with which you can play the recording. The arrow icon displayed over the player can be used to toggle between the icon and the player. It is possible to move the icon (or the player) around the
+                page by dragging it with the mouse, as well as resizing the player by dragging the edges (audio notes can only be resized horizontally, while video notes can be resized in any direction, adjusting always the video to the size of the note
+                while retaining the ratio of the video). This annotation also has a minumum size from which it cannot be reduced.
+            </p>
+            <figure>
+                <img src="Images/MultimediaNote.png" />
+                <figcaption>Multimedia note example.</figcaption>
+            </figure>
+        </div>
+        <div class="section">
+            <h3>Text highlighting notes</h3>
+            <p>
+                They allow you to highlight a text on the page by applying a different format. These type of notes can only be applied over a selected text on the page, and it is not possible to move or resize them. There are several types of highlighting notes that
+                can be added, each of them having a different format:
+                <ul>
+                    <li><b>Highlight text:</b> Change the background color of the selected text, maintaining the same text format.</li>
+                    <li><b>Underline text:</b> Underline the selected text and change the background color.</li>
+                    <li><b>Crossout text:</b> Cross out the selected text and change the background color.</li>
+                    <li><b>URL:</b> Underline and bold the selected text, in addition to changing the background color. When adding this note, a dialog box is displayed to enter an URL that will be linked to the selected text. When placing the mouse over
+                        this note, the mouse pointer will change to a hand, and clicking on it will open the link in a new tab. It is possible to cancel the introduction of an URL when creating the note or delete the linked URL. In that case the cursor
+                        won´t change when placing it over the icon, and when clicking over it the dialog box to link an URL will be shown.</li>
+                </ul>
+            </p>
+            <figure>
+                <img src="Images/textHighlight.png" />
+                <figcaption>Text highlighting note example.</figcaption>
+            </figure>
+        </div>
+        <div class="section">
+            <h3>Change text</h3>
+            <p>
+                It is an special type of annotation, which combines a text note with a text highlighting note. As like highlighting notes, this note is applied to a text selection. This note changes the background colour of the text and shows a text note in the lower
+                right corner. These types of annotations cannot be moved from the point at which they have been created, and only the text note can be resized from any edge except from the top.
+            </p>
+            <figure>
+                <img src="Images/ChangeTextNote.png" />
+                <figcaption>Change text note example.</figcaption>
+            </figure>
+        </div>
+    </div>
+    <div id="NoteCreation" class="tabcontent">
+        <div class="section active">
+            <h2>Notes creation</h2>
+            <p>
+                Currently this extension has 2 main methods for creating new annotations, whether text, multimedia or highlighting. Since it is not always possible to add any type of annotation, each method will behave differently depending on the type of annotation
+                that is being created. In the following steps we will see both notes generation methods, remarking on the correct way to add each note type.
+            </p>
+        </div>
+        <div class="section">
+            <h3>Context Menu</h3>
+            <p>
+                This extension adds a new option to the context menu of the browser. This new option, shown with the icon and the name of the extension (my notes), is added to that menu when right-clicking at any point on the page. This new entry contains a submenu with
+                all the notes that can be created.
+            </p>
+            <p>
+                Text and multimedia annotations can be added at any time, so these options will always be available in the context menu. When selecting one of these, the annotation will be created in the position that was right-clicked to open the context menu.
+            </p>
+            <p>
+                In order to create text highlighting notes and change text notes, you must select the text on which the note will be created before opeing the context menu. After doing this, text highlighting and change text notes will be added to the previous lists
+                of notes that can be added from the context menu.
+            </p>
+
+            <figure>
+                <img src="Images/Context menu Selection_ENG.png" />
+                <figcaption>Context menu of the page</figcaption>
+            </figure>
+        </div>
+        <div class="section">
+            <h3>Keyboard shortcuts</h3>
+            <p>
+                The extension provides a keyboard shortcut for the creation of each type of annotation. As with the context menu, keyboard shortcuts behave differently depending on the type of note that is created. While multimedia and text notes can always be created
+                (and will be created at the point of the page where the mouse was last clicked), text highlighting and text change annotations can only be created by having a selected text (if you don't have it, no annotation will be created).
+            </p>
+            <p>
+                Although the values of the keyboard shortcuts are defined by default, they can be customized on the options page of the extension (see the Options section of this manual). This is the list of default keyboard shortcuts:
+                <ul>
+                    <li>Audio note: Ctrl+Alt+A</li>
+                    <li>Video note: Ctrl+Alt+V</li>
+                    <li>Text note: Ctrl+Alt+S</li>
+                    <li>Change text note: Ctrl+Alt+C</li>
+                    <li>URL: Ctrl+Alt+K</li>
+                    <li>Highlighting text: Ctrl+Alt+H</li>
+                    <li>Underline text: Ctrl+Alt+U</li>
+                    <li>Crossout text: Ctrl+Alt+X</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+    <div id="Sidebar" class="tabcontent">
+
+        <div class="section active">
+            <h2>Sidebar</h2>
+            <p>
+                This extension adds a new sidebar to the browser. Like the rest of the sidebars, it is possible to hide or show it at any time. However, if it is shown after it has been hidden, the list of annotations will be empty. It will be necessary to reload current
+                page or switch to a different tab for the annotations to be reloaded.
+            </p>
+            <p>
+                Sidebar is mainly divided in 2 parts:
+                <ul>
+                    <li>Menu: It is located in the upper left corner of the annotation, and shows the list of general options for the extension.</li>
+                    <li>Page list: List of all the pages on which annotations have been created.</li>
+                </ul>
+            </p>
+            <figure>
+                <img src="Images/Sidebar.png" />
+                <figcaption>Extension sidebar.</figcaption>
+            </figure>
+        </div>
+        <div class="section">
+            <h3>Menu</h3>
+            <p>
+                Clicking on this button shows a menu with general options about the extension. Each option affects to a specific group of pages, so not all options will always be available:
+                <ul>
+                    <li>
+                        <b>Export current page:</b> Creates an XML file with all the notes of the current page. This option will only be active when the current page contains annotations.
+                    </li>
+                    <li>
+                        <b>Export everything:</b> Creates an XML file with all the annotations created in the extension.
+                    </li>
+                    <li>
+                        <b>Import XML file:</b> Imports a list of annotations from an XML file.
+                    </li>
+                    <li>
+                        <b>Copy all (opened pages):</b> Copies the text of all the annotations to the clipboard. It only affects the pages that are open.
+                    </li>
+                    <li>
+                        <b>Delete current page:</b> Deletes all annotations from the current page. This option will only be active when the current page contains annotations.
+                    </li>
+                    <li>
+                        <b>Delete all:</b> Deletes all the annotations of the extension.
+                    </li>
+                </ul>
+            </p>
+            <figure>
+                <img src="Images/Sidebar menu_ENG.png" />
+                <figcaption>Sidebar menu.</figcaption>
+            </figure>
+        </div>
+        <div class="section">
+            <h3>Page list</h3>
+            <p>
+                A list of the pages on which annotations have been added is displayed below the menu button. Each time a note is created on a new page, a new item is added to this list with the name of the page on which the note has been added. By default, the name assigned
+                to this entry is the URL of the page, but it is possible to customize it by clicking on the name of the page and writing the new name. When you hover the mouse over that name, the full name of the page is displayed.
+            </p>
+            <p>
+                Each element of this list contains, at the same time, a list with all the notes added to the page. To the left of the page name an icon is displayed with which you can show/hide this list of notes. By default, all the pages are shown collapsed, except
+                if there are annotations on the current page. In this case, the page is shown in first position and the list of notes is expanded. This list is automatically collapsed each time a new page is accessed or every time you change current tab.
+            </p>
+        </div>
+        <div class="section">
+            <h3>Annotation list in each page </h3>
+            <p>
+
+                Each note is represented as a text box with the same background and text colours than the note it represents and with the creation date and user as text. When the mouse is placed on top of a note, the text of the note is displayed. Depending on the type
+                of the note the text shonw will be different:
+                <ul>
+                    <li> Text selected in the case of the highlighting notes.
+                    </li>
+                    <li>
+                        Text entered in the case of the text notes
+                    </li>
+                    <li>
+                        A combination of both in case of change text notes
+                    </li>
+                    <li>
+                        Type of annotation in the case of multimedia notes.
+                    </li>
+                </ul>
+            </p>
+            <p>
+                In addition, if the note belongs to current page, the scroll bar is moved until the note is centered as much as possible in the screen and the note is highlighted by adding a red border on it.
+            </p>
+            <figure>
+                <img src="Images/Sidebar pageList.png" />
+                <figcaption>Page and annotation list.</figcaption>
+            </figure>
+        </div>
+    </div>
+    <div id="ContextMenu" class="tabcontent">
+        <div class="section active">
+            <h2>Context menus</h2>
+            <p>
+                In addition to the new option added on the context menu of the browser, each note created on the page has a contextual menu with different actions that will affect the selected element or the elements contained within the selected element. Thus, we will
+                have a different context menu in each element of the extension:
+                <ul>
+                    <li> <b> Context menu of annotations: </b> It will be available in each one of the notes that are added to a page. </li>
+
+                    <li> <b> Context menu of the page (sidebar): </b> It will be available on each one of the pages shown in the sidebar. </li>
+
+                    <li> <b> Context menu of the annotations (sidebar): </b> It will be available in each one of the notes shown in the sidebar. </li>
+                </ul>
+            </p>
+
+        </div>
+        <div class="section">
+            <h3>Annotations context menu</h3>
+            <p>
+                It will be displayed when user right-click on the note. As with all contextual menus in notes, options of this menu will not always be available, although in this case those options will be hidden instead of disabled. As the other menus, the list of available
+                options depends on the type of note on which the context menu is open. The options of this menu are:
+                <ul>
+                    <li>
+                        <b> Change text color: </b> Change the text colour of the note. This option opens a pop-up window to select the new colour, which will also be applied to the representation of the note in the sidebar. This option will always be
+                        available, and depending on the type of note it will be applied in a different way:
+                        <ul>
+                            <li> Text note: Text inside the note. </li>
+                            <li> Highlighting note: Selected text. </li>
+                            <li> Text change note: Text within the text note. </li>
+                            <li> Multimedia Note: Icons and controls. </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b> Change background color: </b> Change the background colour of a note. Selecting this option opens a pop-up window to select the new colour. This colour will be applied to both the background of the note (in case of text change
+                        notes, only applies to the text note) and the background of its representation note in the sidebar.
+                    </li>
+                    <li>
+                        <b> Change text color in the selection: </b> This option is only available in text change notes, and allows you to update the colour of the selected text in the note. This colour change does not affect to the sidebar reference
+                        of the note.
+                    </li>
+                    <li>
+                        <b> Edit URL: </b> This option is only available in URL notes. It opens a pop-up window to change or delete the URL linked to the note.
+                    </li>
+                </ul>
+            </p>
+        </div>
+        <div class="section">
+            <h4>Annotations context menu (2)</h4>
+            <p>
+                <ul>
+                    <li>
+                        <b> Change background color in the selection: </b> This option is only available in text change annotations, and allows you to update the background colour of the selected text in the note. This colour change does not affect to
+                        the reference to the annotation of the sidebar.
+                    </li>
+
+                    <li>
+                        <b> Delete item: </b> Permanently delete the note from the page (this operation cannot be rolled back). WARNING: in text highlighting notes (and text change notes), if there is more than one entry in the same item HTML and one
+                        of those annotations is deleted, the rest of the annotations may stop working. This is due to how the selected text is saved in those notes.
+                    </li>
+
+                    <li>
+                        <b> Copy text: </b> Copy the text of the note. This option has different effects depending on the type of annotation:
+                        <ul>
+
+                            <li> Text note: Copy the text written inside the note. </li>
+
+                            <li> Multimeda Note: This option is not available. </li>
+
+                            <li> Change text: Copy the text written in the text box. </li>
+
+                            <li> Text highlighting notes: Copy the highlighted text. </li>
+
+                            <li> URL notes: Copy the highlighted text along with the linked link. </li>
+                        </ul>
+                    </li>
+                </ul>
+            </p>
+            <figure>
+                <img src="Images/Note Context Menu_ENG.png" />
+                <figcaption>Context menu in a note.</figcaption>
+            </figure>
+        </div>
+        <div class="section">
+            <h3>Context menu of the page (sidebar) </h3>
+            <p>
+                Each page of the list has a context menu that can be opened by right clicking on the page name. As in the extension context menu, all the options that cannot be applied when the menu is opened will be disabled:
+                <ul>
+                    <li> <b> Open URL: </b> Open the URL of the page in a new tab. This option is always available. </li>
+                    <li> <b> Delete page: </b> Delete all notes on current page. When you perform this action, the page is also removed from the list of pages. </li>
+                    <li> <b> Export current page: </b> Generate an XML file with the list of notes on the page. This option is always available. </li>
+                    <li> <b> Copy all (open pages): </b> Copy all annotations from the page. This option will only be available when the page is open. </li>
+                    <li> <b> Reload annotations: </b> Reload all annotations on the page. This option will only be available if the page is open. </li>
+                </ul>
+            </p>
+            <figure>
+                <img src="Images/Sidebar page menu_ENG.png" />
+                <figcaption>Context menu in a page of the sidebar.</figcaption>
+            </figure>
+        </div>
+        <div class="section">
+            <h3>Context menu of the annotation (sidebar) </h3>
+            <p>
+                All the annotations have, in turn, another context menu with actions to be applied to the note itself. Again, some options will only be available when the note page is open:
+                <ul>
+                    <li> <b> Delete item: </b> Delete the selected note. This option is always available and cannot be undone.
+                    </li>
+                    <li> <b> Change background color: </b> Change the background colour of the note. This option has the same effect than the option "Change background color" on page annotations, and is only available when the page is open.
+                    </li>
+                    <li> <b> Change text color: </b> Change the text color of the note. This option has the same effect than the option "Change text color" on page annotations, and is only available when the page is open.
+                    </li>
+                    <li> <b> Copy text: </b> Copy the text of the note. This option is only available when the page is open.
+                    </li>
+                </ul>
+            </p>
+            <figure>
+                <img src="Images/Sidebar note menu_ENG.png" />
+                <figcaption>Context menu in a sidebar note.</figcaption>
+            </figure>
+        </div>
+    </div>
+    <div id="Options" class="tabcontent">
+        <div class="section active">
+            <h2>Extension options:</h2>
+            <p>From this page you have access to the configuration of the extension. It has 3 ddifferent parts, 2 for the customization of the extension and one for the help (this page):
+                <ul>
+                    <li><b>Colors:</b> It lets you to customize the default apperance of the annotations when they are created.</li>
+                    <li><b>Keyboard shortcuts:</b> It lets you to modify the keyboard shortcuts defined in the extension</li>
+                    <li><b>Help:</b> Shows this help guide.</li>
+                </ul>
+            </p>
+        </div>
+        <div class="section">
+            <h3>Colors</h3>
+            <p>
+                In this page you can customize the name that will be shown as author of the note and also the default options of each note type. At right side of those options there is an example note of each type to preview the changes applied. When values are changed
+                in the controls, they are validated and applied to the example note if the value is correct. If the value is incorrect, the control is highlighted to show the error. We can split the the options to configure in 2 groups depending on the
+                property they affect:
+                <ul>
+                    <li><b>Colour:</b> Sets the default colours that are going to be applied to the note. This value can be introduced by writing the colour code into the textbox (in hexadecimal) or clicking on the button at the left of the textbox (it will
+                        open a new window to select the colour). Once the note has been created, it is possible to customize these values in each note.
+                    </li>
+                    <li>
+                        <b>Opacity:</b> Sets the default opacity values that will be applied to the notes. This value can be introduced by writting the value into the texbox(percentage between 0 and 100) or moving the slide control. Those values cannot
+                        be modified after the creation of the notes, that will maintain the same opacity values they had when they were created forever.
+                    </li>
+                </ul>
+            </p>
+            <figure>
+                <img src="Images/Color options_ENG.png" width="550px" />
+                <figcaption>Customization options for text notes.</figcaption>
+            </figure>
+
+        </div>
+        <div class="section">
+            <h3>Colours (2)</h3>
+            <p>
+                Although changes done in each customization option are going to be applied automatically in the example note, they won´t be saved automatically. In order to do that it is necessary to use the buttons at the bottom of the page, that lets you do the following
+                actions:
+                <ul>
+                    <li>
+                        <b>Save:</b> Save current values of colour and opacity of all the notes as well as the name of the user. When pressed, it will display a message indicating the result of the operation. Thus, if any of the data entered is not correct,
+                        this message will show the problem and the data will not be saved.
+                    </li>
+                    <li>
+                        <b>Cancel:</b> Reset all the changes done on this configuration page that has not been saved yet.
+                    </li>
+                    <li>
+                        <b>Default values:</b> Restore the values defined by default on this extension. Those values won´t be saved till the "Save" button is pressed.
+                    </li>
+                </ul>
+                <figure>
+                    <img src="Images/Color options buttons_ENG.png" />
+                    <figcaption>Colour config page buttons.</figcaption>
+                </figure>
+            </p>
+        </div>
+        <div class="section">
+            <h3>Keyboar shortcuts</h3>
+            <p>
+                It lets you to customize the key combinations that will be used for each keyboard shortcut. Those shortcuts have some restrictions that must be met:
+                <ul>
+                    <li>It is not possible to define the keyboard shorcuts defined in Firefox. If so, when pressing the key combination, it will trigger the Firefox action instead of the extension action.</li>
+                    <li>It must be a combination of 2 or 3 keys that must follow these indications:
+                        <ol>
+                            <li>Key Ctrl, Alt or Command</li>
+                            <li>Key Ctrl, Alt, Command o Shift (this key is optional)</li>
+                            <li>Letter key, number key, F key (F1-F12) or symbol key (Not all the symbols are valid). After pressing this key the whole combination will be checked before adding it, and will show an error if it is not valid.</li>
+                        </ol>
+                    </li>
+                    <li>When defining the key combination, each key must be pressed individually. However, to use the shortcut it is necessary to press al the keys at once.</li>
+                </ul>
+                <figure>
+                    <img src="Images/Shortcut options_ENG.png" width="550px" />
+                    <figcaption>Keyboard shortcuts configuration page.</figcaption>
+                </figure>
+            </p>
+        </div>
+        <div class="section">
+            <h3>Keyboard shortcuts (2)</h3>
+            <p>
+                Those keyboar shortcuts won't be always available, and its behavior will change depending on the type of note that is being added:
+                <ul>
+                    <li><b>Highlight notes and change text notes:</b> Shortcuts can be used only if there are any text selected in the page. When pressing the key combination, the note will be applied to the selected text. If there is no text selected, the
+                        action will be ignored.</li>
+                    <li><b>Text notes and multimedia notes:</b> Shortcuts can be used at anytime. Pressing the key combination creates a note at the last position clicked by the mouse on the page. If you have not clicked at any point of the page yet, the
+                        note will be created at position 10, 10.</li>
+                </ul>
+            </p>
+            <p>
+                As happened with color options, changing a keyboard shortcut does not change it directly, but it is necessary to use the buttons at the bottom of the page to apply the changes. They are all the same buttons than in colour config page and have the same
+                actions.
+            </p>
+            <figure>
+                <img src="Images/Color options buttons_ENG.png" />
+                <figcaption>Buttons in keyboard shortucts configuration page.</figcaption>
+            </figure>
+        </div>
+    </div>
+    <script type="text/javascript" src="Manual.js"></script>
+</body>
+
+</html>

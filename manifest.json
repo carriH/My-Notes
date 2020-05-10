@@ -3,7 +3,7 @@
     "manifest_version": 2,
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "version": "2.1.2",
+    "version": "2.1.3",
     "default_locale": "es",
 
     "background": {
@@ -75,11 +75,11 @@
 
     "commands": {
         "audio": {
-            "suggested_key": { "default": "Ctrl+Shift+A" },
+            "suggested_key": { "default": "Ctrl+Alt+A" },
             "description": "Creates an audio annotation"
         },
         "video": {
-            "suggested_key": { "default": "Ctrl+Shift+V" },
+            "suggested_key": { "default": "Ctrl+Alt+V" },
             "description": "Creates a video annotation"
         },
         "sticky": {

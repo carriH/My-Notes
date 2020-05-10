@@ -123,7 +123,7 @@
 
 .MyNotes .highlightElem,
 .MyNotes.highlightElem {
-    border: 2px solid red;
+    border: 2px solid rgba(255, 0, 0, 1);
 }
 
 

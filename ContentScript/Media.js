@@ -65,12 +65,12 @@ function Media(id, mediaParams, params, updateAction) {
     params = params || {};
 
     //Properties
-    this.audio = JSON.parse(mediaParams.audio || false);
-    this.video = JSON.parse(mediaParams.video || false);
-    this.top = parseFloat(mediaParams.top || mouseCoord.y);
-    this.left = parseFloat(mediaParams.left || mouseCoord.x);
-    this.width = parseFloat(mediaParams.width || (this.video ? MIN_VIDEO_WIDTH : MIN_AUDIO_WIDTH));
-    this.height = parseFloat(mediaParams.height || (this.video ? MIN_VIDEO_HEIGHT : MIN_AUDIO_HEIGHT));
+    this.audio = JSON.parse(('audio' in mediaParams) ? mediaParams.audio : false);
+    this.video = JSON.parse(('video' in mediaParams) ? mediaParams.video : false);
+    this.top = parseFloat(('top' in mediaParams) ? mediaParams.top : mouseCoord.y);
+    this.left = parseFloat(('left' in mediaParams) ? mediaParams.left : mouseCoord.x);
+    this.width = parseFloat(('width' in mediaParams) ? mediaParams.width : (this.video ? MIN_VIDEO_WIDTH : MIN_AUDIO_WIDTH));
+    this.height = parseFloat(('height' in mediaParams) ? mediaParams.height : (this.video ? MIN_VIDEO_HEIGHT : MIN_AUDIO_HEIGHT));
     this.backgroundColor = params.backgroundColor;
     this.color = params.color;
     this.opacity = params.opacity;
@@ -208,10 +208,10 @@ function Media(id, mediaParams, params, updateAction) {
 Media.prototype.update = function(media, color) {
 
     if (media) {
-        this.left = parseFloat(media.left || this.left);
-        this.top = parseFloat(media.top || this.top);
-        this.width = parseFloat(media.width || this.width);
-        this.height = parseFloat(media.height || this.height);
+        this.left = parseFloat(('left' in media) ? media.left : this.left);
+        this.top = parseFloat(('top' in media) ? media.top : this.top);
+        this.width = parseFloat(('width' in media) ? media.width : this.width);
+        this.height = parseFloat(('height' in media) ? media.height : this.height);
 
         if (media.mediaFile) {
             this.mediaFile = JSON.parse(media.mediaFile);
@@ -221,41 +221,22 @@ Media.prototype.update = function(media, color) {
     }
 
     if (color) {
-        this.backgroundColor = color.backgroundColor || this.backgroundColor;
-        this.color = color.color || this.color;
-        this.opacity = color.opacity || this.opacity;
-        this.hoverOpacity = color.hoverOpacity || this.hoverOpacity;
+        this.backgroundColor = ('backgroundColor' in color) ? color.backgroundColor : this.backgroundColor;
+        this.color = ('color' in color) ? color.color : this.color;
+        this.opacity = ('opacity' in color) ? color.opacity : this.opacity;
+        this.hoverOpacity = ('hoverOpacity' in color) ? color.hoverOpacity : this.hoverOpacity;
     }
     this.draw();
 }
 
 Media.prototype.applyBackgroundOpacity = function(e) {
-    function hexToRgb(hex) {
-        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-            return r + r + g + g + b + b;
-        });
+    var opacity = (e && e.type == "mouseover" ? this.hoverOpacity : this.opacity);
 
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
-    }
-
-    var rgbColor = hexToRgb(this.backgroundColor);
-    var colorWithOpacity;
-    if (e && e.type == "mouseover") {
-        colorWithOpacity = "rgba(" + rgbColor.r + ", " + rgbColor.g + ", " + rgbColor.b + ", " + this.hoverOpacity + ")";
-    } else {
-        colorWithOpacity = "rgba(" + rgbColor.r + ", " + rgbColor.g + ", " + rgbColor.b + ", " + this.opacity + ")";
-    }
-
-    this.player.style.backgroundColor = colorWithOpacity;
-    this.hide.style.backgroundColor = colorWithOpacity;
-    this.rec.style.backgroundColor = colorWithOpacity;
+    this.player.style.backgroundColor = this.backgroundColor;
+    this.player.style.opacity = opacity;
+    this.hide.style.backgroundColor = this.backgroundColor;
+    this.rec.style.backgroundColor = this.backgroundColor;
+    this.rec.style.opacity = opacity;
 }
 
 Media.prototype.draw = function() {

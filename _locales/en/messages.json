@@ -239,7 +239,7 @@
         "description": "highlight"
     },
 
-    "ExampleTextChangeText": {
+    "ExampleTextChangeTextSelection": {
         "message": "change text",
         "description": "change text"
     },
@@ -436,5 +436,14 @@
 
     "ShortcutsValidationErrorMsg": {
         "message": "There are invalid shortcuts. Please, fix them before saving."
+    },
+
+    "Manual": {
+        "message": "User Manual"
+    },
+
+    "ManualPage": {
+        "message": "manual_en.html"
     }
+
 }

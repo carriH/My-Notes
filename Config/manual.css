@@ -1,0 +1,99 @@
+body {
+    font-family: Segoe UI;
+    font-size: 15px;
+    font-stretch: normal;
+    font-style: normal;
+    font-synthesis: weight style;
+    font-variant: normal;
+    color: rgb(66, 78, 90);
+}
+
+.tab {
+    overflow: hidden;
+}
+
+figure {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+}
+
+img {
+    box-shadow: -3px 3px 10px grey;
+}
+
+figcaption {
+    margin-left: auto;
+    margin-right: auto;
+    font-style: italic;
+    font-size: small;
+}
+
+
+/* Style the buttons inside the tab */
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    margin-right: -1px;
+    border-top: none;
+    border-bottom: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 14px;
+    transition: 0.3s;
+    font-size: 15px;
+}
+
+
+/* Change background color of buttons on hover */
+
+.tab button:hover {
+    background-color: #bbc1c3;
+}
+
+
+/* Create an active/current tablink class */
+
+.tab button.active {
+    padding-bottom: 9px;
+    border-bottom: 5px solid #52707e;
+    ;
+}
+
+.tabcontent {
+    padding-top: 16px;
+    display: none;
+}
+
+.tabcontent.active {
+    display: block;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    cursor: pointer;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
