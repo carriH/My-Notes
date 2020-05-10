@@ -2,35 +2,20 @@ const MARGIN = 4;
 const MIN_HEIGHT = 100;
 const MIN_WIDTH = 200;
 
-function hexToRgb(hex) {
-    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-        return r + r + g + g + b + b;
-    });
-
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
-}
-
 function TextBox(id, className, textParams, params) {
     params = params || {};
     textParams = textParams || {};
 
     //Properties
-    this.text = textParams.text || "";
-    this.top = textParams.top || parseFloat(mouseCoord.y);
-    this.left = textParams.left || parseFloat(mouseCoord.x);
-    this.width = textParams.width || parseFloat(MIN_WIDTH);
-    this.height = textParams.height || parseFloat(MIN_HEIGHT);
-    this.backgroundColor = params.backgroundColor || '#ffffff';
-    this.color = params.color || '#000000';
-    this.opacity = params.opacity || 1;
-    this.hoverOpacity = params.hoverOpacity || 1;
+    this.text = ('text' in textParams) ? textParams.text : "";
+    this.top = ('top' in textParams) ? textParams.top : parseFloat(mouseCoord.y);
+    this.left = ('left' in textParams) ? textParams.left : parseFloat(mouseCoord.x);
+    this.width = ('width' in textParams) ? textParams.width : parseFloat(MIN_WIDTH);
+    this.height = ('height' in textParams) ? textParams.height : parseFloat(MIN_HEIGHT);
+    this.backgroundColor = ('backgroundColor' in params) ? params.backgroundColor : '#ffffff';
+    this.color = ('color' in params) ? params.color : '#000000';
+    this.opacity = ('opacity' in params) ? params.opacity : 1;
+    this.hoverOpacity = ('hoverOpacity' in params) ? params.hoverOpacity : 1;
 
     //HTML elements
     this.box = document.createElement('div');
@@ -61,28 +46,29 @@ function TextBox(id, className, textParams, params) {
 
 TextBox.prototype.update = function(textBox, color) {
     if (color) {
-        this.backgroundColor = color.backgroundColor || this.backgroundColor;
-        this.color = color.color || this.color;
-        this.opacity = color.opacity || this.opacity;
-        this.hoverOpacity = color.hoverOpacity || this.hoverOpacity;
+        this.backgroundColor = ('backgroundColor' in color) ? color.backgroundColor : this.backgroundColor;
+        this.color = ('color' in color) ? color.color : this.color;
+        this.opacity = ('opacity' in color) ? color.opacity : this.opacity;
+        this.hoverOpacity = ('hoverOpacity' in color) ? color.hoverOpacity : this.hoverOpacity;
     }
 
     if (textBox) {
-        this.text = textBox.text || this.text;
-        this.left = parseFloat(textBox.left || this.left);
-        this.top = parseFloat(textBox.top || this.top);
-        this.width = parseFloat(textBox.width || this.width);
-        this.height = parseFloat(textBox.height || this.height);
+        this.text = ('' in textBox) ? textBox.text : this.text;
+        this.left = parseFloat(('left' in textBox) ? textBox.left : this.left);
+        this.top = parseFloat(('top' in textBox) ? textBox.top : this.top);
+        this.width = parseFloat(('width' in textBox) ? textBox.width : this.width);
+        this.height = parseFloat(('height' in textBox) ? textBox.height : this.height);
     }
     this.draw();
 }
 
 TextBox.prototype.applyBoxOpacity = function(e) {
-    var rgbColor = hexToRgb(this.backgroundColor);
+    this.box.style.backgroundColor = this.backgroundColor;
     if (e && e.type == "mouseover") {
-        this.box.style.backgroundColor = "rgba(" + rgbColor.r + ", " + rgbColor.g + ", " + rgbColor.b + ", " + this.hoverOpacity + ")";
+        this.box.style.opacity = this.hoverOpacity
     } else {
-        this.box.style.backgroundColor = "rgba(" + rgbColor.r + ", " + rgbColor.g + ", " + rgbColor.b + ", " + this.opacity + ")";
+        this.box.style.opacity = this.opacity
+
     }
 }
 

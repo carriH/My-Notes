@@ -104,5 +104,15 @@ Version 2.1.1:
 
 Version 2.1.2:
 
-- Stop propagation of kay events in textbox.
-- Shortcuts have been updated as some of them were mapped to other actions.
+- Stop propagation of key events in textbox.
+- Shortcuts have been updated as some of them were mapped to other actions.Version
+
+Version 2.1.3: 
+
+- Added usage manual to Options screen.
+- Opacity property applied to the whole note on sticky, multimedia and change notes. Before it was applied only to the background and not to the text.
+- Modified some shortcut keys as they were used in Firefox.
+- Refactor code in Color config screen.
+- Fixed an isue that caused that when opacity was set at 0% it was not applied in the new notes.
+- Links added to URL notes were not validating the protocol of the URL, which cause the link not to work if it was not added.
+- Option Export Page from sidebar menu was not working.

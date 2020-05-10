@@ -244,7 +244,7 @@
         "description": "resaltado"
     },
 
-    "ExampleTextChangeText": {
+    "ExampleTextChangeTextSelection": {
         "message": "cambio de texto",
         "description": "cambio de texto"
     },
@@ -440,6 +440,14 @@
 
     "ShortcutsValidationErrorMsg": {
         "message": "Hay atajos de teclado incorrectos. Por favor, corrígelos antes de guardar."
+    },
+
+    "Manual": {
+        "message": "Manual de Usuario"
+    },
+
+    "ManualPage": {
+        "message": "manual_es.html"
     }
 
 }

@@ -11,10 +11,10 @@ function TextSelection(id, className, params) {
     this.className = className;
     this.menuPosY;
     this.menuPosX;
-    this.backgroundColor = params.backgroundColor || '#ffffff';
-    this.color = params.color || '#000000';
-    this.opacity = params.opacity || 1;
-    this.hoverOpacity = params.hoverOpacity || 1;
+    this.backgroundColor = ('backgroundColor' in params) ? params.backgroundColor : '#ffffff';
+    this.color = ('color' in params) ? params.color : '#000000';
+    this.opacity = ('opacity' in params) ? params.opacity : 1;
+    this.hoverOpacity = ('hoverOpacity' in params) ? params.hoverOpacity : 1;
     this.textNodes = new Array(0);
     this.selectionNodes = new Array(0);
 
@@ -168,10 +168,10 @@ TextSelection.prototype.draw = function() {
 }
 
 TextSelection.prototype.update = function(json) {
-    this.backgroundColor = json.backgroundColor || this.backgroundColor;
-    this.color = json.color || this.color;
-    this.opacity = json.opacity || this.opacity;
-    this.hoverOpacity = json.hoverOpacity || this.hoverOpacity;
+    this.backgroundColor = ('backgroundColor' in json) ? json.backgroundColor : this.backgroundColor;
+    this.color = ('color' in json) ? json.color : this.color;
+    this.opacity = ('opacity' in json) ? json.opacity : this.opacity;
+    this.hoverOpacity = ('hoverOpacity' in json) ? json.hoverOpacity : this.hoverOpacity;
 
     this.draw();
 }

@@ -107,6 +107,14 @@ function exportItemsFromPage(item, url) {
     return xml;
 }
 
+function exportItemsFromSpecificPage(pageAddress) {
+    browser.storage.local.get([pageAddress]).then((page) => {
+        var url = pageAddress
+        var xmlOutput = '<?xml version="1.0" encoding="utf-8"?><stickiesExport>' + exportItemsFromPage(page[url], url) + '</stickiesExport>';
+        saveXmlFile(xmlOutput);
+    });
+}
+
 function exportItemsFromCurrentPages() {
     var gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
     gettingActiveTab.then((tabs) => {
