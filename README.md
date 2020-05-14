@@ -116,3 +116,7 @@ Version 2.1.3:
 - Fixed an isue that caused that when opacity was set at 0% it was not applied in the new notes.
 - Links added to URL notes were not validating the protocol of the URL, which cause the link not to work if it was not added.
 - Option Export Page from sidebar menu was not working.
+
+Version 2.1.3.1:
+
+- Capitalization of some new source files as Firefox webExtension is case sensitive.
